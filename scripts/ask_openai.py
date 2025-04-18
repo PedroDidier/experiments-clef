@@ -25,7 +25,11 @@ def to_data_url(img_path: str) -> str:
 
 # Build the request
 image_data_url = to_data_url("train/ROCOv2_2023_train_000004.jpg")
-prompt_text    = "Please describe the picture."
+prompt_text = (
+    "You are a medical professional, specialist in the field of radiology. "
+    "I need you to give a precise medical caption for the image I send you. "
+    "Be assertive, keep your description short, but relevant."
+)
 
 response = client.chat.completions.create(
     # or gpt-4o / gpt-4o-vision-preview
