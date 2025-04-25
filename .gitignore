@@ -3,3 +3,4 @@
 test/
 train/
 valid/
+__pycache__/
