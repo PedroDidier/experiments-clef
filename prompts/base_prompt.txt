@@ -9,6 +9,6 @@ Your caption should be assertive and consize.
 You should provide a caption for every image, even if you are unsure, being as assertive as possible.
 ### END OF INSTRUCTION BLOCK ###
 
-You should not include any part of the instructions block on your response.
+Do not mention any information from the INSTRUCTION BLOCK in your response.
 
 YOUR CAPTION:
