@@ -5,7 +5,7 @@ Step 1: Analyze the image carefully and identify all visible anatomical structur
 Step 2: For each structure or finding, provide the corresponding UMLS Concept Unique Identifier (CUI) and the preferred concept name. Focus on any abnormalities, diagnostic findings, or interventions visible in the image, such as fractures, implants, or surgical procedures. 
 Step 3: Review your findings and generate a clear and informative caption that describes the image, ensuring both relevance to the clinical context and factual accuracy.
 
-Your caption should be assertive and consize.
+Your caption should be assertive and concise.
 You should provide a caption for the image, even if you are unsure, being as assertive as possible.
 ### END OF INSTRUCTION BLOCK ###
 
