@@ -89,6 +89,7 @@ def get_llm_response(image_path: str, prompt_path: str) -> Tuple[str, dict]:
                 ],
             }
         ],
+        response_format={"type": "json_object"},
     )
 
     # Extract token usage information
