@@ -1,0 +1,32 @@
+{
+  "evaluation_timestamp": "2025-07-21T13:41:41.492842",
+  "source_file": "responses/responses_rag_2025-07-21_12-47.jsonl",
+  "caption_metrics": {
+    "num_samples": 300,
+    "bleu_mean": 0.03693329901875576,
+    "bleu_std": 0.05097977445111643,
+    "rouge1_fmeasure_mean": 0.2136945855496329,
+    "rouge2_fmeasure_mean": 0.05394681319318355,
+    "rougeL_fmeasure_mean": 0.17678979282191765,
+    "rouge1_precision_mean": 0.2505243248877408,
+    "rouge1_recall_mean": 0.22570168272508023,
+    "rouge2_precision_mean": 0.06243074715852681,
+    "rouge2_recall_mean": 0.05946967847661107,
+    "rougeL_precision_mean": 0.20394842027784213,
+    "rougeL_recall_mean": 0.19004809173286766
+  },
+  "concept_metrics": {
+    "num_samples": 300,
+    "num_unique_cuis": 2367,
+    "precision_micro": 0.020572450805008944,
+    "recall_micro": 0.023232323232323233,
+    "f1_micro": 0.021821631878557873,
+    "precision_macro": 0.0071095235351731284,
+    "recall_macro": 0.006799946470279661,
+    "f1_macro": 0.005360086344202514,
+    "jaccard_micro": 0.011031175059952039,
+    "jaccard_macro": 0.004029520611679154,
+    "hamming_loss": 0.00673196212863206,
+    "exact_match_ratio": 0.0
+  }
+}

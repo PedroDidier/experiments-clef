@@ -1,12 +1,12 @@
 import base64
 import os
 from pathlib import Path
-from typing import Tuple, List, Dict, Any
+from typing import Any, Dict, List, Tuple
 
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from image_vectordb import ImageVectorDB
+from .image_vectordb import ImageVectorDB
 
 load_dotenv()
 
@@ -57,10 +57,10 @@ def calculate_cost(input_tokens: int, output_tokens: int) -> float:
 
 
 def get_llm_response_with_rag(
-    image_path: str, 
-    prompt_path: str, 
+    image_path: str,
+    prompt_path: str,
     vectordb_path: str = "vectordb",
-    num_examples: int = 3
+    num_examples: int = 3,
 ) -> Tuple[str, dict, List[Dict[str, Any]]]:
     """
     Get a response from the LLM using RAG with similar images as few-shot examples.
@@ -72,7 +72,7 @@ def get_llm_response_with_rag(
         num_examples (int): Number of similar images to use as examples
         
     Returns:
-        Tuple[str, dict, List]: The LLM's response, token usage information, and the similar images used
+        Tuple[str, dict, List]: The LLM's JSON response, token usage information, and the similar images used
     """
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
@@ -83,54 +83,70 @@ def get_llm_response_with_rag(
         )
 
     client = OpenAI(api_key=api_key)
-    
+
     # Load vector database
     vectordb = ImageVectorDB()
     vectordb.load(vectordb_path)
-    
+
     # Find similar images
     similar_images = vectordb.search_similar_images(image_path, k=num_examples)
-    
+
     # Load the prompt template
     prompt_template = load_prompt(prompt_path)
-    
-    # Create few-shot examples section
-    examples_text = "Here are some similar images and their captions as examples:\n\n"
-    
+
     # Prepare content for the API call
     content = []
-    
-    # Add the prompt text first
+
+    # Add few-shot examples first
+    if similar_images:
+        content.append(
+            {
+                "type": "text",
+                "text": "Here are some similar medical images and their captions as examples to guide your response style and format:\n",
+            }
+        )
+
+        for i, example in enumerate(similar_images):
+            example_img_path = example["image_path"]
+            example_caption = example["caption"]
+
+            # Add example image
+            try:
+                example_data_url = to_data_url(example_img_path)
+                content.append(
+                    {"type": "image_url", "image_url": {"url": example_data_url}}
+                )
+
+                # Add example caption as JSON to maintain format consistency
+                content.append(
+                    {
+                        "type": "text",
+                        "text": f"Example {i+1} response: {example_caption}\n",
+                    }
+                )
+            except Exception as e:
+                print(f"Warning: Could not load example image {example_img_path}: {e}")
+                continue
+
+        content.append(
+            {
+                "type": "text",
+                "text": "\nNow, please analyze the following image and provide your response in the same JSON format:\n",
+            }
+        )
+
+    # Add the main prompt
     content.append({"type": "text", "text": prompt_template})
-    
-    # Add few-shot examples
-    for i, example in enumerate(similar_images):
-        example_img_path = example['image_path']
-        example_caption = example['caption']
-        
-        # Add example image
-        example_data_url = to_data_url(example_img_path)
-        content.append({"type": "image_url", "image_url": {"url": example_data_url}})
-        
-        # Add example caption
-        content.append({"type": "text", "text": f"Example {i+1} caption: {example_caption}\n\n"})
-    
-    # Add text indicating we're now moving to the actual task
-    content.append({"type": "text", "text": "Now, please caption the following image:"})
-    
+
     # Add the query image
     image_data_url = to_data_url(image_path)
     content.append({"type": "image_url", "image_url": {"url": image_data_url}})
 
-    # Make the API call
+    # Make the API call with JSON format enforcement like the base implementation
     response = client.chat.completions.create(
         model=MODEL,
-        messages=[
-            {
-                "role": "user",
-                "content": content
-            }
-        ],
+        messages=[{"role": "user", "content": content}],
+        response_format={"type": "json_object"},
     )
 
     # Extract token usage information
@@ -155,17 +171,19 @@ if __name__ == "__main__":
         image_path="train/ROCOv2_2023_train_000004.jpg",
         prompt_path="prompts/base_prompt.txt",
         vectordb_path="vectordb",
-        num_examples=3
+        num_examples=3,
     )
-    
+
     print("Similar images used as examples:")
     for i, img in enumerate(similar_images):
-        print(f"Example {i+1}: {img['image_name']} (Similarity: {img['similarity_score']:.4f})")
+        print(
+            f"Example {i+1}: {img['image_name']} (Similarity: {img['similarity_score']:.4f})"
+        )
         print(f"Caption: {img['caption']}")
         print()
-    
+
     print("\nLLM Response:")
     print(response)
-    
+
     print("\nToken usage:")
-    print(token_usage) 
+    print(token_usage)

@@ -4,3 +4,5 @@ test/
 train/
 valid/
 __pycache__/
+.cache
+vectordb/

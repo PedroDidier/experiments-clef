@@ -1,7 +1,7 @@
 import json
 import os
-from datetime import datetime
 import random
+from datetime import datetime
 
 from .ask_openai import get_llm_response
 
@@ -28,7 +28,7 @@ def generate_captions(dataset_path: str, n_samples: int = 100):
 
         # Parse the JSON string response
         caption_data = json.loads(caption_json)
-        
+
         # Add the image file and token usage information to the JSON
         caption_data["image_file"] = image_file
         caption_data["token_usage"] = token_usage
