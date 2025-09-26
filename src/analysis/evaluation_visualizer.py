@@ -1,7 +1,3 @@
-"""
-Evaluation visualization module for medical image captioning results.
-"""
-
 import json
 import os
 from datetime import datetime

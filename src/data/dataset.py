@@ -8,6 +8,8 @@ from datasets import Dataset, DatasetDict
 from PIL import Image
 import io
 
+from ..config import get_config
+
 
 class ROCOv2DataHandler:
     """Handler for ROCOv2 dataset from HuggingFace."""
@@ -35,7 +37,17 @@ class ROCOv2DataHandler:
         print(f"Loading ROCOv2 dataset from HuggingFace: {self.dataset_name}")
         
         try:
-            self.dataset = datasets.load_dataset(self.dataset_name)
+            # Get configuration
+            config = get_config()
+            cache_dir = str(config.cache_dir)
+            
+            print(f"Using cache directory: {cache_dir}")
+            
+            self.dataset = datasets.load_dataset(
+                self.dataset_name,
+                cache_dir=cache_dir,
+                download_mode="reuse_dataset_if_exists"  # Reuse if already downloaded
+            )
             print(f"Successfully loaded dataset with splits: {list(self.dataset.keys())}")
             
             # Store individual splits for easy access
@@ -97,7 +109,7 @@ class ROCOv2DataHandler:
     
     def get_train_samples_for_vectordb(self) -> List[Dict[str, Any]]:
         """
-        Get all training samples for building the vector database.
+        Get all training samples for building the vector database with memory-efficient processing.
         
         Returns:
             List[Dict[str, Any]]: List of training samples with image, caption, and image_id
@@ -106,6 +118,7 @@ class ROCOv2DataHandler:
             raise ValueError("Dataset not loaded. Call load_dataset() first.")
         
         print(f"Preparing {len(self.train_data)} training samples for vector database")
+        print("Using memory-efficient processing...")
         
         samples = []
         for i, sample in enumerate(self.train_data):
@@ -119,6 +132,11 @@ class ROCOv2DataHandler:
                 'image_id': sample['image_id']
             }
             samples.append(sample_data)
+            
+            # Force garbage collection every 1000 samples
+            if i % 1000 == 0:
+                import gc
+                gc.collect()
         
         print(f"Prepared {len(samples)} training samples for vector database")
         return samples

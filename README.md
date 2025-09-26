@@ -1,240 +1,180 @@
-# Medical Image Captioning Pipeline - Refactored
+# Medical Image Captioning Pipeline
 
-This document describes the major refactor of the medical image captioning pipeline to use HuggingFace datasets, LangChain, and a modular architecture.
+A professional, memory-efficient pipeline for generating medical image captions using Large Language Models (LLMs) with Retrieval-Augmented Generation (RAG).
 
-## Overview of Changes
+## Features
 
-### 1. HuggingFace Dataset Integration
-- **Before**: Local CSV files with train/test/validation splits
-- **After**: Direct integration with `eltorio/ROCOv2-radiology` dataset from HuggingFace
-- **Benefits**: 
-  - No need to download and manage local data files
-  - Access to the full 79,789 image dataset
-  - Automatic handling of train/validation/test splits
-  - Easy access to image metadata
+- **Memory-Efficient Processing**: Optimized to handle large datasets without memory overflow
+- **Configurable Caching**: Flexible cache management for different storage drives
+- **Multiple LLM Support**: OpenAI GPT models with LangChain integration
+- **RAG Implementation**: Uses similar medical images as few-shot examples
+- **Cost Analysis**: Detailed token usage and cost tracking
+- **Evaluation Metrics**: BLEU and ROUGE scores for caption quality assessment
+- **HuggingFace Integration**: Uses the `eltorio/ROCOv2-radiology` dataset
 
-### 2. LangChain Integration
-- **Before**: Direct OpenAI API calls
-- **After**: LangChain-based LLM utilities
-- **Benefits**:
-  - Easy switching between LLM providers (OpenAI, Claude, Gemini)
-  - Better prompt management
-  - Structured output parsing
-  - Future extensibility
+## Quick Start
 
-### 3. Modular Architecture
-- **Before**: Scripts scattered in `/scripts` directory
-- **After**: Organized modules in `/src` directory
-- **Structure**:
-  ```
-  src/
-  ├── data/           # HuggingFace dataset handling
-  ├── vectordb/       # Vector database operations
-  ├── llm/           # LangChain LLM utilities
-  └── main.py        # Main orchestration script
-  ```
+### 1. Installation
 
-### 4. Simplified Focus
-- **Before**: Image captioning + CUI classification
-- **After**: Image captioning only
-- **Benefits**: Cleaner prompts, faster processing, focused evaluation
-
-## New Architecture
-
-### Data Module (`src/data/dataset.py`)
-- `ROCOv2DataHandler`: Handles HuggingFace dataset loading
-- Methods:
-  - `load_dataset()`: Load ROCOv2 dataset from HuggingFace
-  - `get_validation_samples(num_samples=300)`: Sample validation images for evaluation
-  - `get_train_samples_for_vectordb()`: Get all training samples for VectorDB
-  - `save_sample_images()`: Save images to disk if needed
-
-### VectorDB Module (`src/vectordb/image_vectordb.py`)
-- `ImageVectorDB`: CLIP-based image similarity search
-- Methods:
-  - `build_from_huggingface_dataset()`: Build VectorDB from HuggingFace samples
-  - `search_similar_images()`: Find similar images for RAG
-  - `save()` / `load()`: Persist VectorDB to disk
-
-### LLM Module (`src/llm/llm_utils.py`)
-- `MedicalImageCaptioner`: LangChain-based caption generation
-- Methods:
-  - `generate_caption()`: Generate caption for single image
-  - `generate_caption_with_rag()`: Generate caption with RAG examples
-  - Support for multiple LLM providers
-
-### Main Pipeline (`src/main.py`)
-- `MedicalImageCaptioningPipeline`: Orchestrates the entire process
-- Workflow:
-  1. Load ROCOv2 dataset from HuggingFace
-  2. Build VectorDB from training samples
-  3. Sample 300 validation images
-  4. Generate captions with RAG for each validation image
-  5. Save results to JSONL file
-
-## Usage
-
-### Quick Start
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd experiments-clef2025
+
 # Install dependencies
 pip install -r requirements.txt
 
-# Set up environment
-echo "OPENAI_API_KEY=your-api-key-here" > .env
-
-# Run the pipeline
-python src/main.py
+# Set up environment variables
+cp .env.example .env
+# Edit .env and add your OpenAI API key
 ```
 
-### Configuration
-The pipeline can be configured in `src/main.py`:
-```python
-pipeline = MedicalImageCaptioningPipeline(
-    model_name="gpt-4o",           # OpenAI model
-    num_validation_samples=300,    # Number of validation samples
-    num_rag_examples=3,           # Number of RAG examples
-    random_seed=42                # Random seed for reproducibility
-)
-```
+### 2. Basic Usage
 
-### Testing
 ```bash
-# Run integration tests
-python test_integration.py
+# Run with default settings (D: drive caching, GPT-5-mini)
+python run_pipeline.py --samples 300 --model gpt-5-mini
+
+# Run with cost analysis and evaluation
+python run_pipeline.py --samples 300 --model gpt-5-mini --cost-analysis --evaluation
+
+# Use different cache drive
+python run_pipeline.py --samples 300 --model gpt-4o-mini --cache-drive C
+
+# Use custom cache directory
+python run_pipeline.py --samples 300 --model gpt-5-mini --custom-cache-dir "E:/my_cache"
 ```
 
-## Key Features
+### 3. Configuration
 
-### 1. HuggingFace Dataset Integration
-- Automatic dataset loading and caching
-- Efficient sampling of validation images
-- Direct access to PIL images and metadata
+The pipeline uses a flexible configuration system. You can configure:
 
-### 2. RAG-Enhanced Captioning
-- Uses CLIP embeddings for image similarity
-- Retrieves similar training images as examples
-- Improves caption quality through few-shot learning
+- **Cache Drive**: Which drive to use for caching (default: D)
+- **Custom Cache Directory**: Specific directory for caching
+- **Model Selection**: Choose from available GPT models
+- **Sample Size**: Number of validation samples to process
+- **Analysis Options**: Enable cost analysis and evaluation
 
-### 3. LangChain Integration
-- Easy switching between LLM providers
-- Structured output parsing
-- Better error handling and retry logic
+## Architecture
 
-### 4. Modular Design
-- Clear separation of concerns
-- Easy to extend and modify
-- Better testability
-
-### 5. Cost Tracking
-- Detailed token usage tracking
-- Cost calculation per request
-- Total cost reporting
-
-## Output Format
-
-The pipeline generates a JSONL file with the following structure:
-```json
-{
-  "image_id": "ROCOv2_2023_validation_000001",
-  "ground_truth_caption": "Chest X-ray showing...",
-  "generated_caption": "Chest radiograph demonstrating...",
-  "token_usage": {
-    "input_tokens": 1500,
-    "output_tokens": 200,
-    "total_tokens": 1700,
-    "cost_usd": 0.0125
-  },
-  "rag_examples": [
-    {
-      "image_id": "ROCOv2_2023_train_000123",
-      "caption": "Similar chest X-ray...",
-      "similarity_score": 0.85
-    }
-  ],
-  "timestamp": "2024-01-15T10:30:00"
-}
+```
+src/
+├── config.py              # Configuration management
+├── main.py                # Main pipeline orchestration
+├── data/
+│   └── dataset.py         # HuggingFace dataset handling
+├── vectordb/
+│   └── image_vectordb.py  # Vector database for image similarity
+├── llm/
+│   └── llm_utils.py       # LLM integration and RAG
+└── analysis/
+    ├── cost_analysis.py   # Cost tracking and analysis
+    └── evaluation_visualizer.py  # Evaluation metrics and visualization
 ```
 
-## Migration from Old System
+## Memory Optimization
 
-### Data Migration
-- No need to download local CSV files
-- Dataset is automatically loaded from HuggingFace
-- All 79,789 images are available
+The pipeline is designed to handle large datasets efficiently:
 
-### Code Migration
-- Old scripts in `/scripts` are deprecated
-- Use new modular structure in `/src`
-- Main entry point is now `src/main.py`
+- **Batch Processing**: Images are processed in small batches
+- **Memory Management**: Images are not stored in memory after processing
+- **Garbage Collection**: Automatic memory cleanup after each batch
+- **Configurable Caching**: Use different drives to avoid memory issues
 
-### Evaluation Migration
-- Evaluation scripts can be updated to work with new JSONL format
-- Ground truth captions are included in the output
-- Same evaluation metrics can be used
+## Models Supported
 
-## Future Enhancements
+- `gpt-5-mini` (Recommended for cost-effectiveness)
+- `gpt-4o-mini` (Balanced performance and cost)
+- `gpt-4o` (Highest quality)
+- `gpt-4-turbo` (High performance)
+- `gpt-4` (Legacy high performance)
+- `gpt-3.5-turbo` (Budget option)
 
-### 1. Multi-LLM Support
-- Easy addition of Claude, Gemini, or other providers
-- A/B testing between different models
-- Cost comparison across providers
+## Output Files
 
-### 2. Advanced RAG
-- Semantic search improvements
-- Multi-modal embeddings
-- Dynamic example selection
+The pipeline generates several output files:
 
-### 3. Evaluation Improvements
-- Automated evaluation pipeline
-- Real-time metrics tracking
-- Comparative analysis tools
+- **Responses**: `responses/responses_rag_hf_<timestamp>.jsonl`
+- **Cost Analysis**: `cost_analysis/cost_analysis_<timestamp>.md`
+- **Evaluation Results**: `evaluation_results/evaluation_results_<timestamp>/`
+- **Vector Database**: `vectordb/image_vectordb/`
 
-### 4. Deployment
-- Docker containerization
-- API endpoint creation
-- Batch processing optimization
+## Configuration Options
+
+### Command Line Arguments
+
+```bash
+python run_pipeline.py --help
+```
+
+### Environment Variables
+
+- `OPENAI_API_KEY`: Your OpenAI API key (required)
+- `HF_HOME`: HuggingFace cache directory
+- `HF_DATASETS_CACHE`: HuggingFace datasets cache
+- `TRANSFORMERS_CACHE`: Transformers model cache
+
+### Programmatic Configuration
+
+```python
+from src.config import update_config
+
+# Configure cache drive
+update_config(cache_drive="D")
+
+# Configure custom cache directory
+update_config(custom_cache_dir="E:/my_cache")
+
+# Configure both
+update_config(cache_drive="C", custom_cache_dir="C:/cache")
+```
+
+## Performance Tips
+
+1. **Use D: drive for caching** if you have limited C: drive space
+2. **Start with small samples** (e.g., 10-50) to test your setup
+3. **Monitor memory usage** during large runs
+4. **Use GPT-5-mini** for cost-effective processing
+5. **Enable analysis only when needed** to save processing time
 
 ## Troubleshooting
 
-### Common Issues
+### Memory Issues
+- Use `--cache-drive D` to use D: drive for caching
+- Use `--custom-cache-dir` to specify a directory with more space
+- Reduce batch size in the code if needed
 
-1. **HuggingFace Dataset Loading**
-   - Ensure internet connection
-   - Check dataset availability
-   - Verify HuggingFace credentials if needed
+### API Issues
+- Ensure your OpenAI API key is set correctly
+- Check your API quota and billing
+- Verify model availability in your region
 
-2. **OpenAI API Issues**
-   - Verify API key in `.env` file
-   - Check API quota and billing
-   - Ensure model availability
+### Dataset Issues
+- The pipeline automatically downloads the ROCOv2-radiology dataset
+- First run may take longer due to dataset download
+- Ensure stable internet connection for dataset download
 
-3. **Memory Issues**
-   - Reduce batch size in VectorDB building
-   - Use smaller validation sample size
-   - Consider using GPU for CLIP embeddings
+## License
 
-4. **Import Errors**
-   - Ensure all dependencies are installed
-   - Check Python path includes `src/`
-   - Verify module structure
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-### Performance Optimization
+## Contributing
 
-1. **VectorDB Building**
-   - Use GPU if available for CLIP embeddings
-   - Increase batch size for faster processing
-   - Save and reuse VectorDB between runs
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-2. **Caption Generation**
-   - Use smaller models for faster generation
-   - Implement request batching
-   - Add retry logic for failed requests
+## Citation
 
-3. **Memory Usage**
-   - Process images in smaller batches
-   - Clear unused variables
-   - Use memory profiling tools
+If you use this pipeline in your research, please cite:
 
-## Conclusion
-
-The refactored pipeline provides a more robust, scalable, and maintainable solution for medical image captioning. The integration with HuggingFace datasets eliminates data management overhead, while LangChain provides flexibility for future LLM integrations. The modular architecture makes the system easier to understand, test, and extend.
+```bibtex
+@software{medical_image_captioning_pipeline,
+  title={Medical Image Captioning Pipeline with RAG},
+  author={Your Name},
+  year={2024},
+  url={https://github.com/your-repo/experiments-clef2025}
+}
+```

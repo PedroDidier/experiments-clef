@@ -7,6 +7,9 @@ from typing import List, Dict, Any
 
 from dotenv import load_dotenv
 
+# Import configuration first to set up environment
+from .config import get_config, update_config
+
 from .data.dataset import ROCOv2DataHandler
 from .vectordb.image_vectordb import ImageVectorDB
 from .llm.llm_utils import MedicalImageCaptioner
@@ -102,13 +105,12 @@ class MedicalImageCaptioningPipeline:
         
         print(f"   Processing {len(validation_samples)} validation samples")
         
-        # Create responses directory
-        responses_dir = Path("responses")
-        responses_dir.mkdir(exist_ok=True)
+        # Get configuration
+        config = get_config()
         
         # Generate timestamp for output file
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-        jsonl_path = responses_dir / f"responses_rag_hf_{timestamp}.jsonl"
+        jsonl_path = config.get_responses_path(timestamp)
         
         # Process each validation sample
         results = []
@@ -198,13 +200,17 @@ class MedicalImageCaptioningPipeline:
         self.results = results
         return results
     
-    def save_pipeline_state(self, output_dir: str = "pipeline_state") -> None:
+    def save_pipeline_state(self, output_dir: str = None) -> None:
         """
         Save the pipeline state including vector database.
         
         Args:
-            output_dir (str): Directory to save pipeline state
+            output_dir (str): Directory to save pipeline state (uses config if None)
         """
+        config = get_config()
+        if output_dir is None:
+            output_dir = str(config.get_pipeline_state_path())
+        
         print(f"Saving pipeline state to {output_dir}...")
         
         # Create output directory
@@ -216,7 +222,7 @@ class MedicalImageCaptioningPipeline:
         self.vectordb.save(str(vectordb_dir))
         
         # Save pipeline configuration
-        config = {
+        pipeline_config = {
             "model_name": self.model_name,
             "num_validation_samples": self.num_validation_samples,
             "num_rag_examples": self.num_rag_examples,
@@ -226,7 +232,7 @@ class MedicalImageCaptioningPipeline:
         
         config_path = output_path / "pipeline_config.json"
         with open(config_path, "w") as f:
-            json.dump(config, f, indent=2)
+            json.dump(pipeline_config, f, indent=2)
         
         print(f"Pipeline state saved to {output_dir}")
     

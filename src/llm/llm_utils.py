@@ -79,10 +79,11 @@ class MedicalImageCaptioner:
         Returns:
             float: Cost in USD
         """
-        # Pricing (OpenAI – Updated 2024)
+        # Pricing (OpenAI – Updated December 2024)
         model_pricing = {
             "gpt-4o": (2.50, 10.00),
             "gpt-4o-mini": (0.15, 0.60),
+            "gpt-5-mini": (0.25, 2.00),  # New GPT-5-mini pricing
             "gpt-4-turbo": (10.00, 30.00),
             "gpt-4": (30.00, 60.00),
             "gpt-3.5-turbo": (0.50, 1.50),
@@ -174,26 +175,18 @@ class MedicalImageCaptioner:
             # Create the message with examples, prompt, and image
             content = []
             
-            # Add RAG examples
+            # Add RAG examples (text-only for memory efficiency)
             if similar_examples:
                 content.append({
                     "type": "text", 
-                    "text": "Here are some similar medical images and their captions as examples to guide your response style and format:\n"
+                    "text": "Here are some similar medical image captions as examples to guide your response style and format:\n"
                 })
                 
                 for i, example in enumerate(similar_examples):
-                    # Add example image
-                    if "image_path" in example:
-                        example_image_url = self._image_to_base64(example["image_path"])
-                        content.append({
-                            "type": "image_url", 
-                            "image_url": {"url": example_image_url}
-                        })
-                    
-                    # Add example caption
+                    # Add example caption (without image for memory efficiency)
                     content.append({
                         "type": "text",
-                        "text": f"Example {i+1} response: {json.dumps({'caption': example['caption']})}\n"
+                        "text": f"Example {i+1} caption: {example['caption']}\n"
                     })
                 
                 content.append({

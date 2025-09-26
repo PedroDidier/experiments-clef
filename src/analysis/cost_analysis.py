@@ -1,7 +1,3 @@
-"""
-Cost analysis module for medical image captioning pipeline.
-"""
-
 import json
 import os
 from datetime import datetime

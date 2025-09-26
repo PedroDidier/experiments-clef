@@ -6,6 +6,7 @@ from pathlib import Path
 # Add src to path
 sys.path.append(str(Path(__file__).parent / "src"))
 
+from dotenv import load_dotenv
 from src.main import MedicalImageCaptioningPipeline
 
 
@@ -16,7 +17,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Run with default settings (300 validation samples, no analysis)
+  # Run with default settings (300 validation samples, GPT-5-mini)
   python run_pipeline.py
   
   # Run with cost analysis and evaluation
@@ -25,25 +26,31 @@ Examples:
   # Run with custom settings
   python run_pipeline.py --samples 100 --rag-examples 5 --model gpt-4o-mini --cost-analysis --evaluation
   
+  # Use different cache drive
+  python run_pipeline.py --cache-drive D --model gpt-5-mini
+  
   # Run only cost analysis on existing results
   python run_pipeline.py --cost-analysis-only responses/responses_rag_hf_2024-01-15_10-30.jsonl
         """
     )
     
-    # Pipeline configuration
-    parser.add_argument(
-        "--model", 
-        type=str, 
-        default="gpt-4o",
-        choices=["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-4"],
-        help="OpenAI model to use (default: gpt-4o)"
-    )
+    # Load environment variables
+    load_dotenv()
     
+    # Main pipeline arguments
     parser.add_argument(
         "--samples", 
         type=int, 
         default=300,
         help="Number of validation samples to process (default: 300)"
+    )
+    
+    parser.add_argument(
+        "--model", 
+        type=str, 
+        default="gpt-5-mini",
+        choices=["gpt-5-mini", "gpt-4o-mini", "gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"],
+        help="OpenAI model to use (default: gpt-5-mini)"
     )
     
     parser.add_argument(
@@ -54,7 +61,7 @@ Examples:
     )
     
     parser.add_argument(
-        "--seed", 
+        "--random-seed", 
         type=int, 
         default=42,
         help="Random seed for reproducibility (default: 42)"
@@ -64,21 +71,20 @@ Examples:
     parser.add_argument(
         "--cost-analysis", 
         action="store_true",
-        help="Run cost analysis after generation"
+        help="Run cost analysis after processing"
     )
     
     parser.add_argument(
         "--evaluation", 
         action="store_true",
-        help="Run evaluation analysis after generation"
+        help="Run evaluation analysis after processing"
     )
     
-    # Analysis-only options
+    # Analysis-only modes
     parser.add_argument(
         "--cost-analysis-only", 
-        type=str,
-        metavar="JSONL_FILE",
-        help="Run only cost analysis on existing JSONL file"
+        action="store_true",
+        help="Run only cost analysis on existing results"
     )
     
     parser.add_argument(
@@ -86,6 +92,21 @@ Examples:
         type=str,
         metavar="JSONL_FILE",
         help="Run only evaluation analysis on existing JSONL file"
+    )
+    
+    # Configuration options
+    parser.add_argument(
+        "--cache-drive", 
+        type=str, 
+        default="D",
+        help="Drive letter for caching (default: D)"
+    )
+    
+    parser.add_argument(
+        "--custom-cache-dir", 
+        type=str, 
+        default=None,
+        help="Custom cache directory path (overrides cache-drive)"
     )
     
     # Output directories
@@ -105,6 +126,13 @@ Examples:
     
     args = parser.parse_args()
     
+    # Set up configuration
+    from src.config import update_config
+    update_config(
+        cache_drive=args.cache_drive,
+        custom_cache_dir=args.custom_cache_dir
+    )
+    
     # Check for API key
     if not os.getenv("OPENAI_API_KEY"):
         print("Error: Please set OPENAI_API_KEY in your .env file")
@@ -115,51 +143,52 @@ Examples:
         print("Running cost analysis only...")
         from src.analysis.cost_analysis import CostAnalyzer
         
-        analyzer = CostAnalyzer()
-        analyzer.load_from_jsonl(args.cost_analysis_only)
+        # Find the most recent responses file if not specified
+        responses_dir = Path("responses")
+        if responses_dir.exists():
+            jsonl_files = list(responses_dir.glob("responses_rag_hf_*.jsonl"))
+            if jsonl_files:
+                latest_file = max(jsonl_files, key=lambda x: x.stat().st_mtime)
+                print(f"Analyzing: {latest_file}")
+                
+                analyzer = CostAnalyzer()
+                analyzer.analyze_from_jsonl(str(latest_file))
+                analyzer.save_report(args.cost_output_dir)
+                print("Cost analysis completed!")
+            else:
+                print("No responses files found in responses/ directory")
+                return 1
+        else:
+            print("Responses directory not found")
+            return 1
         
-        summary = analyzer.get_cost_summary()
-        print("Cost Summary:")
-        for key, value in summary.items():
-            print(f"  {key}: {value}")
-        
-        analyzer.create_cost_visualizations(args.cost_output_dir)
-        analyzer.save_cost_report(args.cost_output_dir)
-        
-        print(f"Cost analysis complete! Check {args.cost_output_dir} for results.")
         return 0
     
     if args.evaluation_only:
-        print("Running evaluation analysis only...")
+        print(f"Running evaluation analysis on: {args.evaluation_only}")
         from src.analysis.evaluation_visualizer import EvaluationVisualizer
         
-        visualizer = EvaluationVisualizer()
-        results = visualizer.load_from_jsonl(args.evaluation_only)
+        if not os.path.exists(args.evaluation_only):
+            print(f"Error: File {args.evaluation_only} not found")
+            return 1
         
-        caption_metrics = visualizer.calculate_caption_metrics(results)
-        print("Caption Metrics:")
-        print(f"  BLEU Mean: {caption_metrics['bleu_mean']:.4f}")
-        print(f"  ROUGE-1 Mean: {caption_metrics['rouge1_mean']:.4f}")
-        print(f"  ROUGE-2 Mean: {caption_metrics['rouge2_mean']:.4f}")
-        print(f"  ROUGE-L Mean: {caption_metrics['rougeL_mean']:.4f}")
-        
-        visualizer.create_caption_visualizations(caption_metrics, args.evaluation_output_dir)
-        visualizer.create_prediction_examples_visualization(caption_metrics, args.evaluation_output_dir)
-        visualizer.create_evaluation_report(caption_metrics, args.evaluation_output_dir)
-        
-        print(f"Evaluation analysis complete! Check {args.evaluation_output_dir} for results.")
+        evaluator = EvaluationVisualizer()
+        evaluator.evaluate_from_jsonl(args.evaluation_only)
+        evaluator.save_results(args.evaluation_output_dir)
+        print("Evaluation analysis completed!")
         return 0
     
-    # Run full pipeline
+    # Run main pipeline
     print("=" * 60)
     print("MEDICAL IMAGE CAPTIONING PIPELINE")
     print("=" * 60)
     print(f"Model: {args.model}")
     print(f"Validation samples: {args.samples}")
     print(f"RAG examples: {args.rag_examples}")
-    print(f"Random seed: {args.seed}")
-    print(f"Cost analysis: {'Yes' if args.cost_analysis else 'No'}")
-    print(f"Evaluation analysis: {'Yes' if args.evaluation else 'No'}")
+    print(f"Random seed: {args.random_seed}")
+    print(f"Cache drive: {args.cache_drive}")
+    if args.custom_cache_dir:
+        print(f"Custom cache dir: {args.custom_cache_dir}")
     print("=" * 60)
     
     try:
@@ -168,41 +197,41 @@ Examples:
             model_name=args.model,
             num_validation_samples=args.samples,
             num_rag_examples=args.rag_examples,
-            random_seed=args.seed,
+            random_seed=args.random_seed,
             run_cost_analysis=args.cost_analysis,
             run_evaluation=args.evaluation
         )
         
-        # Setup pipeline
-        pipeline.setup_pipeline()
-        
-        # Generate captions
-        results = pipeline.generate_captions(save_results=True)
-        
-        # Run analysis if enabled
-        if args.cost_analysis:
-            pipeline.run_cost_analysis(results, args.cost_output_dir)
-        
-        if args.evaluation:
-            pipeline.run_evaluation_analysis(results, args.evaluation_output_dir)
-        
-        # Save pipeline state
-        pipeline.save_pipeline_state()
+        # Run pipeline
+        results = pipeline.run()
         
         print("\n" + "=" * 60)
-        print("PIPELINE EXECUTION COMPLETE")
+        print("PIPELINE COMPLETED SUCCESSFULLY!")
         print("=" * 60)
-        print("Check the 'responses' directory for the generated captions JSONL file.")
-        print("Check the 'pipeline_state' directory for the saved vector database.")
+        print(f"Processed {len(results)} samples")
+        
         if args.cost_analysis:
-            print(f"Check the '{args.cost_output_dir}' directory for cost analysis results.")
+            print("✓ Cost analysis completed")
+        
         if args.evaluation:
-            print(f"Check the '{args.evaluation_output_dir}' directory for evaluation results.")
+            print("✓ Evaluation analysis completed")
+        
+        print("\nOutput files:")
+        print(f"- Responses: responses/responses_rag_hf_*.jsonl")
+        if args.cost_analysis:
+            print(f"- Cost analysis: {args.cost_output_dir}/")
+        if args.evaluation:
+            print(f"- Evaluation results: {args.evaluation_output_dir}/")
         
         return 0
         
+    except KeyboardInterrupt:
+        print("\nPipeline interrupted by user")
+        return 1
     except Exception as e:
-        print(f"Error running pipeline: {e}")
+        print(f"\nError running pipeline: {e}")
+        import traceback
+        traceback.print_exc()
         return 1
 
 
