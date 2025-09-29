@@ -29,31 +29,54 @@ cp .env.example .env
 # Edit .env and add your OpenAI API key
 ```
 
-### 2. Basic Usage
+### 2. Configuration
 
 ```bash
-# Run with default settings (D: drive caching, GPT-5-mini)
-python run_pipeline.py --samples 300 --model gpt-5-mini
-
-# Run with cost analysis and evaluation
-python run_pipeline.py --samples 300 --model gpt-5-mini --cost-analysis --evaluation
-
-# Use different cache drive
-python run_pipeline.py --samples 300 --model gpt-4o-mini --cache-drive C
-
-# Use custom cache directory
-python run_pipeline.py --samples 300 --model gpt-5-mini --custom-cache-dir "E:/my_cache"
+# Copy example configuration
+cp config_example.yaml config_local.yaml
+# Edit config_local.yaml with your settings
 ```
 
-### 3. Configuration
+### 3. Basic Usage
 
-The pipeline uses a flexible configuration system. You can configure:
+```bash
+# Run with configuration file
+python run_pipeline.py --config config_local.yaml
 
-- **Cache Drive**: Which drive to use for caching (default: D)
-- **Custom Cache Directory**: Specific directory for caching
-- **Model Selection**: Choose from available GPT models
-- **Sample Size**: Number of validation samples to process
-- **Analysis Options**: Enable cost analysis and evaluation
+# Run with command line overrides
+python run_pipeline.py --samples 100 --model gpt-4o --cost-analysis --evaluation
+
+# Use different cache drive
+python run_pipeline.py --samples 100 --model gpt-4o --cache-drive C
+
+# Use custom cache directory
+python run_pipeline.py --samples 100 --model gpt-4o --custom-cache-dir "E:/my_cache"
+```
+
+## Configuration
+
+The pipeline uses a flexible YAML-based configuration system. You can configure:
+
+- **Model Settings**: Model name, temperature, max tokens
+- **Dataset Settings**: Sample sizes, random seed, train/validation splits
+- **RAG Settings**: Number of examples, similarity thresholds
+- **Memory Settings**: Batch sizes, memory monitoring, cleanup
+- **Cache Settings**: Drive selection, custom directories
+- **Output Settings**: Directory paths, file formats
+- **Analysis Settings**: Cost analysis, evaluation metrics
+
+### Configuration Files
+
+1. **`config.yaml`**: Default configuration template
+2. **`config_local.yaml`**: Your local configuration (not tracked in git)
+3. **`config_example.yaml`**: Example configuration with common settings
+
+### Configuration Priority
+
+1. Command line arguments (highest priority)
+2. `config_local.yaml` (if exists)
+3. `config.yaml` (default)
+4. Built-in defaults (lowest priority)
 
 ## Architecture
 

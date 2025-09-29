@@ -24,30 +24,44 @@ class MedicalImageCaptioningPipeline:
     
     def __init__(
         self, 
-        model_name: str = "gpt-4o",
-        num_validation_samples: int = 300,
-        num_rag_examples: int = 3,
-        random_seed: int = 42,
-        run_cost_analysis: bool = False,
-        run_evaluation: bool = False
+        model_name: str = None,
+        num_validation_samples: int = None,
+        num_rag_examples: int = None,
+        random_seed: int = None,
+        run_cost_analysis: bool = None,
+        run_evaluation: bool = None,
+        config_file: str = None
     ):
         """
         Initialize the medical image captioning pipeline.
         
         Args:
-            model_name (str): OpenAI model name
-            num_validation_samples (int): Number of validation samples to process
-            num_rag_examples (int): Number of RAG examples to use
-            random_seed (int): Random seed for reproducibility
-            run_cost_analysis (bool): Whether to run cost analysis after generation
-            run_evaluation (bool): Whether to run evaluation analysis after generation
+            model_name (str): OpenAI model name (overrides config)
+            num_validation_samples (int): Number of validation samples to process (overrides config)
+            num_rag_examples (int): Number of RAG examples to use (overrides config)
+            random_seed (int): Random seed for reproducibility (overrides config)
+            run_cost_analysis (bool): Whether to run cost analysis after generation (overrides config)
+            run_evaluation (bool): Whether to run evaluation analysis after generation (overrides config)
+            config_file (str): Path to configuration file
         """
-        self.model_name = model_name
-        self.num_validation_samples = num_validation_samples
-        self.num_rag_examples = num_rag_examples
-        self.random_seed = random_seed
-        self.run_cost_analysis = run_cost_analysis
-        self.run_evaluation = run_evaluation
+        # Load configuration
+        self.config = get_config()
+        if config_file:
+            from .config import Config
+            self.config = Config(config_file=config_file)
+        
+        # Get configuration values with overrides
+        model_config = self.config.get_model_config()
+        dataset_config = self.config.get_dataset_config()
+        rag_config = self.config.get_rag_config()
+        analysis_config = self.config.get_analysis_config()
+        
+        self.model_name = model_name or model_config.get('name', 'gpt-4o')
+        self.num_validation_samples = num_validation_samples or dataset_config.get('validation_samples', 300)
+        self.num_rag_examples = num_rag_examples or rag_config.get('num_examples', 3)
+        self.random_seed = random_seed or dataset_config.get('random_seed', 42)
+        self.run_cost_analysis = run_cost_analysis if run_cost_analysis is not None else analysis_config.get('enable_cost_analysis', False)
+        self.run_evaluation = run_evaluation if run_evaluation is not None else analysis_config.get('enable_evaluation', False)
         
         # Set random seed
         random.seed(random_seed)
@@ -74,10 +88,35 @@ class MedicalImageCaptioningPipeline:
         info = self.data_handler.get_dataset_info()
         print(f"   Dataset info: {info}")
         
-        # Build vector database from training data
-        print("2. Building vector database from training data...")
-        train_samples = self.data_handler.get_train_samples_for_vectordb()
-        self.vectordb.build_from_huggingface_dataset(train_samples)
+        # Check if vector database already exists
+        config = get_config()
+        vectordb_path = config.get_vectordb_path()
+        
+        if vectordb_path.exists() and (vectordb_path / "image_index.faiss").exists() and (vectordb_path / "metadata.json").exists():
+            print("2. Loading existing vector database...")
+            print(f"   Found existing vector database at: {vectordb_path}")
+            self.vectordb.load(str(vectordb_path))
+            print("   Vector database loaded successfully!")
+        else:
+            print("2. Building vector database from training data...")
+            print("   Using memory-efficient streaming to prevent RAM explosion...")
+            train_dataset = self.data_handler.get_train_samples_for_vectordb()
+            
+            # Use a reasonable limit for initial testing to prevent memory issues
+            # You can increase this or set to None for full dataset
+            max_samples = 10000  # Start with 10k samples, adjust as needed
+            print(f"   Processing up to {max_samples} training samples for vector database")
+            
+            self.vectordb.build_from_huggingface_dataset(
+                train_dataset, 
+                batch_size=8,  # Smaller batch size for memory efficiency
+                max_samples=max_samples
+            )
+            
+            # Save the vector database for future use
+            print("3. Saving vector database for future use...")
+            self.vectordb.save(str(vectordb_path))
+            print(f"   Vector database saved to: {vectordb_path}")
         
         print("Pipeline setup complete!")
         print("=" * 60)
@@ -321,6 +360,46 @@ class MedicalImageCaptioningPipeline:
         report_path = visualizer.create_evaluation_report(caption_metrics, output_dir)
         
         print(f"Evaluation analysis complete! Check {output_dir} for results.")
+    
+    def run(self) -> List[Dict[str, Any]]:
+        """
+        Run the complete medical image captioning pipeline.
+        
+        Returns:
+            List[Dict[str, Any]]: List of generation results
+        """
+        try:
+            # Setup pipeline
+            self.setup_pipeline()
+            
+            # Generate captions
+            results = self.generate_captions(save_results=True)
+            
+            # Run analysis if enabled
+            if self.run_cost_analysis:
+                self.run_cost_analysis(results)
+            
+            if self.run_evaluation:
+                self.run_evaluation_analysis(results)
+            
+            # Save pipeline state
+            self.save_pipeline_state()
+            
+            print("\n" + "=" * 60)
+            print("PIPELINE EXECUTION COMPLETE")
+            print("=" * 60)
+            print("Check the 'responses' directory for the generated captions JSONL file.")
+            print("Check the 'pipeline_state' directory for the saved vector database.")
+            if self.run_cost_analysis:
+                print("Check the 'cost_analysis' directory for cost analysis results.")
+            if self.run_evaluation:
+                print("Check the 'evaluation_results' directory for evaluation results.")
+            
+            return results
+            
+        except Exception as e:
+            print(f"Error running pipeline: {e}")
+            raise
 
 
 def main():

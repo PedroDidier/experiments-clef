@@ -1,7 +1,122 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
 .env
-*.csv
-test/
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Configuration files
+config_local.yaml
+config_local.yml
+
+# Cache directories
+cache/
+.cache/
+huggingface_cache/
+*_cache/
+
+# Pipeline outputs
+pipeline_state/
+vectordb/
+responses/
+cost_analysis/
+evaluation_results/
+
+# Data directories
+data/
 train/
 valid/
-__pycache__/
-.cache
+test/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Model files (too large for git)
+*.bin
+*.safetensors
+*.h5
+*.pkl
+*.joblib
+
+# Test files
+test_*.py
+*_test.py
+tests/
+
+# Documentation build
+docs/_build/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Memory dumps
+*.dmp
+core.*
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+*.7z

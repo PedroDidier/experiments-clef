@@ -1,5 +1,7 @@
 import json
 import os
+import psutil
+import gc
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -33,6 +35,9 @@ class ImageVectorDB:
         self.index = None
         self.image_metadata = {}
         self.embedding_dim = 512  # Default for CLIP-ViT-B/32
+        
+        # Memory monitoring
+        self._initial_memory = self._get_memory_usage()
         
     def _load_clip_model(self):
         """Load the CLIP model and processor."""
@@ -75,6 +80,34 @@ class ImageVectorDB:
                     f"Failed to load any CLIP model. Original error: {e}, Alternative error: {e2}"
                 )
     
+    def _get_memory_usage(self) -> Dict[str, float]:
+        """Get current memory usage in MB."""
+        process = psutil.Process(os.getpid())
+        memory_info = process.memory_info()
+        return {
+            'rss': memory_info.rss / 1024 / 1024,  # Resident Set Size in MB
+            'vms': memory_info.vms / 1024 / 1024,  # Virtual Memory Size in MB
+        }
+    
+    def _print_memory_usage(self, stage: str = ""):
+        """Print current memory usage."""
+        current_memory = self._get_memory_usage()
+        memory_increase = current_memory['rss'] - self._initial_memory['rss']
+        
+        print(f"Memory usage {stage}: RSS={current_memory['rss']:.1f}MB, "
+              f"VMS={current_memory['vms']:.1f}MB, "
+              f"Increase={memory_increase:.1f}MB")
+        
+        # Warning if memory usage is getting high
+        if current_memory['rss'] > 8000:  # 8GB threshold
+            print("⚠️  WARNING: High memory usage detected! Consider reducing batch size.")
+    
+    def _force_cleanup(self):
+        """Force garbage collection and cleanup."""
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    
     def _get_image_embedding(self, image: Image.Image) -> np.ndarray:
         """
         Get the embedding for a single image using CLIP.
@@ -104,73 +137,148 @@ class ImageVectorDB:
             # Return zeros as a fallback
             return np.zeros(self.embedding_dim, dtype=np.float32)
     
-    def build_from_huggingface_dataset(self, train_samples: List[Dict[str, Any]], batch_size: int = 16):
+    def build_from_huggingface_dataset(self, train_dataset, batch_size: int = 16, max_samples: int = None):
         """
-        Build the vector database from HuggingFace dataset samples with memory-efficient processing.
+        Build the vector database from HuggingFace dataset with memory-efficient streaming processing.
         
         Args:
-            train_samples (List[Dict[str, Any]]): List of training samples with image, caption, image_id
+            train_dataset: HuggingFace dataset or iterator over training samples
             batch_size (int): Batch size for processing (reduced for memory efficiency)
+            max_samples (int): Maximum number of samples to process (None for all)
         """
-        print(f"Building vector database from {len(train_samples)} training samples")
-        print("Using memory-efficient processing to avoid RAM overload...")
+        print("Building vector database with memory-efficient streaming processing...")
+        print("This will prevent RAM explosion by processing data in small batches...")
+        
+        # Print initial memory usage
+        self._print_memory_usage("before building")
         
         # Create FAISS index
         self.index = faiss.IndexFlatIP(self.embedding_dim)  # Inner product similarity
         
-        # Process images in smaller batches to avoid memory issues
+        # Process images in streaming batches to avoid memory issues
         all_embeddings = []
         successful_count = 0
+        processed_count = 0
         
-        for i in range(0, len(train_samples), batch_size):
-            batch_samples = train_samples[i : i + batch_size]
-            print(f"Processing batch {i//batch_size + 1}/{(len(train_samples)-1)//batch_size + 1} ({len(batch_samples)} samples)")
+        # Determine total samples to process
+        if hasattr(train_dataset, '__len__'):
+            total_samples = len(train_dataset)
+            if max_samples:
+                total_samples = min(total_samples, max_samples)
+        else:
+            total_samples = max_samples or "unknown"
+        
+        print(f"Processing up to {total_samples} training samples in batches of {batch_size}")
+        
+        # Process in streaming batches
+        for i in range(0, total_samples if isinstance(total_samples, int) else 999999, batch_size):
+            batch_end = min(i + batch_size, total_samples) if isinstance(total_samples, int) else i + batch_size
             
-            for sample in batch_samples:
-                image = sample['image']
-                caption = sample['caption']
-                image_id = sample['image_id']
-                
-                # Get embedding
-                embedding = self._get_image_embedding(image)
-                
-                # Only add if embedding is valid (not all zeros)
-                if np.any(embedding):
-                    all_embeddings.append(embedding)
-                    
-                    # Store metadata WITHOUT the image to save memory
-                    self.image_metadata[successful_count] = {
-                        "image_id": image_id,
-                        "caption": caption,
-                        # Don't store the image in memory - we'll reload it when needed
-                    }
-                    successful_count += 1
+            # Get batch of samples
+            try:
+                if hasattr(train_dataset, '__getitem__'):
+                    # Handle dataset indexing
+                    batch_samples = []
+                    for j in range(i, batch_end):
+                        if j >= len(train_dataset):
+                            break
+                        sample = train_dataset[j]
+                        batch_samples.append({
+                            'image': sample['image'],
+                            'caption': sample['caption'],
+                            'image_id': sample['image_id']
+                        })
                 else:
-                    print(f"Warning: Failed to generate embedding for {image_id}")
+                    # Handle iterator
+                    batch_samples = next(train_dataset, [])
+                    if not batch_samples:
+                        break
+            except (IndexError, StopIteration):
+                break
+            
+            if not batch_samples:
+                break
                 
-                # Clear the image from memory immediately
-                del image
+            print(f"Processing batch {i//batch_size + 1} ({len(batch_samples)} samples) - Total processed: {processed_count}")
+            
+            batch_embeddings = []
+            for sample in batch_samples:
+                try:
+                    image = sample['image']
+                    caption = sample['caption']
+                    image_id = sample['image_id']
+                    
+                    # Get embedding
+                    embedding = self._get_image_embedding(image)
+                    
+                    # Only add if embedding is valid (not all zeros)
+                    if np.any(embedding):
+                        batch_embeddings.append(embedding)
+                        
+                        # Store metadata WITHOUT the image to save memory
+                        self.image_metadata[successful_count] = {
+                            "image_id": image_id,
+                            "caption": caption,
+                            # Don't store the image in memory - we'll reload it when needed
+                        }
+                        successful_count += 1
+                    else:
+                        print(f"Warning: Failed to generate embedding for {image_id}")
+                    
+                    processed_count += 1
+                    
+                    # Clear the image from memory immediately
+                    del image
+                    
+                except Exception as e:
+                    print(f"Error processing sample {sample.get('image_id', 'unknown')}: {e}")
+                    processed_count += 1
+                    continue
+            
+            # Add batch embeddings to the main list
+            if batch_embeddings:
+                all_embeddings.extend(batch_embeddings)
+            
+            # Clear batch embeddings from memory
+            del batch_embeddings
             
             # Force garbage collection after each batch
-            import gc
-            gc.collect()
+            self._force_cleanup()
+            
+            # Print memory usage every 10 batches
+            if (i // batch_size) % 10 == 0:
+                self._print_memory_usage(f"after batch {i//batch_size + 1}")
+            
+            # Check if we've reached max_samples
+            if max_samples and processed_count >= max_samples:
+                break
         
         if not all_embeddings:
             raise ValueError(
                 "No valid embeddings were generated. Check your images and captions."
             )
         
-        # Add all embeddings to the index
-        all_embeddings = np.vstack(all_embeddings).astype(np.float32)
-        self.index.add(all_embeddings)
+        print(f"Adding {len(all_embeddings)} embeddings to FAISS index...")
+        
+        # Add all embeddings to the index in chunks to avoid memory issues
+        chunk_size = 10000  # Process embeddings in chunks
+        for i in range(0, len(all_embeddings), chunk_size):
+            chunk = all_embeddings[i:i + chunk_size]
+            chunk_array = np.vstack(chunk).astype(np.float32)
+            self.index.add(chunk_array)
+            del chunk_array
         
         # Clear embeddings from memory
         del all_embeddings
-        import gc
-        gc.collect()
+        self._force_cleanup()
+        
+        # Print final memory usage
+        self._print_memory_usage("after building")
         
         print(f"Successfully added {successful_count} image embeddings to the index")
+        print(f"Total samples processed: {processed_count}")
         print("  - Images not stored in memory for efficiency")
+        print("  - Vector database ready for similarity search")
     
     def build_from_image_files(self, image_dir: str, captions_file: str, batch_size: int = 32):
         """
@@ -283,8 +391,8 @@ class ImageVectorDB:
         # Get metadata for similar images (without images to save memory)
         results = []
         for i, idx in enumerate(indices[0]):
-            if idx >= 0 and str(idx) in self.image_metadata:  # Valid index
-                metadata = self.image_metadata[str(idx)]
+            if idx >= 0 and idx in self.image_metadata:  # Valid index - use integer key
+                metadata = self.image_metadata[idx]
                 results.append(
                     {
                         "image_id": metadata.get("image_id", f"unknown_{idx}"),
@@ -357,9 +465,12 @@ class ImageVectorDB:
         # Load FAISS index
         self.index = faiss.read_index(index_path)
         
-        # Load metadata
+        # Load metadata and convert string keys back to integers
         with open(metadata_path, "r") as f:
-            self.image_metadata = json.load(f)
+            loaded_metadata = json.load(f)
+        
+        # Convert string keys back to integers
+        self.image_metadata = {int(k): v for k, v in loaded_metadata.items()}
         
         print(f"Vector database loaded from {save_dir}")
         print(f"  - Index contains {self.index.ntotal} embeddings")

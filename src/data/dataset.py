@@ -110,6 +110,7 @@ class ROCOv2DataHandler:
     def get_train_samples_for_vectordb(self) -> List[Dict[str, Any]]:
         """
         Get all training samples for building the vector database with memory-efficient processing.
+        This method now returns a generator to avoid loading all samples into memory at once.
         
         Returns:
             List[Dict[str, Any]]: List of training samples with image, caption, and image_id
@@ -118,28 +119,44 @@ class ROCOv2DataHandler:
             raise ValueError("Dataset not loaded. Call load_dataset() first.")
         
         print(f"Preparing {len(self.train_data)} training samples for vector database")
-        print("Using memory-efficient processing...")
+        print("Using memory-efficient streaming processing...")
         
-        samples = []
-        for i, sample in enumerate(self.train_data):
-            if i % 1000 == 0:
-                print(f"Processing training sample {i}/{len(self.train_data)}")
-            
-            # Extract only the required fields: image, caption, image_id
-            sample_data = {
-                'image': sample['image'],
-                'caption': sample['caption'],
-                'image_id': sample['image_id']
-            }
-            samples.append(sample_data)
-            
-            # Force garbage collection every 1000 samples
-            if i % 1000 == 0:
-                import gc
-                gc.collect()
+        # Return the dataset directly instead of converting to list
+        # This allows for streaming access without loading everything into memory
+        return self.train_data
+    
+    def get_train_samples_iterator(self, batch_size: int = 1000):
+        """
+        Get an iterator over training samples for memory-efficient processing.
         
-        print(f"Prepared {len(samples)} training samples for vector database")
-        return samples
+        Args:
+            batch_size (int): Number of samples to process in each batch
+            
+        Yields:
+            List[Dict[str, Any]]: Batches of training samples
+        """
+        if self.train_data is None:
+            raise ValueError("Dataset not loaded. Call load_dataset() first.")
+        
+        total_samples = len(self.train_data)
+        print(f"Creating iterator for {total_samples} training samples with batch size {batch_size}")
+        
+        for i in range(0, total_samples, batch_size):
+            batch_end = min(i + batch_size, total_samples)
+            print(f"Yielding batch {i//batch_size + 1}/{(total_samples-1)//batch_size + 1} (samples {i}-{batch_end-1})")
+            
+            # Extract batch samples
+            batch_samples = []
+            for j in range(i, batch_end):
+                sample = self.train_data[j]
+                sample_data = {
+                    'image': sample['image'],
+                    'caption': sample['caption'],
+                    'image_id': sample['image_id']
+                }
+                batch_samples.append(sample_data)
+            
+            yield batch_samples
     
     def save_sample_images(self, samples: List[Dict[str, Any]], output_dir: str) -> List[str]:
         """

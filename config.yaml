@@ -1,0 +1,61 @@
+# Medical Image Captioning Pipeline Configuration
+# Copy this file to config_local.yaml and modify as needed
+
+# Model Configuration
+model:
+  name: "gpt-4o"  # Options: gpt-4o, gpt-4-turbo, gpt-4, gpt-4o-mini, gpt-5-mini, gpt-3.5-turbo
+  temperature: 0.1
+  max_tokens: 1000
+
+# Dataset Configuration
+dataset:
+  name: "eltorio/ROCOv2-radiology"
+  max_train_samples: 10000  # Limit training samples for vector DB (None for all)
+  validation_samples: 300   # Number of validation samples to process
+  random_seed: 42
+
+# RAG Configuration
+rag:
+  num_examples: 3  # Number of similar examples to use
+  similarity_threshold: 0.7  # Minimum similarity score for examples
+
+# Memory Configuration
+memory:
+  batch_size: 8  # Batch size for processing
+  max_memory_gb: 8  # Maximum memory usage warning threshold
+  enable_monitoring: true  # Enable memory usage monitoring
+
+# Cache Configuration
+cache:
+  drive: "D"  # Drive letter for caching
+  custom_dir: null  # Custom cache directory (null to use default)
+  enable_symlinks: false  # Enable symlinks for HuggingFace cache
+
+# Output Configuration
+output:
+  save_vectordb: true  # Save vector database for reuse
+  save_pipeline_state: true  # Save pipeline state
+  responses_dir: "responses"
+  vectordb_dir: "vectordb"
+  cost_analysis_dir: "cost_analysis"
+  evaluation_dir: "evaluation_results"
+  pipeline_state_dir: "pipeline_state"
+
+# Analysis Configuration
+analysis:
+  enable_cost_analysis: false  # Enable cost analysis
+  enable_evaluation: false  # Enable evaluation metrics
+  cost_analysis_format: "markdown"  # Options: markdown, json, csv
+  evaluation_metrics: ["bleu", "rouge"]  # Evaluation metrics to compute
+
+# API Configuration
+api:
+  timeout: 60  # API timeout in seconds
+  max_retries: 3  # Maximum number of retries
+  retry_delay: 1  # Delay between retries in seconds
+
+# Logging Configuration
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null  # Log file path (null for console only)

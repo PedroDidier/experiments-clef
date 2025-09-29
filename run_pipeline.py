@@ -48,9 +48,9 @@ Examples:
     parser.add_argument(
         "--model", 
         type=str, 
-        default="gpt-5-mini",
-        choices=["gpt-5-mini", "gpt-4o-mini", "gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"],
-        help="OpenAI model to use (default: gpt-5-mini)"
+        default="gpt-4o",
+        choices=["gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-4o-mini", "gpt-5-mini", "gpt-3.5-turbo"],
+        help="OpenAI model to use (default: gpt-4o). Note: Only gpt-4o, gpt-4-turbo, and gpt-4 support vision."
     )
     
     parser.add_argument(
@@ -96,17 +96,24 @@ Examples:
     
     # Configuration options
     parser.add_argument(
+        "--config", 
+        type=str, 
+        default=None,
+        help="Path to YAML configuration file (default: config.yaml or config_local.yaml)"
+    )
+    
+    parser.add_argument(
         "--cache-drive", 
         type=str, 
-        default="D",
-        help="Drive letter for caching (default: D)"
+        default=None,
+        help="Drive letter for caching (overrides config)"
     )
     
     parser.add_argument(
         "--custom-cache-dir", 
         type=str, 
         default=None,
-        help="Custom cache directory path (overrides cache-drive)"
+        help="Custom cache directory path (overrides config)"
     )
     
     # Output directories
@@ -128,10 +135,11 @@ Examples:
     
     # Set up configuration
     from src.config import update_config
-    update_config(
-        cache_drive=args.cache_drive,
-        custom_cache_dir=args.custom_cache_dir
-    )
+    if args.cache_drive or args.custom_cache_dir:
+        update_config(
+            cache_drive=args.cache_drive,
+            custom_cache_dir=args.custom_cache_dir
+        )
     
     # Check for API key
     if not os.getenv("OPENAI_API_KEY"):
@@ -199,7 +207,8 @@ Examples:
             num_rag_examples=args.rag_examples,
             random_seed=args.random_seed,
             run_cost_analysis=args.cost_analysis,
-            run_evaluation=args.evaluation
+            run_evaluation=args.evaluation,
+            config_file=args.config
         )
         
         # Run pipeline

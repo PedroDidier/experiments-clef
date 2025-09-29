@@ -1,6 +1,7 @@
 import os
+import yaml
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict, Any
 
 
 class Config:
@@ -9,7 +10,8 @@ class Config:
     def __init__(self, 
                  cache_drive: str = "D",
                  project_root: Optional[str] = None,
-                 custom_cache_dir: Optional[str] = None):
+                 custom_cache_dir: Optional[str] = None,
+                 config_file: Optional[str] = None):
         """
         Initialize configuration.
         
@@ -17,13 +19,19 @@ class Config:
             cache_drive (str): Drive letter for caching (e.g., "D", "C")
             project_root (str): Root directory of the project
             custom_cache_dir (str): Custom cache directory path
+            config_file (str): Path to YAML configuration file
         """
-        self.cache_drive = cache_drive.upper()
         self.project_root = Path(project_root) if project_root else Path(__file__).parent.parent
         
-        # Set up cache directory
-        if custom_cache_dir:
-            self.cache_dir = Path(custom_cache_dir)
+        # Load configuration from file if provided
+        self.config_data = self._load_config_file(config_file)
+        
+        # Set up cache configuration
+        self.cache_drive = self.config_data.get('cache', {}).get('drive', cache_drive).upper()
+        custom_cache = self.config_data.get('cache', {}).get('custom_dir') or custom_cache_dir
+        
+        if custom_cache:
+            self.cache_dir = Path(custom_cache)
         else:
             self.cache_dir = Path(f"{self.cache_drive}:/huggingface_cache")
         
@@ -34,15 +42,42 @@ class Config:
         self._setup_paths()
         self._setup_environment()
     
+    def _load_config_file(self, config_file: Optional[str] = None) -> Dict[str, Any]:
+        """Load configuration from YAML file."""
+        if not config_file:
+            # Try to find config files in order of preference
+            config_files = [
+                self.project_root / "config_local.yaml",
+                self.project_root / "config.yaml"
+            ]
+            
+            for config_path in config_files:
+                if config_path.exists():
+                    config_file = str(config_path)
+                    break
+        
+        if config_file and Path(config_file).exists():
+            try:
+                with open(config_file, 'r') as f:
+                    return yaml.safe_load(f) or {}
+            except Exception as e:
+                print(f"Warning: Could not load config file {config_file}: {e}")
+                return {}
+        
+        return {}
+    
     def _setup_paths(self):
         """Set up all directory paths."""
+        # Get output configuration
+        output_config = self.config_data.get('output', {})
+        
         # Main directories
         self.data_dir = self.project_root / "data"
-        self.responses_dir = self.project_root / "responses"
-        self.vectordb_dir = self.project_root / "vectordb"
-        self.cost_analysis_dir = self.project_root / "cost_analysis"
-        self.evaluation_dir = self.project_root / "evaluation_results"
-        self.pipeline_state_dir = self.project_root / "pipeline_state"
+        self.responses_dir = self.project_root / output_config.get('responses_dir', 'responses')
+        self.vectordb_dir = self.project_root / output_config.get('vectordb_dir', 'vectordb')
+        self.cost_analysis_dir = self.project_root / output_config.get('cost_analysis_dir', 'cost_analysis')
+        self.evaluation_dir = self.project_root / output_config.get('evaluation_dir', 'evaluation_results')
+        self.pipeline_state_dir = self.project_root / output_config.get('pipeline_state_dir', 'pipeline_state')
         
         # Create directories
         for dir_path in [self.data_dir, self.responses_dir, self.vectordb_dir, 
@@ -79,6 +114,39 @@ class Config:
         """Get the path for pipeline state."""
         return self.pipeline_state_dir
     
+    def get(self, key: str, default: Any = None) -> Any:
+        """Get configuration value using dot notation (e.g., 'model.name')."""
+        keys = key.split('.')
+        value = self.config_data
+        
+        for k in keys:
+            if isinstance(value, dict) and k in value:
+                value = value[k]
+            else:
+                return default
+        
+        return value
+    
+    def get_model_config(self) -> Dict[str, Any]:
+        """Get model configuration."""
+        return self.config_data.get('model', {})
+    
+    def get_dataset_config(self) -> Dict[str, Any]:
+        """Get dataset configuration."""
+        return self.config_data.get('dataset', {})
+    
+    def get_rag_config(self) -> Dict[str, Any]:
+        """Get RAG configuration."""
+        return self.config_data.get('rag', {})
+    
+    def get_memory_config(self) -> Dict[str, Any]:
+        """Get memory configuration."""
+        return self.config_data.get('memory', {})
+    
+    def get_analysis_config(self) -> Dict[str, Any]:
+        """Get analysis configuration."""
+        return self.config_data.get('analysis', {})
+    
     def to_dict(self) -> dict:
         """Convert configuration to dictionary."""
         return {
@@ -91,6 +159,7 @@ class Config:
             "cost_analysis_dir": str(self.cost_analysis_dir),
             "evaluation_dir": str(self.evaluation_dir),
             "pipeline_state_dir": str(self.pipeline_state_dir),
+            "config_data": self.config_data,
         }
 
 

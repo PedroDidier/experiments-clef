@@ -7,9 +7,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.runnables import RunnableLambda
 
 load_dotenv()
 
@@ -22,11 +20,16 @@ class MedicalImageCaptioner:
         Initialize the medical image captioner.
         
         Args:
-            model_name (str): OpenAI model name
+            model_name (str): OpenAI model name (must support vision like gpt-4o, gpt-4-turbo)
             temperature (float): Model temperature for generation
         """
         self.model_name = model_name
         self.temperature = temperature
+        
+        # Check if model supports vision
+        vision_models = ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview"]
+        if model_name not in vision_models:
+            print(f"Warning: {model_name} may not support vision. Consider using gpt-4o or gpt-4-turbo for image processing.")
         
         # Initialize the LLM
         self.llm = ChatOpenAI(
@@ -50,23 +53,56 @@ class MedicalImageCaptioner:
         with open(prompt_path, "r", encoding="utf-8") as f:
             return f.read()
     
-    def _image_to_base64(self, image_path: str) -> str:
+    def _image_to_base64(self, image_input) -> str:
         """
         Convert image to base64 data URL.
         
         Args:
-            image_path (str): Path to the image file
+            image_input: Either a file path (str) or PIL Image object
             
         Returns:
             str: Base64 data URL
         """
-        path = Path(image_path)
-        mime = "image/png" if path.suffix.lower() == ".png" else "image/jpeg"
+        from PIL import Image
+        import io
         
-        with open(image_path, "rb") as image_file:
-            b64 = base64.b64encode(image_file.read()).decode("utf-8")
+        # Handle PIL Image object
+        if isinstance(image_input, Image.Image):
+            # Resize image if too large to avoid token limit issues
+            max_size = 1024  # Maximum dimension
+            if max(image_input.size) > max_size:
+                # Calculate new size maintaining aspect ratio
+                ratio = max_size / max(image_input.size)
+                new_size = (int(image_input.size[0] * ratio), int(image_input.size[1] * ratio))
+                image_input = image_input.resize(new_size, Image.Resampling.LANCZOS)
+                print(f"Resized image to {new_size} to avoid token limits")
+            
+            # Convert PIL image to base64
+            buffer = io.BytesIO()
+            # Save as JPEG for better compression
+            if image_input.mode in ('RGBA', 'LA', 'P'):
+                image_input = image_input.convert('RGB')
+                image_input.save(buffer, format='JPEG', quality=85, optimize=True)
+                mime = "image/jpeg"
+            else:
+                image_input.save(buffer, format='JPEG', quality=85, optimize=True)
+                mime = "image/jpeg"
+            
+            b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+            return f"data:{mime};base64,{b64}"
         
-        return f"data:{mime};base64,{b64}"
+        # Handle file path (original behavior)
+        elif isinstance(image_input, str):
+            path = Path(image_input)
+            mime = "image/png" if path.suffix.lower() == ".png" else "image/jpeg"
+            
+            with open(image_input, "rb") as image_file:
+                b64 = base64.b64encode(image_file.read()).decode("utf-8")
+            
+            return f"data:{mime};base64,{b64}"
+        
+        else:
+            raise ValueError(f"Unsupported image input type: {type(image_input)}")
     
     def _calculate_cost(self, input_tokens: int, output_tokens: int) -> float:
         """
@@ -152,14 +188,14 @@ class MedicalImageCaptioner:
     
     def generate_caption_with_rag(
         self, 
-        image_path: str, 
+        image_input, 
         similar_examples: List[Dict[str, Any]]
     ) -> Tuple[Dict[str, Any], Dict[str, Any], List[Dict[str, Any]]]:
         """
         Generate a caption for a medical image using RAG with similar examples.
         
         Args:
-            image_path (str): Path to the image file
+            image_input: Either a file path (str) or PIL Image object
             similar_examples (List[Dict[str, Any]]): List of similar examples with captions
             
         Returns:
@@ -167,7 +203,7 @@ class MedicalImageCaptioner:
         """
         try:
             # Convert image to base64
-            image_data_url = self._image_to_base64(image_path)
+            image_data_url = self._image_to_base64(image_input)
             
             # Build the RAG prompt
             rag_prompt = self._build_rag_prompt(similar_examples)
@@ -230,7 +266,7 @@ class MedicalImageCaptioner:
             return caption_data, token_usage, similar_examples
             
         except Exception as e:
-            print(f"Error generating caption with RAG for {image_path}: {e}")
+            print(f"Error generating caption with RAG for {image_input}: {e}")
             return {"caption": f"Error: {str(e)}"}, {"input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_usd": 0.0}, similar_examples
     
     def _build_rag_prompt(self, similar_examples: List[Dict[str, Any]]) -> str:
