@@ -63,57 +63,7 @@ vectordb/
 data/
 train/
 valid/
-test/
-
-# Logs
-*.log
-logs/
-
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Temporary files
-*.tmp
-*.temp
-temp/
-tmp/
-
-# Model files (too large for git)
-*.bin
-*.safetensors
-*.h5
-*.pkl
-*.joblib
-
-# Test files
-test_*.py
-*_test.py
-tests/
-
-# Documentation build
-docs/_build/
-
-# Coverage reports
-htmlcov/
-.coverage
-.coverage.*
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Memory dumps
-*.dmp
-core.*
-
-# Large files
-*.zip
-*.tar.gz
-*.rar
-*.7z
+__pycache__/
+.cache
+vectordb/
+data/
