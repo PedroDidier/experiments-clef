@@ -181,8 +181,8 @@ Examples:
             return 1
         
         evaluator = EvaluationVisualizer()
-        evaluator.evaluate_from_jsonl(args.evaluation_only)
-        evaluator.save_results(args.evaluation_output_dir)
+        results = evaluator.run_full_evaluation(args.evaluation_only, args.evaluation_output_dir)
+        print(f"Evaluation completed! Results saved to {args.evaluation_output_dir}")
         print("Evaluation analysis completed!")
         return 0
     
