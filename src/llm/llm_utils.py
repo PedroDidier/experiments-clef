@@ -6,6 +6,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import JsonOutputParser
 
@@ -14,8 +15,8 @@ load_dotenv()
 
 class MedicalImageCaptioner:
     """Medical image captioner using LangChain and OpenAI."""
-    
-    def __init__(self, model_name: str = "gpt-4o", temperature: float = 0.1):
+
+    def __init__(self, provider: str = "openai", model_name: str = "gpt-4o", temperature: float = 0.1, max_tokens: int = 1000):
         """
         Initialize the medical image captioner.
         
@@ -23,8 +24,10 @@ class MedicalImageCaptioner:
             model_name (str): OpenAI model name (must support vision like gpt-4o, gpt-4-turbo)
             temperature (float): Model temperature for generation
         """
+        self.provider = provider
         self.model_name = model_name
         self.temperature = temperature
+        self.max_tokens = max_tokens
         
         # Check if model supports vision
         vision_models = ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview"]
@@ -32,10 +35,11 @@ class MedicalImageCaptioner:
             print(f"Warning: {model_name} may not support vision. Consider using gpt-4o or gpt-4-turbo for image processing.")
         
         # Initialize the LLM
-        self.llm = ChatOpenAI(
-            model=model_name,
-            temperature=temperature,
-            api_key=os.getenv("OPENAI_API_KEY")
+        self.llm = self._model_factory(
+            provider=self.provider,
+            model_name=self.model_name,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens
         )
         
         # Initialize JSON parser
@@ -134,6 +138,24 @@ class MedicalImageCaptioner:
         
         return input_cost + output_cost
     
+    def _model_factory(self, provider: str, model_name: str, temperature: float, max_tokens: int):
+        """Factory method to create LLM instances based on provider."""
+        if provider == "openai":
+            return ChatOpenAI(
+                model=model_name,
+                temperature=temperature,
+                api_key=os.getenv("OPENAI_API_KEY")
+            )
+        elif provider == "google":
+            return ChatGoogleGenerativeAI(
+                model=model_name,
+                temperature=temperature,
+                max_output_tokens=max_tokens,
+                api_key=os.getenv("GOOGLE_API_KEY")
+            )
+        else:
+            raise ValueError(f"Unsupported provider: {provider}")
+        
     def generate_caption(self, image_path: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
         Generate a caption for a medical image.
