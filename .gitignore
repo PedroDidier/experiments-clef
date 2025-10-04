@@ -58,9 +58,6 @@ huggingface_cache/
 # Pipeline outputs
 pipeline_state/
 vectordb/
-responses/
-cost_analysis/
-evaluation_results/
 
 # Data directories
 data/
