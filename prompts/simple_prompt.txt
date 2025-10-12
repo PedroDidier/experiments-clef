@@ -1,0 +1,6 @@
+Create a detailed and accurate caption for the medical image.
+Provide your response as a JSON object with the following structure:
+
+{
+    "caption": "A detailed and clinically accurate description of the medical image"
+}

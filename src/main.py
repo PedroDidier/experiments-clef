@@ -8,7 +8,7 @@ from typing import List, Dict, Any
 from dotenv import load_dotenv
 
 # Import configuration first to set up environment
-from .config import get_config, update_config
+from .config import get_config, update_config, Config
 
 from .data.dataset import ROCOv2DataHandler
 from .vectordb.image_vectordb import ImageVectorDB
@@ -47,7 +47,6 @@ class MedicalImageCaptioningPipeline:
         # Load configuration
         self.config = get_config()
         if config_file:
-            from .config import Config
             self.config = Config(config_file=config_file)
         
         # Get configuration values with overrides
@@ -63,13 +62,18 @@ class MedicalImageCaptioningPipeline:
         self.run_cost_analysis = run_cost_analysis if run_cost_analysis is not None else analysis_config.get('enable_cost_analysis', False)
         self.run_evaluation = run_evaluation if run_evaluation is not None else analysis_config.get('enable_evaluation', False)
         
+        provider = model_config.get('provider', 'openai')
+        max_tokens = model_config.get('max_tokens', 1000)
+
         # Set random seed
         random.seed(random_seed)
         
         # Initialize components
         self.data_handler = ROCOv2DataHandler()
         self.vectordb = ImageVectorDB()
-        self.captioner = MedicalImageCaptioner(model_name=model_name)
+        self.captioner = MedicalImageCaptioner(provider=provider, 
+                                               model_name=self.model_name, 
+                                               max_tokens=max_tokens)
         
         # Results storage
         self.results = []
@@ -89,8 +93,7 @@ class MedicalImageCaptioningPipeline:
         print(f"   Dataset info: {info}")
         
         # Check if vector database already exists
-        config = get_config()
-        vectordb_path = config.get_vectordb_path()
+        vectordb_path = self.config.get_vectordb_path()
         
         if vectordb_path.exists() and (vectordb_path / "image_index.faiss").exists() and (vectordb_path / "metadata.json").exists():
             print("2. Loading existing vector database...")
@@ -143,13 +146,10 @@ class MedicalImageCaptioningPipeline:
         )
         
         print(f"   Processing {len(validation_samples)} validation samples")
-        
-        # Get configuration
-        config = get_config()
-        
+            
         # Generate timestamp for output file
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-        jsonl_path = config.get_responses_path(timestamp)
+        jsonl_path = self.config.get_responses_path(timestamp)
         
         # Process each validation sample
         results = []
@@ -160,20 +160,28 @@ class MedicalImageCaptioningPipeline:
             print(f"   Image ID: {sample['image_id']}")
             
             try:
-                # Find similar images for RAG
-                similar_images = self.vectordb.search_similar_images(
-                    sample['image'], 
-                    k=self.num_rag_examples
-                )
+                if self.num_rag_examples > 0:
+                    # Find similar images for RAG
+                    similar_images = self.vectordb.search_similar_images(
+                        sample['image'], 
+                        k=self.num_rag_examples
+                    )
                 
-                print(f"   Found {len(similar_images)} similar images for RAG")
+                    print(f"   Found {len(similar_images)} similar images for RAG")
                 
-                # Generate caption with RAG
-                caption_data, token_usage, examples_used = self.captioner.generate_caption_with_rag(
-                    sample['image'], 
-                    similar_images
-                )
+                    # Generate caption with RAG
+                    caption_data, token_usage, examples_used = self.captioner.generate_caption_with_rag(
+                        sample['image'], 
+                        similar_images
+                    )
                 
+                else:
+                    print("   RAG disabled, generating caption without examples")
+                    caption_data, token_usage = self.captioner.generate_caption(
+                        sample['image']
+                    )
+                    examples_used = []
+
                 # Prepare result data
                 result = {
                     "image_id": sample['image_id'],
@@ -246,10 +254,9 @@ class MedicalImageCaptioningPipeline:
         Args:
             output_dir (str): Directory to save pipeline state (uses config if None)
         """
-        config = get_config()
         if output_dir is None:
-            output_dir = str(config.get_pipeline_state_path())
-        
+            output_dir = str(self.config.get_pipeline_state_path())
+
         print(f"Saving pipeline state to {output_dir}...")
         
         # Create output directory
@@ -341,6 +348,8 @@ class MedicalImageCaptioningPipeline:
         print("RUNNING EVALUATION ANALYSIS")
         print("=" * 60)
         
+        experiment_name = f"/{self.model_name}_rag_{self.num_rag_examples}_examples"
+        output_dir += experiment_name
         visualizer = EvaluationVisualizer()
         
         # Calculate caption metrics
@@ -402,22 +411,19 @@ class MedicalImageCaptioningPipeline:
             raise
 
 
-def main():
+def main(config: Config):
     """Main function to run the medical image captioning pipeline."""
     # Check for API key
-    if not os.getenv("OPENAI_API_KEY"):
+    provider = config.get_model_config().get('provider')
+    if not os.getenv("OPENAI_API_KEY") and provider == "openai":
         print("Error: Please set OPENAI_API_KEY in your .env file")
         return
-    
+    if not os.getenv("GOOGLE_API_KEY") and provider == "google":
+        print("Error: Please set GOOGLE_API_KEY in your .env file")
+        return
+
     # Initialize pipeline
-    pipeline = MedicalImageCaptioningPipeline(
-        model_name="gpt-4o",
-        num_validation_samples=300,
-        num_rag_examples=3,
-        random_seed=42,
-        run_cost_analysis=True,  # Enable cost analysis
-        run_evaluation=True      # Enable evaluation analysis
-    )
+    pipeline = MedicalImageCaptioningPipeline()
     
     try:
         # Setup pipeline
@@ -450,6 +456,25 @@ def main():
         print(f"Error running pipeline: {e}")
         raise
 
-
 if __name__ == "__main__":
-    main()
+    model_names = ["gemini-2.0-flash-lite",
+                   "gemini-2.0-flash",
+                   "gemini-2.5-flash-lite",
+                   "gemini-2.5-flash",
+                   "gemini-2.5-pro",
+                   "gemma-3-4b-it",
+                   "gemma-3-12b-it",
+                   "gemma-3-27b-it"
+                ]
+
+    rag_examples = [0, 3]
+
+    for model_name in model_names:
+        for num_rag_examples in rag_examples:
+            print(f"Running pipeline with model: {model_name}, RAG examples: {num_rag_examples}")
+            config = get_config()
+
+            config.update_model_config({'name': model_name})
+            config.update_rag_config({'num_examples': num_rag_examples})
+            
+            main(config)

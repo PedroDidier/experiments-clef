@@ -3,12 +3,12 @@
 
 # Model Configuration
 model:
-  provider: "gemini"  # Options: openai, google
+  provider: "google"  # Options: openai, google
   # OpenAI model name options: gpt-4o, gpt-4-turbo, gpt-4, gpt-4o-mini, gpt-5-mini, gpt-3.5-turbo
   # Google model name options: gemini-1.5-flash, gemini-1.5-pro, gemini-2.5-flash, gemini-2.5-pro
-  name: "gemini-1.5-flash"
+  name: "gemma-3-27b-it"
   temperature: 0.1
-  max_tokens: 1000
+  max_tokens: 100000
 
 # Dataset Configuration
 dataset:
@@ -30,7 +30,7 @@ memory:
 
 # Cache Configuration
 cache:
-  drive: "D"  # Drive letter for caching
+  drive: "C"  # Drive letter for caching
   custom_dir: null  # Custom cache directory (null to use default)
   enable_symlinks: false  # Enable symlinks for HuggingFace cache
 
@@ -47,7 +47,7 @@ output:
 # Analysis Configuration
 analysis:
   enable_cost_analysis: false  # Enable cost analysis
-  enable_evaluation: false  # Enable evaluation metrics
+  enable_evaluation: true  # Enable evaluation metrics
   cost_analysis_format: "markdown"  # Options: markdown, json, csv
   evaluation_metrics: ["bleu", "rouge"]  # Evaluation metrics to compute
 

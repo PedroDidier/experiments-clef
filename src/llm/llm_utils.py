@@ -16,7 +16,10 @@ load_dotenv()
 class MedicalImageCaptioner:
     """Medical image captioner using LangChain and OpenAI."""
 
-    def __init__(self, provider: str = "openai", model_name: str = "gpt-4o", temperature: float = 0.1, max_tokens: int = 1000):
+    def __init__(self, provider: str = "openai", 
+                 model_name: str = "gpt-4o", 
+                 temperature: float = 0.1, 
+                 max_tokens: int = 1000):
         """
         Initialize the medical image captioner.
         
@@ -46,11 +49,12 @@ class MedicalImageCaptioner:
         self.json_parser = JsonOutputParser()
         
         # Load the base prompt
-        self.base_prompt = self._load_base_prompt()
+        self.base_prompt = self._load_prompt("simple")
         
-    def _load_base_prompt(self) -> str:
-        """Load the base prompt from file."""
-        prompt_path = Path("prompts/base_prompt.txt")
+    def _load_prompt(self, prefix: str) -> str:
+        """Load the prompt from file."""
+        print(f"Loading prompt with prefix: {prefix}")
+        prompt_path = Path(f"prompts/{prefix}_prompt.txt")
         if not prompt_path.exists():
             raise FileNotFoundError(f"Prompt file not found: {prompt_path}")
         
@@ -151,7 +155,6 @@ class MedicalImageCaptioner:
                 model=model_name,
                 temperature=temperature,
                 max_output_tokens=max_tokens,
-                api_key=os.getenv("GOOGLE_API_KEY")
             )
         else:
             raise ValueError(f"Unsupported provider: {provider}")

@@ -161,10 +161,26 @@ class Config:
             "pipeline_state_dir": str(self.pipeline_state_dir),
             "config_data": self.config_data,
         }
+    
+    def update_model_config(self, new_config: Dict[str, Any]):
+        """Update model configuration."""
+        if 'model' not in self.config_data:
+            self.config_data['model'] = {}
+        
+        for key, value in new_config.items():
+            self.config_data['model'][key] = value
+
+    def update_rag_config(self, new_config: Dict[str, Any]):
+        """Update RAG configuration."""
+        if 'rag' not in self.config_data:
+            self.config_data['rag'] = {}
+        
+        for key, value in new_config.items():
+            self.config_data['rag'][key] = value
 
 
 # Global configuration instance
-config = Config()
+config = Config(config_file="config_google.yaml")
 
 # Convenience function to get config
 def get_config() -> Config:
