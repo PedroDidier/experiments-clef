@@ -1,0 +1,67 @@
+# Example Ensemble Configuration for Medical Image Captioning
+
+# LLM Ensemble settings
+ensemble:
+  num_llms: 3
+  use_rag: true
+  rag:
+    num_examples: 3
+    similarity_threshold: 0.8
+
+# Individual LLM configurations
+llms:
+  # Primary LLM - Best model
+  llm_1:
+    provider: openai
+    model: gpt-4o
+    temperature: 0.1
+    max_tokens: 500
+    enabled: true
+    
+  # Secondary LLM - Alternative model
+  llm_2:
+    provider: openai
+    model: gpt-4-turbo
+    temperature: 0.2
+    max_tokens: 500
+    enabled: true
+    
+  # Third LLM - Cost-effective model
+  llm_3:
+    provider: openai
+    model: gpt-4o-mini
+    temperature: 0.3
+    max_tokens: 500
+    enabled: true
+
+# Judge LLM configuration
+judge:
+  provider: openai
+  model: gpt-4o
+  temperature: 0.1
+  max_tokens: 300
+  enabled: true
+  
+  # Judge prompt settings
+  prompt:
+    system_message: "You are an expert medical radiologist evaluating image captions. Your task is to select the best caption from multiple options."
+    evaluation_criteria:
+      - "Medical accuracy and terminology"
+      - "Completeness of description"
+      - "Clarity and readability"
+      - "Technical precision"
+
+# Output settings
+output:
+  ensemble_dir: ensemble_results
+  save_individual_outputs: true
+  save_judge_reasoning: true
+  format: jsonl
+
+# Processing settings
+processing:
+  batch_size: 10
+  max_retries: 3
+  request_delay: 0.5
+  parallel_processing: true
+  max_concurrent: 3

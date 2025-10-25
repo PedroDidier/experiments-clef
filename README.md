@@ -11,6 +11,7 @@ A professional, memory-efficient pipeline for generating medical image captions 
 - **Cost Analysis**: Detailed token usage and cost tracking
 - **Evaluation Metrics**: BLEU and ROUGE scores for caption quality assessment
 - **HuggingFace Integration**: Uses the `eltorio/ROCOv2-radiology` dataset
+- **LLM Ensemble Pipeline**: Advanced multi-LLM ensemble with judge selection
 
 ## Quick Start
 
@@ -152,6 +153,66 @@ update_config(custom_cache_dir="E:/my_cache")
 update_config(cache_drive="C", custom_cache_dir="C:/cache")
 ```
 
+## LLM Ensemble Pipeline
+
+The project includes an advanced ensemble pipeline that uses multiple LLMs with RAG and a final judge LLM to select the best caption.
+
+### Quick Start with Ensemble
+
+```bash
+# Copy ensemble configuration
+cp config_ensemble_example.yaml config_ensemble.yaml
+
+# Run ensemble pipeline
+python run_ensemble.py --samples 50 --config config_ensemble.yaml
+```
+
+### Ensemble Features
+
+- **Multi-Provider Support**: OpenAI, Anthropic, and extensible to other providers
+- **RAG Integration**: Uses similar examples to guide caption generation
+- **LLM Judge**: Final LLM evaluates and selects the best caption
+- **Configurable**: YAML-based configuration for easy customization
+- **Async Processing**: Efficient async/await implementation
+
+### Ensemble Configuration
+
+```yaml
+# Example configuration
+ensemble:
+  num_llms: 3
+  use_rag: true
+  rag:
+    num_examples: 3
+
+llms:
+  llm_1:
+    provider: openai
+    model: gpt-4o
+    temperature: 0.1
+    enabled: true
+    
+  llm_2:
+    provider: openai
+    model: gpt-4-turbo
+    temperature: 0.2
+    enabled: true
+    
+  llm_3:
+    provider: openai
+    model: gpt-4o-mini
+    temperature: 0.3
+    enabled: true
+
+judge:
+  provider: openai
+  model: gpt-4o
+  temperature: 0.1
+  enabled: true
+```
+
+For detailed ensemble documentation, see [ENSEMBLE_README.md](ENSEMBLE_README.md).
+
 ## Performance Tips
 
 1. **Use D: drive for caching** if you have limited C: drive space
@@ -159,6 +220,7 @@ update_config(cache_drive="C", custom_cache_dir="C:/cache")
 3. **Monitor memory usage** during large runs
 4. **Use GPT-5-mini** for cost-effective processing
 5. **Enable analysis only when needed** to save processing time
+6. **Use ensemble pipeline** for higher quality captions
 
 ## Troubleshooting
 
