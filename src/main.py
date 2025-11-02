@@ -1,6 +1,14 @@
 import json
 import os
 import random
+import os
+
+# Ensure non-interactive matplotlib backend BEFORE importing any module
+# that may pull a GUI backend (tkinter/ImageTk/Matplotlib interactive backends).
+# This prevents "RuntimeError: main thread is not in main loop" raised from
+# tkinter Variable.__del__ at interpreter shutdown when running headless.
+os.environ.setdefault("MPLBACKEND", "Agg")
+
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any
@@ -54,16 +62,19 @@ class MedicalImageCaptioningPipeline:
         dataset_config = self.config.get_dataset_config()
         rag_config = self.config.get_rag_config()
         analysis_config = self.config.get_analysis_config()
+        prompt_config = self.config.get_prompt_config()
         
         self.model_name = model_name or model_config.get('name', 'gpt-4o')
         self.num_validation_samples = num_validation_samples or dataset_config.get('validation_samples', 300)
+        self.previous_num_validation_samples = dataset_config.get('previous_validation_samples', 0)
         self.num_rag_examples = num_rag_examples or rag_config.get('num_examples', 3)
         self.random_seed = random_seed or dataset_config.get('random_seed', 42)
         self.run_cost_analysis = run_cost_analysis if run_cost_analysis is not None else analysis_config.get('enable_cost_analysis', False)
         self.run_evaluation = run_evaluation if run_evaluation is not None else analysis_config.get('enable_evaluation', False)
-        
+        self.prompt_prefix = prompt_config.get('prefix', 'base')
         provider = model_config.get('provider', 'openai')
         max_tokens = model_config.get('max_tokens', 1000)
+
 
         # Set random seed
         random.seed(random_seed)
@@ -73,7 +84,8 @@ class MedicalImageCaptioningPipeline:
         self.vectordb = ImageVectorDB()
         self.captioner = MedicalImageCaptioner(provider=provider, 
                                                model_name=self.model_name, 
-                                               max_tokens=max_tokens)
+                                               max_tokens=max_tokens,
+                                               prompt_prefix=self.prompt_prefix)
         
         # Results storage
         self.results = []
@@ -141,6 +153,7 @@ class MedicalImageCaptioningPipeline:
         # Get validation samples
         print(f"1. Sampling {self.num_validation_samples} validation images...")
         validation_samples = self.data_handler.get_validation_samples(
+            previous_num_samples=self.previous_num_validation_samples,
             num_samples=self.num_validation_samples,
             random_seed=self.random_seed
         )
@@ -198,6 +211,8 @@ class MedicalImageCaptioningPipeline:
                     ],
                     "timestamp": datetime.now().isoformat()
                 }
+
+                # exit()
                 
                 results.append(result)
                 total_cost += token_usage.get('cost_usd', 0.0)
@@ -348,7 +363,7 @@ class MedicalImageCaptioningPipeline:
         print("RUNNING EVALUATION ANALYSIS")
         print("=" * 60)
         
-        experiment_name = f"/{self.model_name}_rag_{self.num_rag_examples}_examples"
+        experiment_name = f"/{self.model_name}_rag_{self.num_rag_examples}_examples_{self.prompt_prefix}_prompt"
         output_dir += experiment_name
         visualizer = EvaluationVisualizer()
         
@@ -411,13 +426,17 @@ class MedicalImageCaptioningPipeline:
             raise
 
 
-def main(config: Config):
+def _main(config: Config):
     """Main function to run the medical image captioning pipeline."""
     # Check for API key
     provider = config.get_model_config().get('provider')
     if not os.getenv("OPENAI_API_KEY") and provider == "openai":
         print("Error: Please set OPENAI_API_KEY in your .env file")
         return
+    
+    api = os.getenv("GOOGLE_API_KEY")
+    print(api, type(api))
+
     if not os.getenv("GOOGLE_API_KEY") and provider == "google":
         print("Error: Please set GOOGLE_API_KEY in your .env file")
         return
@@ -456,7 +475,7 @@ def main(config: Config):
         print(f"Error running pipeline: {e}")
         raise
 
-if __name__ == "__main__":
+def main():
     model_names = ["gemini-2.0-flash-lite",
                    "gemini-2.0-flash",
                    "gemini-2.5-flash-lite",
@@ -469,12 +488,19 @@ if __name__ == "__main__":
 
     rag_examples = [0, 3]
 
-    for model_name in model_names:
-        for num_rag_examples in rag_examples:
-            print(f"Running pipeline with model: {model_name}, RAG examples: {num_rag_examples}")
-            config = get_config()
+    prompt_prefixes = ["simple"]
 
-            config.update_model_config({'name': model_name})
-            config.update_rag_config({'num_examples': num_rag_examples})
-            
-            main(config)
+    for prompt_prefix in prompt_prefixes:
+        for model_name in model_names:
+            for num_rag_examples in rag_examples:
+                print(f"Running pipeline with model: {model_name}, RAG examples: {num_rag_examples}")
+                config = get_config()
+
+                config.update_model_config({'name': model_name})
+                config.update_rag_config({'num_examples': num_rag_examples})
+                config.update_prompt_config({'prefix': prompt_prefix})
+
+                _main(config)
+
+if __name__ == "__main__":
+    main()

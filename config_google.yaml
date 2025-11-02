@@ -10,11 +10,16 @@ model:
   temperature: 0.1
   max_tokens: 100000
 
+# Prompt Configuration
+prompt:
+  prefix: "base"
+
 # Dataset Configuration
 dataset:
   name: "eltorio/ROCOv2-radiology"
   max_train_samples: 10000  # Limit training samples for vector DB (None for all)
-  validation_samples: 300   # Number of validation samples to process
+  validation_samples: 700  # Number of validation samples to proces
+  previous_validation_samples: 300  # Number of previous validation samples to exclude
   random_seed: 42
 
 # RAG Configuration
@@ -41,7 +46,7 @@ output:
   responses_dir: "responses"
   vectordb_dir: "vectordb"
   cost_analysis_dir: "cost_analysis"
-  evaluation_dir: "evaluation_results"
+  evaluation_dir: "evaluation_results_700"
   pipeline_state_dir: "pipeline_state"
 
 # Analysis Configuration

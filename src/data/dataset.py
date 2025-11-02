@@ -65,7 +65,7 @@ class ROCOv2DataHandler:
             print(f"Error loading dataset: {e}")
             raise
     
-    def get_validation_samples(self, num_samples: int = 300, random_seed: int = 42) -> List[Dict[str, Any]]:
+    def get_validation_samples(self, previous_num_samples: int = 0, num_samples: int = 300, random_seed: int = 42) -> List[Dict[str, Any]]:
         """
         Get a random sample of validation images for evaluation.
         
@@ -89,8 +89,10 @@ class ROCOv2DataHandler:
             num_samples = total_validation
         
         # Randomly sample indices
-        sampled_indices = random.sample(range(total_validation), num_samples)
-        
+        previous_sampled_indices = random.sample(range(total_validation), previous_num_samples)
+        available_indices = list(set(range(total_validation)) - set(previous_sampled_indices))
+        sampled_indices = random.sample(available_indices, num_samples)
+
         # Extract samples
         samples = []
         for idx in sampled_indices:

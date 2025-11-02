@@ -19,7 +19,8 @@ class MedicalImageCaptioner:
     def __init__(self, provider: str = "openai", 
                  model_name: str = "gpt-4o", 
                  temperature: float = 0.1, 
-                 max_tokens: int = 1000):
+                 max_tokens: int = 1000,
+                 prompt_prefix: str = "base"):
         """
         Initialize the medical image captioner.
         
@@ -31,7 +32,8 @@ class MedicalImageCaptioner:
         self.model_name = model_name
         self.temperature = temperature
         self.max_tokens = max_tokens
-        
+        self.prompt_prefix = prompt_prefix
+
         # Check if model supports vision
         vision_models = ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview"]
         if model_name not in vision_models:
@@ -49,7 +51,7 @@ class MedicalImageCaptioner:
         self.json_parser = JsonOutputParser()
         
         # Load the base prompt
-        self.base_prompt = self._load_prompt("simple")
+        self.base_prompt = self._load_prompt(self.prompt_prefix)
         
     def _load_prompt(self, prefix: str) -> str:
         """Load the prompt from file."""
