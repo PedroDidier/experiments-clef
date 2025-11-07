@@ -429,7 +429,7 @@ class MedicalImageCaptioningPipeline:
             raise
 
 
-def _main(config: Config):
+def main(config: Config):
     """Main function to run the medical image captioning pipeline."""
     # Check for API key
     provider = config.get_model_config().get('provider')
@@ -478,7 +478,7 @@ def _main(config: Config):
         print(f"Error running pipeline: {e}")
         raise
 
-def main():
+def experiment_loop():
     model_names = ["gemini-2.0-flash-lite",
                    "gemini-2.0-flash",
                    "gemini-2.5-flash-lite",
@@ -503,7 +503,20 @@ def main():
                 config.update_rag_config({'num_examples': num_rag_examples})
                 config.update_prompt_config({'prefix': prompt_prefix})
 
-                _main(config)
+                main(config)
 
 if __name__ == "__main__":
-    main()
+    # experiment_loop()
+    model_name = "google/medgemma-4b-it"
+    rag_examples = 0
+    prompt_prefix = "simple"
+
+    print(f"Running pipeline with model: {model_name}, RAG examples: {rag_examples}")
+    config = get_config()
+
+    config.update_model_config({'name': model_name})
+    config.update_rag_config({'num_examples': rag_examples})
+    config.update_prompt_config({'prefix': prompt_prefix})
+    config.update_model_config({'provider': 'huggingface'})
+
+    main(config)

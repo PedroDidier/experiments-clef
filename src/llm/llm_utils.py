@@ -9,6 +9,9 @@ from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import JsonOutputParser
+import torch
+from langchain_huggingface import HuggingFacePipeline
+from transformers import pipeline
 
 load_dotenv()
 
@@ -158,6 +161,14 @@ class MedicalImageCaptioner:
                 temperature=temperature,
                 max_output_tokens=max_tokens,
             )
+        elif provider == "huggingface":
+            model_kwargs = dict(
+                torch_dtype=torch.bfloat16,
+                device_map="auto",
+            )
+            pipe = pipeline(model=model_name, model_kwargs=model_kwargs)
+            pipe.model.generation_config.do_sample = False
+            return HuggingFacePipeline(pipeline=pipe)
         else:
             raise ValueError(f"Unsupported provider: {provider}")
         
@@ -185,7 +196,9 @@ class MedicalImageCaptioner:
             
             # Generate response
             response = self.llm.invoke([message])
-            
+            print(response)
+            exit()
+
             # Parse the JSON response
             try:
                 caption_data = json.loads(response.content)
