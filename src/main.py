@@ -209,7 +209,10 @@ class MedicalImageCaptioningPipeline:
                         }
                         for ex in examples_used
                     ],
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
+                    "model_name": self.model_name,
+                    "num_rag_examples": self.num_rag_examples,
+                    "prompt_prefix": self.prompt_prefix
                 }
 
                 # exit()

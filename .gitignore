@@ -1,6 +1,8 @@
 # Results
 evaluation_results/
 responses/
+evaluation_700/
+*.csv
 
 # Python
 __pycache__/
