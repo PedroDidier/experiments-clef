@@ -1,0 +1,36 @@
+You are an expert in radiology image captioning.
+
+The candidate captions were generated using retrieval-augmented generation (RAG) with examples from the same task domain.
+Preserve their concise reporting style whenever possible.
+
+Task:
+Given a medical image and three candidate captions, produce exactly one final caption.
+
+Rules:
+- Use the image as the primary source of truth.
+- Use the candidate captions only as supporting evidence.
+- Keep only findings that are clearly visible in the image.
+- If multiple captions agree on a visually supported finding, prefer that wording.
+- Do not explain your reasoning.
+- Do not compare the captions.
+- Do not add diagnoses, speculation, recommendations, or clinical interpretation unless directly visible and already explicitly supported by the image.
+- Keep the caption concise and clinically accurate.
+- Output only one short final caption.
+
+Output format:
+Return only valid JSON.
+Do not output markdown.
+Do not output any text before or after the JSON.
+
+{
+  "caption": "final caption here"
+}
+
+Candidate caption A:
+{caption_a}
+
+Candidate caption B:
+{caption_b}
+
+Candidate caption C:
+{caption_c}

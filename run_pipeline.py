@@ -2,6 +2,7 @@ import argparse
 import os
 import sys
 from pathlib import Path
+import json
 
 # Add src to path
 sys.path.append(str(Path(__file__).parent / "src"))
@@ -41,15 +42,15 @@ Examples:
     parser.add_argument(
         "--samples", 
         type=int, 
-        default=300,
+        default=100,
         help="Number of validation samples to process (default: 300)"
     )
     
     parser.add_argument(
         "--model", 
         type=str, 
-        default="gpt-4o",
-        choices=["gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-4o-mini", "gpt-5-mini", "gpt-3.5-turbo"],
+        default=None,
+        #choices=["gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-4o-mini", "gpt-5-mini", "gpt-3.5-turbo"],
         help="OpenAI model to use (default: gpt-4o). Note: Only gpt-4o, gpt-4-turbo, and gpt-4 support vision."
     )
     
@@ -66,7 +67,20 @@ Examples:
         default=42,
         help="Random seed for reproducibility (default: 42)"
     )
-    
+    parser.add_argument(
+        "--provider",
+        type=str,
+        default=None,
+        choices=["openai", "google", "together", "anthropic"],
+        help="LLM provider to use"
+    )
+    '''parser.add_argument(
+        "--use-image-ids-from-jsonl",
+        type=str,
+        default=None,
+        help="Use exactly the image_ids listed in a JSONL file (for reproducibility across machines)"
+    )'''
+
     # Analysis options
     parser.add_argument(
         "--cost-analysis", 
@@ -82,10 +96,12 @@ Examples:
     
     # Analysis-only modes
     parser.add_argument(
-        "--cost-analysis-only", 
-        action="store_true",
-        help="Run only cost analysis on existing results"
+        "--cost-analysis-only",
+        type=str,
+        metavar="JSONL_FILE",
+        help="Run only cost analysis on an existing JSONL file"
     )
+
     
     parser.add_argument(
         "--evaluation-only", 
@@ -190,7 +206,9 @@ Examples:
     print("=" * 60)
     print("MEDICAL IMAGE CAPTIONING PIPELINE")
     print("=" * 60)
-    print(f"Model: {args.model}")
+    # depois de criar o pipeline
+    #print(f"Model (effective): {pipeline.model_name}")
+
     print(f"Validation samples: {args.samples}")
     print(f"RAG examples: {args.rag_examples}")
     print(f"Random seed: {args.random_seed}")
@@ -201,6 +219,39 @@ Examples:
     
     try:
         # Initialize pipeline
+        '''pipeline = MedicalImageCaptioningPipeline(
+            model_name=args.model,
+            num_validation_samples=args.samples,
+            num_rag_examples=args.rag_examples,
+            random_seed=args.random_seed,
+            run_cost_analysis=args.cost_analysis,
+            run_evaluation=args.evaluation,
+            config_file=args.config
+        )
+
+        pipeline.setup_pipeline()
+
+        validation_samples = None
+        if args.use_image_ids_from_jsonl:
+            image_ids = []
+            with open(args.use_image_ids_from_jsonl, "r", encoding="utf-8") as f:
+                for line in f:
+                    obj = json.loads(line)
+                    if "image_id" in obj:
+                        image_ids.append(obj["image_id"])
+
+            validation_samples = pipeline.data_handler.get_validation_samples_by_image_ids(image_ids)
+        
+        # If using a JSONL list, override samples to match it (unless user explicitly set --samples)
+            if args.samples is None:
+                args.samples = len(image_ids)
+            else:
+                # optional: respect user cap, but keep same order
+                image_ids = image_ids[:args.samples]
+
+
+        results = pipeline.generate_captions(save_results=True, validation_samples=validation_samples)'''
+
         pipeline = MedicalImageCaptioningPipeline(
             model_name=args.model,
             num_validation_samples=args.samples,
@@ -213,7 +264,7 @@ Examples:
         
         # Run pipeline
         results = pipeline.run()
-        
+
         print("\n" + "=" * 60)
         print("PIPELINE COMPLETED SUCCESSFULLY!")
         print("=" * 60)

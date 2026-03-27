@@ -56,8 +56,8 @@ class MedicalImageCaptioningPipeline:
         analysis_config = self.config.get_analysis_config()
         
         self.model_name = model_name or model_config.get('name', 'gpt-4o')
-        self.num_validation_samples = num_validation_samples or dataset_config.get('validation_samples', 300)
-        self.num_rag_examples = num_rag_examples or rag_config.get('num_examples', 3)
+        self.num_validation_samples = num_validation_samples or dataset_config.get('validation_samples', 1000)
+        self.num_rag_examples = num_rag_examples or rag_config.get('num_examples', 0)
         self.random_seed = random_seed or dataset_config.get('random_seed', 42)
         self.run_cost_analysis = run_cost_analysis if run_cost_analysis is not None else analysis_config.get('enable_cost_analysis', False)
         self.run_evaluation = run_evaluation if run_evaluation is not None else analysis_config.get('enable_evaluation', False)
@@ -124,27 +124,21 @@ class MedicalImageCaptioningPipeline:
         print("Pipeline setup complete!")
         print("=" * 60)
     
-    def generate_captions(self, save_results: bool = True) -> List[Dict[str, Any]]:
-        """
-        Generate captions for validation samples using RAG.
-        
-        Args:
-            save_results (bool): Whether to save results to JSONL file
-            
-        Returns:
-            List[Dict[str, Any]]: List of generated captions with metadata
-        """
+    def generate_captions(self, save_results: bool = True, validation_samples=None):
         print("=" * 60)
         print("GENERATING CAPTIONS WITH RAG")
         print("=" * 60)
-        
-        # Get validation samples
-        print(f"1. Sampling {self.num_validation_samples} validation images...")
-        validation_samples = self.data_handler.get_validation_samples(
-            num_samples=self.num_validation_samples,
-            random_seed=self.random_seed
-        )
-        
+
+        if validation_samples is None:
+            print(f"1. Sampling {self.num_validation_samples} TEST images...")
+            validation_samples = self.data_handler.get_test_samples(
+                num_samples=self.num_validation_samples,
+                random_seed=self.random_seed
+            )
+        else:
+            print(f"1. Using provided samples: {len(validation_samples)}")
+
+
         print(f"   Processing {len(validation_samples)} validation samples")
             
         # Generate timestamp for output file
@@ -420,6 +414,9 @@ def main(config: Config):
         return
     if not os.getenv("GOOGLE_API_KEY") and provider == "google":
         print("Error: Please set GOOGLE_API_KEY in your .env file")
+        return
+    if not os.getenv("ANTHROPIC_API_KEY") and provider == "anthropic":
+        print("Error: Please set ANTHROPIC_API_KEY in your .env file")
         return
 
     # Initialize pipeline

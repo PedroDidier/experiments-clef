@@ -64,6 +64,33 @@ class ROCOv2DataHandler:
         except Exception as e:
             print(f"Error loading dataset: {e}")
             raise
+    def get_validation_samples_by_image_ids(self, image_ids: list) -> list:
+        if self.validation_data is None:
+            raise ValueError("Dataset not loaded. Call load_dataset() first.")
+
+        # Mapeia image_id -> index uma vez (rápido e determinístico)
+        ids_in_split = list(self.validation_data["image_id"])
+        id_to_idx = {img_id: i for i, img_id in enumerate(ids_in_split)}
+
+        samples = []
+        missing = 0
+        for img_id in image_ids:
+            idx = id_to_idx.get(img_id)
+            if idx is None:
+                missing += 1
+                continue
+            sample = self.validation_data[idx]
+            samples.append({
+                "image": sample["image"],
+                "caption": sample["caption"],
+                "image_id": sample["image_id"],
+            })
+
+        if missing:
+            print(f"Warning: {missing} image_id(s) not found in validation split.")
+
+        return samples
+
     
     def get_validation_samples(self, num_samples: int = 300, random_seed: int = 42) -> List[Dict[str, Any]]:
         """
@@ -106,6 +133,35 @@ class ROCOv2DataHandler:
         
         print(f"Sampled {len(samples)} validation samples for evaluation")
         return samples
+    
+    def get_test_samples(self, num_samples: int = None, random_seed: int = 42):
+        """
+        Get samples from the TEST split.
+        """
+        if self.test_data is None:
+            raise ValueError("Dataset not loaded. Call load_dataset() first.")
+
+        random.seed(random_seed)
+
+        total = len(self.test_data)
+
+        if num_samples is None or num_samples > total:
+            indices = list(range(total))
+        else:
+            indices = random.sample(range(total), num_samples)
+
+        samples = []
+        for idx in indices:
+            sample = self.test_data[idx]
+            samples.append({
+                "image": sample["image"],
+                "caption": sample["caption"],
+                "image_id": sample["image_id"],
+            })
+
+        print(f"Sampled {len(samples)} TEST samples")
+        return samples
+
     
     def get_train_samples_for_vectordb(self) -> List[Dict[str, Any]]:
         """

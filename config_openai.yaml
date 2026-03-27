@@ -3,13 +3,19 @@
 
 # Model Configuration
 model:
-  provider: "openai"  # Options: openai, google
+  provider: "together"  # Options: openai, google
   # OpenAI model name options: gpt-4o, gpt-4-turbo, gpt-4, gpt-4o-mini, gpt-5-mini, gpt-3.5-turbo
   # Google model name options: gemini-1.5-flash, gemini-1.5-pro, gemini-2.5-flash, gemini-2.5-pro
-  name: "gpt-4o"
+  name:  "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8" #"meta-llama/Llama-4-Scout-17B-16E-Instruct"
   temperature: 0.1
   max_tokens: 1000
 
+# Model Configuration
+#model:
+#  provider: "anthropic"  # Options: openai, google, together, anthropic
+#  name: "claude-sonnet-4-5-20250929"  # Claude Sonnet 4
+#  temperature: 0.1
+#  max_tokens: 1000
 # Dataset Configuration
 dataset:
   name: "eltorio/ROCOv2-radiology"
@@ -19,7 +25,7 @@ dataset:
 
 # RAG Configuration
 rag:
-  num_examples: 3  # Number of similar examples to use
+  num_examples: 0  # Number of similar examples to use
   similarity_threshold: 0.7  # Minimum similarity score for examples
 
 # Memory Configuration
@@ -30,7 +36,7 @@ memory:
 
 # Cache Configuration
 cache:
-  drive: "D"  # Drive letter for caching
+  drive: "C"  # Drive letter for caching
   custom_dir: null  # Custom cache directory (null to use default)
   enable_symlinks: false  # Enable symlinks for HuggingFace cache
 

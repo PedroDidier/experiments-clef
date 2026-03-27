@@ -7,6 +7,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import JsonOutputParser
 
@@ -14,7 +15,7 @@ load_dotenv()
 
 
 class MedicalImageCaptioner:
-    """Medical image captioner using LangChain and OpenAI."""
+    """Medical image captioner using LangChain and multiple LLM providers."""
 
     def __init__(self, provider: str = "openai", 
                  model_name: str = "gpt-4o", 
@@ -24,18 +25,15 @@ class MedicalImageCaptioner:
         Initialize the medical image captioner.
         
         Args:
-            model_name (str): OpenAI model name (must support vision like gpt-4o, gpt-4-turbo)
+            provider (str): LLM provider (openai, google, together, anthropic)
+            model_name (str): Model name for the provider
             temperature (float): Model temperature for generation
+            max_tokens (int): Maximum tokens for generation
         """
         self.provider = provider
         self.model_name = model_name
         self.temperature = temperature
         self.max_tokens = max_tokens
-        
-        # Check if model supports vision
-        vision_models = ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview"]
-        if model_name not in vision_models:
-            print(f"Warning: {model_name} may not support vision. Consider using gpt-4o or gpt-4-turbo for image processing.")
         
         # Initialize the LLM
         self.llm = self._model_factory(
@@ -115,32 +113,42 @@ class MedicalImageCaptioner:
     def _calculate_cost(self, input_tokens: int, output_tokens: int) -> float:
         """
         Calculate the cost for a request given token usage.
-        
-        Args:
-            input_tokens (int): Number of input tokens
-            output_tokens (int): Number of output tokens
-            
-        Returns:
-            float: Cost in USD
+        Returns cost in USD.
         """
-        # Pricing (OpenAI – Updated December 2024)
-        model_pricing = {
-            "gpt-4o": (2.50, 10.00),
-            "gpt-4o-mini": (0.15, 0.60),
-            "gpt-5-mini": (0.25, 2.00),  # New GPT-5-mini pricing
-            "gpt-4-turbo": (10.00, 30.00),
-            "gpt-4": (30.00, 60.00),
-            "gpt-3.5-turbo": (0.50, 1.50),
+        # Pricing is per 1M tokens: (input_rate, output_rate)
+        pricing = {
+            "openai": {
+                "gpt-4o": (2.50, 10.00),
+                "gpt-4o-mini": (0.15, 0.60),
+                "gpt-5-mini": (0.25, 2.00),
+                "gpt-4-turbo": (10.00, 30.00),
+                "gpt-4": (30.00, 60.00),
+                "gpt-3.5-turbo": (0.50, 1.50),
+            },
+            "together": {
+                "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8": (0.27, 0.85),
+                "Qwen/Qwen3-VL-8B-Instruct": (0.18, 0.68),
+                "meta-llama/Llama-4-Scout-17B-16E-Instruct": (0.18, 0.59),
+                "Llama-4-Maverick-17B-128E-Instruct-FP8": (0.27, 0.85),
+            },
+            "anthropic": {
+                # Claude 4 pricing (Dec 2024)
+                "claude-sonnet-4-5-20250929": (3.00, 15.00),
+            },
+            "google": {}
         }
-        
-        # Get pricing for the model
-        input_rate, output_rate = model_pricing.get(self.model_name, (2.50, 10.00))
-        
-        # Calculate cost (convert from per 1M tokens to per token)
+
+        provider = getattr(self, "provider", None)
+        if provider is None:
+            provider = "openai"
+
+        model_rates = pricing.get(provider, {})
+        input_rate, output_rate = model_rates.get(self.model_name, (0.0, 0.0))
+
         input_cost = (input_tokens / 1_000_000) * input_rate
         output_cost = (output_tokens / 1_000_000) * output_rate
-        
         return input_cost + output_cost
+
     
     def _model_factory(self, provider: str, model_name: str, temperature: float, max_tokens: int):
         """Factory method to create LLM instances based on provider."""
@@ -149,6 +157,21 @@ class MedicalImageCaptioner:
                 model=model_name,
                 temperature=temperature,
                 api_key=os.getenv("OPENAI_API_KEY")
+            )
+        elif provider == "together":
+            return ChatOpenAI(
+                model=model_name,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                base_url=os.getenv("OPENAI_BASE_URL"),
+                api_key=os.getenv("OPENAI_API_KEY")
+            )
+        elif provider == "anthropic":
+            return ChatAnthropic(
+                model=model_name,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                api_key=os.getenv("ANTHROPIC_API_KEY")
             )
         elif provider == "google":
             return ChatGoogleGenerativeAI(
@@ -191,13 +214,8 @@ class MedicalImageCaptioner:
                 # Fallback if JSON parsing fails
                 caption_data = {"caption": response.content}
             
-            # Calculate token usage and cost
-            token_usage = {
-                "input_tokens": response.response_metadata.get("token_usage", {}).get("prompt_tokens", 0),
-                "output_tokens": response.response_metadata.get("token_usage", {}).get("completion_tokens", 0),
-                "total_tokens": response.response_metadata.get("token_usage", {}).get("total_tokens", 0),
-                "cost_usd": 0.0  # Will be calculated below
-            }
+            # Extract token usage based on provider
+            token_usage = self._extract_token_usage(response)
             
             # Calculate cost
             token_usage["cost_usd"] = self._calculate_cost(
@@ -210,6 +228,27 @@ class MedicalImageCaptioner:
         except Exception as e:
             print(f"Error generating caption for {image_path}: {e}")
             return {"caption": f"Error: {str(e)}"}, {"input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_usd": 0.0}
+    
+    def _extract_token_usage(self, response) -> Dict[str, Any]:
+        """Extract token usage from response based on provider."""
+        if self.provider == "anthropic":
+            # Anthropic uses different field names
+            usage = response.response_metadata.get("usage", {})
+            return {
+                "input_tokens": usage.get("input_tokens", 0),
+                "output_tokens": usage.get("output_tokens", 0),
+                "total_tokens": usage.get("input_tokens", 0) + usage.get("output_tokens", 0),
+                "cost_usd": 0.0
+            }
+        else:
+            # OpenAI, Google, Together
+            token_usage_data = response.response_metadata.get("token_usage", {})
+            return {
+                "input_tokens": token_usage_data.get("prompt_tokens", 0),
+                "output_tokens": token_usage_data.get("completion_tokens", 0),
+                "total_tokens": token_usage_data.get("total_tokens", 0),
+                "cost_usd": 0.0
+            }
     
     def generate_caption_with_rag(
         self, 
@@ -274,13 +313,8 @@ class MedicalImageCaptioner:
                 # Fallback if JSON parsing fails
                 caption_data = {"caption": response.content}
             
-            # Calculate token usage and cost
-            token_usage = {
-                "input_tokens": response.response_metadata.get("token_usage", {}).get("prompt_tokens", 0),
-                "output_tokens": response.response_metadata.get("token_usage", {}).get("completion_tokens", 0),
-                "total_tokens": response.response_metadata.get("token_usage", {}).get("total_tokens", 0),
-                "cost_usd": 0.0  # Will be calculated below
-            }
+            # Extract token usage based on provider
+            token_usage = self._extract_token_usage(response)
             
             # Calculate cost
             token_usage["cost_usd"] = self._calculate_cost(
@@ -325,11 +359,14 @@ class MedicalImageCaptioner:
 def main():
     """Example usage of the MedicalImageCaptioner."""
     # Check if API key is available
-    if not os.getenv("OPENAI_API_KEY"):
-        print("Please set OPENAI_API_KEY in your .env file")
+    if not os.getenv("ANTHROPIC_API_KEY"):
+        print("Please set ANTHROPIC_API_KEY in your .env file")
         return
     
-    captioner = MedicalImageCaptioner()
+    captioner = MedicalImageCaptioner(
+        provider="anthropic",
+        model_name="claude-sonnet-4-20250514"
+    )
     
     # Example with a single image
     image_path = "test/ROCOv2_2023_test_000001.jpg"
