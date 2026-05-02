@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 # Import configuration first to set up environment
 from .config import get_config, update_config, Config
 
-from .data.dataset import ROCOv2DataHandler
+from .data.dataset import UnifiedDataHandler
 from .vectordb.image_vectordb import ImageVectorDB
 from .llm.llm_utils import MedicalImageCaptioner
 from .analysis.cost_analysis import CostAnalyzer
@@ -68,6 +68,7 @@ class MedicalImageCaptioningPipeline:
         self.num_validation_samples = num_validation_samples or dataset_config.get('validation_samples', 300)
         self.previous_num_validation_samples = dataset_config.get('previous_validation_samples', 0)
         self.num_rag_examples = num_rag_examples or rag_config.get('num_examples', 3)
+        self.rag_model_name = rag_config.get('model_name', 'openai/openai/clip-vit-base-patch32')
         self.random_seed = random_seed or dataset_config.get('random_seed', 42)
         self.run_cost_analysis = run_cost_analysis if run_cost_analysis is not None else analysis_config.get('enable_cost_analysis', False)
         self.run_evaluation = run_evaluation if run_evaluation is not None else analysis_config.get('enable_evaluation', False)
@@ -80,8 +81,9 @@ class MedicalImageCaptioningPipeline:
         random.seed(random_seed)
         
         # Initialize components
-        self.data_handler = ROCOv2DataHandler()
-        self.vectordb = ImageVectorDB()
+        self.dataset_type = dataset_config.get('type', 'rocov2')
+        self.data_handler = UnifiedDataHandler.get_handler(self.dataset_type)
+        self.vectordb = ImageVectorDB(model_name=self.rag_model_name)
         self.captioner = MedicalImageCaptioner(provider=provider, 
                                                model_name=self.model_name, 
                                                max_tokens=max_tokens,
@@ -96,16 +98,24 @@ class MedicalImageCaptioningPipeline:
         print("SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE")
         print("=" * 60)
         
-        # Load dataset
-        print("1. Loading ROCOv2 dataset from HuggingFace...")
+        # Load dataset based on type
+        if self.dataset_type == "rocov2":
+            print("1. Loading ROCOv2 dataset from HuggingFace...")
+        elif self.dataset_type in ["imageclef_natural", "imageclef_synth"]:
+            print(f"1. Loading ImageCLEF dataset ({self.dataset_type}) from local files...")
+        else:
+            print(f"1. Loading dataset: {self.dataset_type}...")
+        
         self.data_handler.load_dataset()
         
         # Get dataset info
         info = self.data_handler.get_dataset_info()
         print(f"   Dataset info: {info}")
+
+        db_path = f"{self.dataset_type}_{self.rag_model_name}"
         
         # Check if vector database already exists
-        vectordb_path = self.config.get_vectordb_path()
+        vectordb_path = self.config.get_vectordb_path(db_path)
         
         if vectordb_path.exists() and (vectordb_path / "image_index.faiss").exists() and (vectordb_path / "metadata.json").exists():
             print("2. Loading existing vector database...")
@@ -116,22 +126,33 @@ class MedicalImageCaptioningPipeline:
             print("2. Building vector database from training data...")
             print("   Using memory-efficient streaming to prevent RAM explosion...")
             train_dataset = self.data_handler.get_train_samples_for_vectordb()
-            
+
             # Use a reasonable limit for initial testing to prevent memory issues
             # You can increase this or set to None for full dataset
-            max_samples = 10000  # Start with 10k samples, adjust as needed
+            max_samples = len(train_dataset)  # Start with all samples, adjust as needed
+
             print(f"   Processing up to {max_samples} training samples for vector database")
             
-            self.vectordb.build_from_huggingface_dataset(
-                train_dataset, 
-                batch_size=8,  # Smaller batch size for memory efficiency
-                max_samples=max_samples
-            )
-            
-            # Save the vector database for future use
-            print("3. Saving vector database for future use...")
+            # Use appropriate build method based on dataset type
+            if self.dataset_type == "rocov2":
+                self.vectordb.build_from_huggingface_dataset(
+                    train_dataset, 
+                    batch_size=16,  # Smaller batch size for memory efficiency
+                    max_samples=max_samples
+                )
+            elif self.dataset_type in ["imageclef_natural", "imageclef_synth"]:
+                self.vectordb.build_from_imageclef_dataset(
+                    train_dataset, 
+                    batch_size=4,  # Smaller batch size for memory efficiency
+                    max_samples=max_samples
+                )
+            else:
+                raise ValueError(f"Unknown dataset type: {self.dataset_type}")
+
+            # Save vector database for future use
+            print(f"   Saving vector database to: {vectordb_path}")
             self.vectordb.save(str(vectordb_path))
-            print(f"   Vector database saved to: {vectordb_path}")
+        
         
         print("Pipeline setup complete!")
         print("=" * 60)
@@ -151,27 +172,26 @@ class MedicalImageCaptioningPipeline:
         print("=" * 60)
         
         # Get validation samples
-        print(f"1. Sampling {self.num_validation_samples} validation images...")
-        validation_samples = self.data_handler.get_validation_samples(
-            previous_num_samples=self.previous_num_validation_samples,
-            num_samples=self.num_validation_samples,
-            random_seed=self.random_seed
-        )
-        
-        print(f"   Processing {len(validation_samples)} validation samples")
+        validation_samples = self.data_handler.get_test_samples()
+        print(f"1. Processing {len(validation_samples)} validation samples")
             
         # Generate timestamp for output file
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
         jsonl_path = self.config.get_responses_path(timestamp)
-        
+
         # Process each validation sample
         results = []
         total_cost = 0.0
         
-        for i, sample in enumerate(validation_samples):
+        global missing_ids
+
+        for i, sample in enumerate(validation_samples[9826:9827]):
             print(f"\n2.{i+1} Processing sample {i+1}/{len(validation_samples)}")
             print(f"   Image ID: {sample['image_id']}")
-            
+
+            if sample['image_id'] not in missing_ids:
+                continue
+
             try:
                 if self.num_rag_examples > 0:
                     # Find similar images for RAG
@@ -179,7 +199,7 @@ class MedicalImageCaptioningPipeline:
                         sample['image'], 
                         k=self.num_rag_examples
                     )
-                
+
                     print(f"   Found {len(similar_images)} similar images for RAG")
                 
                     # Generate caption with RAG
@@ -248,7 +268,7 @@ class MedicalImageCaptioningPipeline:
                 if save_results:
                     with open(jsonl_path, "a", encoding="utf-8") as f:
                         f.write(json.dumps(error_result, ensure_ascii=False) + "\n")
-        
+            
         # Print summary
         print("\n" + "=" * 60)
         print("CAPTION GENERATION COMPLETE")
@@ -433,12 +453,14 @@ def main(config: Config):
     """Main function to run the medical image captioning pipeline."""
     # Check for API key
     provider = config.get_model_config().get('provider')
+
     if not os.getenv("OPENAI_API_KEY") and provider == "openai":
         print("Error: Please set OPENAI_API_KEY in your .env file")
         return
     
-    api = os.getenv("GOOGLE_API_KEY")
-    print(api, type(api))
+    if not os.getenv("DEEPINFRA_API_TOKEN") and provider == "deepinfra":
+        print("Error: Please set DEEPINFRA_API_TOKEN in your .env file")
+        return
 
     if not os.getenv("GOOGLE_API_KEY") and provider == "google":
         print("Error: Please set GOOGLE_API_KEY in your .env file")
@@ -479,44 +501,23 @@ def main(config: Config):
         raise
 
 def experiment_loop():
-    model_names = ["gemini-2.0-flash-lite",
-                   "gemini-2.0-flash",
-                   "gemini-2.5-flash-lite",
-                   "gemini-2.5-flash",
-                   "gemini-2.5-pro",
-                   "gemma-3-4b-it",
-                   "gemma-3-12b-it",
-                   "gemma-3-27b-it"
-                ]
+    dataset_types = ['imageclef_natural', 'imageclef_synth']
+    for dataset_type in dataset_types:
+        config = get_config()
+        config.update_dataset_config({"type": dataset_type})
+        main(config)
 
-    rag_examples = [0, 3]
+missing_ids = []
 
-    prompt_prefixes = ["simple"]
-
-    for prompt_prefix in prompt_prefixes:
-        for model_name in model_names:
-            for num_rag_examples in rag_examples:
-                print(f"Running pipeline with model: {model_name}, RAG examples: {num_rag_examples}")
-                config = get_config()
-
-                config.update_model_config({'name': model_name})
-                config.update_rag_config({'num_examples': num_rag_examples})
-                config.update_prompt_config({'prefix': prompt_prefix})
-
-                main(config)
+def remaining_samples_loop():
+    global missing_ids
+    with open('error_image_ids.txt', 'r') as file:
+        for line in file:
+            missing_ids.append(line.strip())
+    config = get_config()
+    config.update_dataset_config({"type": "imageclef_synth"})
+    main(config)
 
 if __name__ == "__main__":
-    # experiment_loop()
-    model_name = "google/medgemma-4b-it"
-    rag_examples = 0
-    prompt_prefix = "simple"
-
-    print(f"Running pipeline with model: {model_name}, RAG examples: {rag_examples}")
-    config = get_config()
-
-    config.update_model_config({'name': model_name})
-    config.update_rag_config({'num_examples': rag_examples})
-    config.update_prompt_config({'prefix': prompt_prefix})
-    config.update_model_config({'provider': 'huggingface'})
-
-    main(config)
+    experiment_loop()
+    

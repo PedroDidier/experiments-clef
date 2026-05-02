@@ -67,9 +67,9 @@ vectordb/
 
 # Data directories
 data/
+data_img_clef/
 train/
 valid/
 __pycache__/
 .cache
 vectordb/
-data/

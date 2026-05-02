@@ -189,10 +189,18 @@ class Config:
         
         for key, value in new_config.items():
             self.config_data['prompt'][key] = value
+        
+    def update_dataset_config(self, new_config: Dict[str, Any]):
+        """Update dataset configuration."""
+        if 'dataset' not in self.config_data:
+            self.config_data['dataset'] = {}
+        
+        for key, value in new_config.items():
+            self.config_data['dataset'][key] = value
 
 
 # Global configuration instance
-config = Config(config_file="config_google.yaml")
+config = Config(config_file="config_deepinfra.yaml")
 
 # Convenience function to get config
 def get_config() -> Config:
