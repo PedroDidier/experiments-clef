@@ -27,7 +27,7 @@ dataset:
 rag:
   num_examples: 3  # Number of similar examples to use
   similarity_threshold: 0.7  # Minimum similarity score for examples
-  model_name: "google/medsiglip-448"
+  model_name: "openai/clip-vit-base-patch32"  # Model for computing similarity (e.g., OpenAI CLIP)
 
 # Memory Configuration
 memory:

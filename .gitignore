@@ -64,6 +64,8 @@ huggingface_cache/
 # Pipeline outputs
 pipeline_state/
 vectordb/
+combined_responses/
+responses_medgemma/
 
 # Data directories
 data/
@@ -72,4 +74,4 @@ train/
 valid/
 __pycache__/
 .cache
-vectordb/
+vectordb*/
