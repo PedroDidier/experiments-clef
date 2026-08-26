@@ -9,7 +9,8 @@ import faiss
 import numpy as np
 import torch
 from PIL import Image
-from transformers import CLIPModel, CLIPProcessor
+from transformers import CLIPModel, CLIPProcessor, AutoModel, AutoProcessor
+
 
 from ..config import get_config
 
@@ -28,8 +29,12 @@ class ImageVectorDB:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"Using device: {self.device}")
         
-        # Load CLIP model and processor
-        self._load_clip_model()
+        # Load model and processor
+        if "medsiglip" in self.model_name.lower():
+            self._load_medsiglip_model()
+        else:
+            self._load_clip_model()
+
         
         # Initialize FAISS index (will be created when data is added)
         self.index = None
@@ -79,7 +84,34 @@ class ImageVectorDB:
                 raise RuntimeError(
                     f"Failed to load any CLIP model. Original error: {e}, Alternative error: {e2}"
                 )
-    
+            
+    def _load_medsiglip_model(self):
+        """Load the MedSigCLIP model and processor."""
+        try:
+            # Get configuration
+            config = get_config()
+            cache_dir = str(config.cache_dir)
+
+            print(f"Loading MedSigLIP model: {self.model_name}")
+
+            self.model = AutoModel.from_pretrained(
+                self.model_name, 
+                cache_dir=cache_dir
+            ).to(self.device)
+
+            self.processor = AutoProcessor.from_pretrained(
+                self.model_name, 
+                cache_dir=cache_dir
+            )
+
+            print(f"Successfully loaded MedSigLIP model: {self.model_name}")
+
+        except Exception as e:
+            print(f"Error loading MedSigLIP model {self.model_name}: {e}")
+            print(f"Falling back to default CLIP model")
+            self.model_name = "openai/clip-vit-base-patch32"
+            self._load_clip_model()
+
     def _get_memory_usage(self) -> Dict[str, float]:
         """Get current memory usage in MB."""
         process = psutil.Process(os.getpid())
@@ -280,6 +312,160 @@ class ImageVectorDB:
         print("  - Images not stored in memory for efficiency")
         print("  - Vector database ready for similarity search")
     
+    def build_from_imageclef_dataset(self, train_dataset, batch_size: int = 16, max_samples: int = None):
+        """
+        Build the vector database from ImageClef dataset with memory-efficient processing.
+        
+        The ImageClefDataHandler returns samples with:
+            - 'image': Path object to the image file
+            - 'caption': String caption
+            - 'image_id': String image identifier
+        
+        Args:
+            train_dataset: List of training samples from ImageClefDataHandler
+            batch_size (int): Batch size for processing (reduced for memory efficiency)
+            max_samples (int): Maximum number of samples to process (None for all)
+        """
+        print("Building vector database from ImageCleF dataset...")
+        print("This will prevent RAM explosion by processing data in small batches...")
+        
+        # Print initial memory usage
+        self._print_memory_usage("before building")
+        
+        # Create FAISS index
+        self.index = faiss.IndexFlatIP(self.embedding_dim)  # Inner product similarity
+        
+        # Process images in streaming batches to avoid memory issues
+        all_embeddings = []
+        successful_count = 0
+        processed_count = 0
+        
+        # Determine total samples to process
+        if hasattr(train_dataset, '__len__'):
+            total_samples = len(train_dataset)
+            if max_samples:
+                total_samples = min(total_samples, max_samples)
+        else:
+            total_samples = max_samples or "unknown"
+        
+        print(f"Processing up to {total_samples} training samples in batches of {batch_size}")
+        
+        # Process in streaming batches
+        for i in range(0, total_samples if isinstance(total_samples, int) else 999999, batch_size):
+            batch_end = min(i + batch_size, total_samples) if isinstance(total_samples, int) else i + batch_size
+            
+            # Get batch of samples
+            try:
+                if hasattr(train_dataset, '__getitem__'):
+                    # Handle list indexing
+                    batch_samples = []
+                    for j in range(i, batch_end):
+                        if j >= len(train_dataset):
+                            break
+                        sample = train_dataset[j]
+                        batch_samples.append(sample)
+                else:
+                    # Handle iterator
+                    batch_samples = next(train_dataset, [])
+                    if not batch_samples:
+                        break
+            except (IndexError, StopIteration):
+                break
+            
+            if not batch_samples:
+                break
+            
+            print(f"Processing batch {i//batch_size + 1} ({len(batch_samples)} samples) - Total processed: {processed_count}")
+            
+            batch_embeddings = []
+            for sample in batch_samples:
+                try:
+                    # ImageClef returns string path (or Path object)
+                    image_path = sample['image']
+                    caption = sample['caption']
+                    image_id = sample['image_id']
+                    
+                    # Load image from path (handles both string and Path)
+                    try:
+                        image = Image.open(image_path).convert("RGB")
+                    except Exception as e:
+                        print(f"Warning: Could not load image {image_path}: {e}")
+                        processed_count += 1
+                        continue
+                    
+                    # Get embedding
+                    embedding = self._get_image_embedding(image)
+                    
+                    # Only add if embedding is valid (not all zeros)
+                    if np.any(embedding):
+                        batch_embeddings.append(embedding)
+                        
+                        # Store metadata WITHOUT the image to save memory
+                        self.image_metadata[successful_count] = {
+                            "image_id": image_id,
+                            "caption": caption,
+                            "image_path": str(image_path),
+                            # Don't store the image in memory - we'll reload it when needed
+                        }
+                        successful_count += 1
+                    else:
+                        print(f"Warning: Failed to generate embedding for {image_id}")
+                    
+                    processed_count += 1
+                    
+                    # Clear the image from memory immediately
+                    del image
+                    
+                except Exception as e:
+                    print(f"Error processing sample {sample.get('image_id', 'unknown')}: {e}")
+                    processed_count += 1
+                    continue
+            
+            # Add batch embeddings to the main list
+            if batch_embeddings:
+                all_embeddings.extend(batch_embeddings)
+            
+            # Clear batch embeddings from memory
+            del batch_embeddings
+            
+            # Force garbage collection after each batch
+            self._force_cleanup()
+            
+            # Print memory usage every 10 batches
+            if (i // batch_size) % 10 == 0:
+                self._print_memory_usage(f"after batch {i//batch_size + 1}")
+            
+            # Check if we've reached max_samples
+            if max_samples and processed_count >= max_samples:
+                break
+        
+        if not all_embeddings:
+            raise ValueError(
+                "No valid embeddings were generated. Check your images and captions."
+            )
+        
+        print(f"Adding {len(all_embeddings)} embeddings to FAISS index...")
+        
+        # Add all embeddings to the index in chunks to avoid memory issues
+        chunk_size = 10000  # Process embeddings in chunks
+        for i in range(0, len(all_embeddings), chunk_size):
+            chunk = all_embeddings[i:i + chunk_size]
+            chunk_array = np.vstack(chunk).astype(np.float32)
+            self.index.add(chunk_array)
+            del chunk_array
+        
+        # Clear embeddings from memory
+        del all_embeddings
+        self._force_cleanup()
+        
+        # Print final memory usage
+        self._print_memory_usage("after building")
+        
+        print(f"Successfully added {successful_count} image embeddings to the index")
+        print(f"Total samples processed: {processed_count}")
+        print("  - Images not stored in memory for efficiency")
+        print("  - Vector database ready for similarity search")
+    
     def build_from_image_files(self, image_dir: str, captions_file: str, batch_size: int = 32):
         """
         Build the vector database from image files and captions CSV (legacy method).
@@ -360,6 +546,18 @@ class ImageVectorDB:
         
         print(f"Successfully added {len(all_embeddings)} image embeddings to the index")
     
+    def build_from_dict(self, data_dict: Dict[str, Any], batch_size: int = 16, max_samples: int = None):
+        """
+        Build the vector database from a dictionary of image data.
+        
+        Args:
+            data_dict (Dict[str, Any]): Dictionary containing image data
+            batch_size (int): Number of images to process in each batch
+            max_samples (int): Maximum number of samples to process (None for all)
+        """
+        # Implementation for building from dictionary
+        pass
+
     def search_similar_images(self, query_image: Image.Image, k: int = 5) -> List[Dict[str, Any]]:
         """
         Search for similar images to the query image.
@@ -370,12 +568,19 @@ class ImageVectorDB:
             
         Returns:
             List[Dict[str, Any]]: List of similar images with metadata
-        """
+        """         
         if self.index is None:
             raise ValueError(
                 "Vector database not loaded. Please build the database first."
             )
         
+        if type(query_image) != Image.Image and type(query_image) == str:
+            try:
+                query_image = Image.open(query_image).convert("RGB")
+            except Exception as e:
+                print(f"Error loading query image {query_image}: {e}")
+                return []
+
         # Get embedding for query image
         query_embedding = self._get_image_embedding(query_image)
         

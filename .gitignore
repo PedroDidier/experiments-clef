@@ -1,3 +1,9 @@
+# Results
+evaluation_results/
+responses/
+evaluation_700/
+*.csv
+
 # Python
 __pycache__/
 *.py[cod]
@@ -58,12 +64,14 @@ huggingface_cache/
 # Pipeline outputs
 pipeline_state/
 vectordb/
+combined_responses/
+responses_medgemma/
 
 # Data directories
 data/
+data_img_clef/
 train/
 valid/
 __pycache__/
 .cache
-vectordb/
-data/
+vectordb*/

@@ -3,16 +3,16 @@
 
 # Model Configuration
 model:
-  provider: "google"  # Options: openai, google
+  provider: "deepinfra"  # Options: openai, google, deepinfra
   # OpenAI model name options: gpt-4o, gpt-4-turbo, gpt-4, gpt-4o-mini, gpt-5-mini, gpt-3.5-turbo
   # Google model name options: gemini-1.5-flash, gemini-1.5-pro, gemini-2.5-flash, gemini-2.5-pro
-  name: "gemma-3-27b-it"
+  name: "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
   temperature: 0.1
   max_tokens: 100000
 
 # Prompt Configuration
 prompt:
-  prefix: "base"
+  prefix: "specific"
 
 # Dataset Configuration
 dataset:
@@ -27,6 +27,7 @@ dataset:
 rag:
   num_examples: 3  # Number of similar examples to use
   similarity_threshold: 0.7  # Minimum similarity score for examples
+  model_name: "openai/clip-vit-base-patch32"  # Model for computing similarity (e.g., OpenAI CLIP)
 
 # Memory Configuration
 memory:

@@ -7,8 +7,12 @@ from pathlib import Path
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_community.chat_models import ChatDeepInfra
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import JsonOutputParser
+import torch
+from langchain_huggingface import HuggingFacePipeline
+from transformers import pipeline
 
 load_dotenv()
 
@@ -19,7 +23,8 @@ class MedicalImageCaptioner:
     def __init__(self, provider: str = "openai", 
                  model_name: str = "gpt-4o", 
                  temperature: float = 0.1, 
-                 max_tokens: int = 1000):
+                 max_tokens: int = 1000,
+                 prompt_prefix: str = "base"):
         """
         Initialize the medical image captioner.
         
@@ -31,7 +36,8 @@ class MedicalImageCaptioner:
         self.model_name = model_name
         self.temperature = temperature
         self.max_tokens = max_tokens
-        
+        self.prompt_prefix = prompt_prefix
+
         # Check if model supports vision
         vision_models = ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview"]
         if model_name not in vision_models:
@@ -49,7 +55,7 @@ class MedicalImageCaptioner:
         self.json_parser = JsonOutputParser()
         
         # Load the base prompt
-        self.base_prompt = self._load_prompt("simple")
+        self.base_prompt = self._load_prompt(self.prompt_prefix)
         
     def _load_prompt(self, prefix: str) -> str:
         """Load the prompt from file."""
@@ -60,6 +66,25 @@ class MedicalImageCaptioner:
         
         with open(prompt_path, "r", encoding="utf-8") as f:
             return f.read()
+    
+    def _parse_json_response(self, content: str) -> Dict[str, Any]:
+        """
+        Parse JSON response, handling cases where it's wrapped in markdown code blocks.
+        
+        Args:
+            content (str): The raw response content
+            
+        Returns:
+            Dict[str, Any]: Parsed JSON data
+        """
+        content = content.strip()
+        
+        # Check if wrapped in ```json ... ```
+        if content.startswith("```json") and content.endswith("```"):
+            json_str = content[7:-3].strip()  # Remove ```json and ```
+            return json.loads(json_str)
+        else:
+            return json.loads(content)
     
     def _image_to_base64(self, image_input) -> str:
         """
@@ -131,6 +156,7 @@ class MedicalImageCaptioner:
             "gpt-4-turbo": (10.00, 30.00),
             "gpt-4": (30.00, 60.00),
             "gpt-3.5-turbo": (0.50, 1.50),
+            "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8": (0.15, 0.6)
         }
         
         # Get pricing for the model
@@ -155,7 +181,23 @@ class MedicalImageCaptioner:
                 model=model_name,
                 temperature=temperature,
                 max_output_tokens=max_tokens,
+                thinking_budget=128
             )
+        elif provider == "huggingface":
+            model_kwargs = dict(
+                torch_dtype=torch.bfloat16,
+                device_map="auto",
+            )
+            pipe = pipeline(model=model_name, model_kwargs=model_kwargs)
+            pipe.model.generation_config.do_sample = False
+            return HuggingFacePipeline(pipeline=pipe)
+        elif provider =="deepinfra":
+            return ChatDeepInfra(
+                model=model_name,
+                temperature=temperature,
+                max_tokens=1000000
+            )
+ 
         else:
             raise ValueError(f"Unsupported provider: {provider}")
         
@@ -183,14 +225,15 @@ class MedicalImageCaptioner:
             
             # Generate response
             response = self.llm.invoke([message])
-            
+            print(response)
+
             # Parse the JSON response
             try:
-                caption_data = json.loads(response.content)
+                caption_data = self._parse_json_response(response.content)
             except json.JSONDecodeError:
                 # Fallback if JSON parsing fails
                 caption_data = {"caption": response.content}
-            
+
             # Calculate token usage and cost
             token_usage = {
                 "input_tokens": response.response_metadata.get("token_usage", {}).get("prompt_tokens", 0),
@@ -266,10 +309,12 @@ class MedicalImageCaptioner:
             
             # Generate response
             response = self.llm.invoke([message])
-            
+
+            print("HEREEEEEE", response, type(response))
+
             # Parse the JSON response
             try:
-                caption_data = json.loads(response.content)
+                caption_data = self._parse_json_response(response.content)
             except json.JSONDecodeError:
                 # Fallback if JSON parsing fails
                 caption_data = {"caption": response.content}
