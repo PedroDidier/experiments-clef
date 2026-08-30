@@ -1,0 +1,7 @@
+{
+  "model_name": "google/medgemma-1.5-4b-it",
+  "num_validation_samples": 300,
+  "num_rag_examples": 3,
+  "random_seed": 42,
+  "timestamp": "2026-08-23T19:53:36.114955"
+}

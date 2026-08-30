@@ -76,35 +76,16 @@ class CostAnalyzer:
         if not self.results:
             return {"error": "No data loaded"}
         
-        # Calculate statistics
-        costs = [r.get("token_usage", {}).get("cost_usd", 0.0) for r in self.results]
-        input_tokens = [r.get("token_usage", {}).get("input_tokens", 0) for r in self.results]
-        output_tokens = [r.get("token_usage", {}).get("output_tokens", 0) for r in self.results]
-        total_tokens = [r.get("token_usage", {}).get("total_tokens", 0) for r in self.results]
+        total_cost = sum(r.get('token_usage', {}).get('cost_usd', 0.0) for r in self.results)
+        num_samples = len(self.results)
+        avg_cost = (total_cost / num_samples) if num_samples > 0 else 0.0
         
-        # Filter out zero values for meaningful statistics
-        costs_nonzero = [c for c in costs if c > 0]
-        input_tokens_nonzero = [t for t in input_tokens if t > 0]
-        output_tokens_nonzero = [t for t in output_tokens if t > 0]
-        total_tokens_nonzero = [t for t in total_tokens if t > 0]
-        
-        summary = {
-            "total_requests": len(self.results),
-            "successful_requests": len(costs_nonzero),
-            "failed_requests": len(self.results) - len(costs_nonzero),
-            "total_cost_usd": self.total_cost,
-            "total_tokens": self.total_tokens,
-            "average_cost_per_request": self.total_cost / len(self.results) if self.results else 0,
-            "average_cost_per_successful_request": sum(costs_nonzero) / len(costs_nonzero) if costs_nonzero else 0,
-            "average_input_tokens": sum(input_tokens_nonzero) / len(input_tokens_nonzero) if input_tokens_nonzero else 0,
-            "average_output_tokens": sum(output_tokens_nonzero) / len(output_tokens_nonzero) if output_tokens_nonzero else 0,
-            "average_total_tokens": sum(total_tokens_nonzero) / len(total_tokens_nonzero) if total_tokens_nonzero else 0,
-            "min_cost": min(costs_nonzero) if costs_nonzero else 0,
-            "max_cost": max(costs_nonzero) if costs_nonzero else 0,
-            "cost_std": pd.Series(costs_nonzero).std() if costs_nonzero else 0,
+        return {
+            "total_samples": num_samples,
+            "total_cost_usd": total_cost,
+            "average_cost_per_sample_usd": avg_cost,
+            "is_local_inference": total_cost == 0.0
         }
-        
-        return summary
     
     def create_cost_projections(self, target_requests: List[int] = None) -> Dict[int, float]:
         """

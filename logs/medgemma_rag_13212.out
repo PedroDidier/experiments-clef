@@ -1,0 +1,1428 @@
+==========================================
+Iniciando Job 13212 em Sun Aug 23 03:41:44 PM -03 2026
+Nó de execução: cluster-node6
+==========================================
+Configured caching to use C: drive: /home/CIN/agsl/.cache/huggingface
+
+---> Running pipeline: google/medgemma-1.5-4b-it | RAG k=0 <---
+Carregando modelo local google/medgemma-1.5-4b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Loading ROCOv2 dataset from HuggingFace: eltorio/ROCOv2-radiology
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded dataset with splits: ['train', 'validation', 'test']
+Train samples: 59962
+Validation samples: 9904
+Test samples: 9927
+   Dataset info: {'dataset_name': 'eltorio/ROCOv2-radiology', 'splits': ['train', 'validation', 'test'], 'train_samples': 59962, 'validation_samples': 9904, 'test_samples': 9927, 'features': ['image', 'image_id', 'caption', 'cui']}
+2. Building vector database from training data...
+   Using memory-efficient streaming to prevent RAM explosion...
+Preparing 59962 training samples for vector database
+Using memory-efficient streaming processing...
+   Processing up to 10000 training samples for vector database
+Using device: cuda
+Loading CLIP model: openai/clip-vit-base-patch32
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded CLIP model: openai/clip-vit-base-patch32
+Building vector database with memory-efficient streaming processing...
+This will prevent RAM explosion by processing data in small batches...
+Memory usage before building: RSS=1664.2MB, VMS=36070.6MB, Increase=0.0MB
+Processing up to 10000 training samples in batches of 8
+Processing batch 1 (8 samples) - Total processed: 0
+Memory usage after batch 1: RSS=1860.5MB, VMS=36643.1MB, Increase=196.2MB
+Processing batch 2 (8 samples) - Total processed: 8
+Processing batch 3 (8 samples) - Total processed: 16
+Processing batch 4 (8 samples) - Total processed: 24
+Processing batch 5 (8 samples) - Total processed: 32
+Processing batch 6 (8 samples) - Total processed: 40
+Processing batch 7 (8 samples) - Total processed: 48
+Processing batch 8 (8 samples) - Total processed: 56
+Processing batch 9 (8 samples) - Total processed: 64
+Processing batch 10 (8 samples) - Total processed: 72
+Processing batch 11 (8 samples) - Total processed: 80
+Memory usage after batch 11: RSS=1913.5MB, VMS=36676.0MB, Increase=249.2MB
+Processing batch 12 (8 samples) - Total processed: 88
+Processing batch 13 (8 samples) - Total processed: 96
+Processing batch 14 (8 samples) - Total processed: 104
+Processing batch 15 (8 samples) - Total processed: 112
+Processing batch 16 (8 samples) - Total processed: 120
+Processing batch 17 (8 samples) - Total processed: 128
+Processing batch 18 (8 samples) - Total processed: 136
+Processing batch 19 (8 samples) - Total processed: 144
+Processing batch 20 (8 samples) - Total processed: 152
+Processing batch 21 (8 samples) - Total processed: 160
+Memory usage after batch 21: RSS=1937.2MB, VMS=36681.7MB, Increase=272.9MB
+Processing batch 22 (8 samples) - Total processed: 168
+Processing batch 23 (8 samples) - Total processed: 176
+Processing batch 24 (8 samples) - Total processed: 184
+Processing batch 25 (8 samples) - Total processed: 192
+Processing batch 26 (8 samples) - Total processed: 200
+Processing batch 27 (8 samples) - Total processed: 208
+Processing batch 28 (8 samples) - Total processed: 216
+Processing batch 29 (8 samples) - Total processed: 224
+Processing batch 30 (8 samples) - Total processed: 232
+Processing batch 31 (8 samples) - Total processed: 240
+Memory usage after batch 31: RSS=1953.6MB, VMS=36681.7MB, Increase=289.3MB
+Processing batch 32 (8 samples) - Total processed: 248
+Processing batch 33 (8 samples) - Total processed: 256
+Processing batch 34 (8 samples) - Total processed: 264
+Processing batch 35 (8 samples) - Total processed: 272
+Processing batch 36 (8 samples) - Total processed: 280
+Processing batch 37 (8 samples) - Total processed: 288
+Processing batch 38 (8 samples) - Total processed: 296
+Processing batch 39 (8 samples) - Total processed: 304
+Processing batch 40 (8 samples) - Total processed: 312
+Processing batch 41 (8 samples) - Total processed: 320
+Memory usage after batch 41: RSS=1971.3MB, VMS=36681.7MB, Increase=307.1MB
+Processing batch 42 (8 samples) - Total processed: 328
+Processing batch 43 (8 samples) - Total processed: 336
+Processing batch 44 (8 samples) - Total processed: 344
+Processing batch 45 (8 samples) - Total processed: 352
+Processing batch 46 (8 samples) - Total processed: 360
+Processing batch 47 (8 samples) - Total processed: 368
+Processing batch 48 (8 samples) - Total processed: 376
+Processing batch 49 (8 samples) - Total processed: 384
+Processing batch 50 (8 samples) - Total processed: 392
+Processing batch 51 (8 samples) - Total processed: 400
+Memory usage after batch 51: RSS=1995.0MB, VMS=36688.2MB, Increase=330.8MB
+Processing batch 52 (8 samples) - Total processed: 408
+Processing batch 53 (8 samples) - Total processed: 416
+Processing batch 54 (8 samples) - Total processed: 424
+Processing batch 55 (8 samples) - Total processed: 432
+Processing batch 56 (8 samples) - Total processed: 440
+Processing batch 57 (8 samples) - Total processed: 448
+Processing batch 58 (8 samples) - Total processed: 456
+Processing batch 59 (8 samples) - Total processed: 464
+Processing batch 60 (8 samples) - Total processed: 472
+Processing batch 61 (8 samples) - Total processed: 480
+Memory usage after batch 61: RSS=2010.3MB, VMS=36688.2MB, Increase=346.0MB
+Processing batch 62 (8 samples) - Total processed: 488
+Processing batch 63 (8 samples) - Total processed: 496
+Processing batch 64 (8 samples) - Total processed: 504
+Processing batch 65 (8 samples) - Total processed: 512
+Processing batch 66 (8 samples) - Total processed: 520
+Processing batch 67 (8 samples) - Total processed: 528
+Processing batch 68 (8 samples) - Total processed: 536
+Processing batch 69 (8 samples) - Total processed: 544
+Processing batch 70 (8 samples) - Total processed: 552
+Processing batch 71 (8 samples) - Total processed: 560
+Memory usage after batch 71: RSS=2027.3MB, VMS=36688.5MB, Increase=363.0MB
+Processing batch 72 (8 samples) - Total processed: 568
+Processing batch 73 (8 samples) - Total processed: 576
+Processing batch 74 (8 samples) - Total processed: 584
+Processing batch 75 (8 samples) - Total processed: 592
+Processing batch 76 (8 samples) - Total processed: 600
+Processing batch 77 (8 samples) - Total processed: 608
+Processing batch 78 (8 samples) - Total processed: 616
+Processing batch 79 (8 samples) - Total processed: 624
+Processing batch 80 (8 samples) - Total processed: 632
+Processing batch 81 (8 samples) - Total processed: 640
+Memory usage after batch 81: RSS=2045.6MB, VMS=36688.5MB, Increase=381.3MB
+Processing batch 82 (8 samples) - Total processed: 648
+Processing batch 83 (8 samples) - Total processed: 656
+Processing batch 84 (8 samples) - Total processed: 664
+Processing batch 85 (8 samples) - Total processed: 672
+Processing batch 86 (8 samples) - Total processed: 680
+Processing batch 87 (8 samples) - Total processed: 688
+Processing batch 88 (8 samples) - Total processed: 696
+Processing batch 89 (8 samples) - Total processed: 704
+Processing batch 90 (8 samples) - Total processed: 712
+Processing batch 91 (8 samples) - Total processed: 720
+Memory usage after batch 91: RSS=2066.6MB, VMS=36691.3MB, Increase=402.3MB
+Processing batch 92 (8 samples) - Total processed: 728
+Processing batch 93 (8 samples) - Total processed: 736
+Processing batch 94 (8 samples) - Total processed: 744
+Processing batch 95 (8 samples) - Total processed: 752
+Processing batch 96 (8 samples) - Total processed: 760
+Processing batch 97 (8 samples) - Total processed: 768
+Processing batch 98 (8 samples) - Total processed: 776
+Processing batch 99 (8 samples) - Total processed: 784
+Processing batch 100 (8 samples) - Total processed: 792
+Processing batch 101 (8 samples) - Total processed: 800
+Memory usage after batch 101: RSS=2124.1MB, VMS=36730.9MB, Increase=459.8MB
+Processing batch 102 (8 samples) - Total processed: 808
+Processing batch 103 (8 samples) - Total processed: 816
+Processing batch 104 (8 samples) - Total processed: 824
+Processing batch 105 (8 samples) - Total processed: 832
+Processing batch 106 (8 samples) - Total processed: 840
+Processing batch 107 (8 samples) - Total processed: 848
+Processing batch 108 (8 samples) - Total processed: 856
+Processing batch 109 (8 samples) - Total processed: 864
+Processing batch 110 (8 samples) - Total processed: 872
+Processing batch 111 (8 samples) - Total processed: 880
+Memory usage after batch 111: RSS=2139.4MB, VMS=36730.9MB, Increase=475.2MB
+Processing batch 112 (8 samples) - Total processed: 888
+Processing batch 113 (8 samples) - Total processed: 896
+Processing batch 114 (8 samples) - Total processed: 904
+Processing batch 115 (8 samples) - Total processed: 912
+Processing batch 116 (8 samples) - Total processed: 920
+Processing batch 117 (8 samples) - Total processed: 928
+Processing batch 118 (8 samples) - Total processed: 936
+Processing batch 119 (8 samples) - Total processed: 944
+Processing batch 120 (8 samples) - Total processed: 952
+Processing batch 121 (8 samples) - Total processed: 960
+Memory usage after batch 121: RSS=2157.0MB, VMS=36730.9MB, Increase=492.7MB
+Processing batch 122 (8 samples) - Total processed: 968
+Processing batch 123 (8 samples) - Total processed: 976
+Processing batch 124 (8 samples) - Total processed: 984
+Processing batch 125 (8 samples) - Total processed: 992
+Processing batch 126 (8 samples) - Total processed: 1000
+Processing batch 127 (8 samples) - Total processed: 1008
+Processing batch 128 (8 samples) - Total processed: 1016
+Processing batch 129 (8 samples) - Total processed: 1024
+Processing batch 130 (8 samples) - Total processed: 1032
+Processing batch 131 (8 samples) - Total processed: 1040
+Memory usage after batch 131: RSS=2258.4MB, VMS=36813.5MB, Increase=594.1MB
+Processing batch 132 (8 samples) - Total processed: 1048
+Processing batch 133 (8 samples) - Total processed: 1056
+Processing batch 134 (8 samples) - Total processed: 1064
+Processing batch 135 (8 samples) - Total processed: 1072
+Processing batch 136 (8 samples) - Total processed: 1080
+Processing batch 137 (8 samples) - Total processed: 1088
+Processing batch 138 (8 samples) - Total processed: 1096
+Processing batch 139 (8 samples) - Total processed: 1104
+Processing batch 140 (8 samples) - Total processed: 1112
+Processing batch 141 (8 samples) - Total processed: 1120
+Memory usage after batch 141: RSS=2174.1MB, VMS=36712.2MB, Increase=509.9MB
+Processing batch 142 (8 samples) - Total processed: 1128
+Processing batch 143 (8 samples) - Total processed: 1136
+Processing batch 144 (8 samples) - Total processed: 1144
+Processing batch 145 (8 samples) - Total processed: 1152
+Processing batch 146 (8 samples) - Total processed: 1160
+Processing batch 147 (8 samples) - Total processed: 1168
+Processing batch 148 (8 samples) - Total processed: 1176
+Processing batch 149 (8 samples) - Total processed: 1184
+Processing batch 150 (8 samples) - Total processed: 1192
+Processing batch 151 (8 samples) - Total processed: 1200
+Memory usage after batch 151: RSS=2191.1MB, VMS=36712.2MB, Increase=526.9MB
+Processing batch 152 (8 samples) - Total processed: 1208
+Processing batch 153 (8 samples) - Total processed: 1216
+Processing batch 154 (8 samples) - Total processed: 1224
+Processing batch 155 (8 samples) - Total processed: 1232
+Processing batch 156 (8 samples) - Total processed: 1240
+Processing batch 157 (8 samples) - Total processed: 1248
+Processing batch 158 (8 samples) - Total processed: 1256
+Processing batch 159 (8 samples) - Total processed: 1264
+Processing batch 160 (8 samples) - Total processed: 1272
+Processing batch 161 (8 samples) - Total processed: 1280
+Memory usage after batch 161: RSS=2208.0MB, VMS=36712.2MB, Increase=543.8MB
+Processing batch 162 (8 samples) - Total processed: 1288
+Processing batch 163 (8 samples) - Total processed: 1296
+Processing batch 164 (8 samples) - Total processed: 1304
+Processing batch 165 (8 samples) - Total processed: 1312
+Processing batch 166 (8 samples) - Total processed: 1320
+Processing batch 167 (8 samples) - Total processed: 1328
+Processing batch 168 (8 samples) - Total processed: 1336
+Processing batch 169 (8 samples) - Total processed: 1344
+Processing batch 170 (8 samples) - Total processed: 1352
+Processing batch 171 (8 samples) - Total processed: 1360
+Memory usage after batch 171: RSS=2237.2MB, VMS=36724.9MB, Increase=573.0MB
+Processing batch 172 (8 samples) - Total processed: 1368
+Processing batch 173 (8 samples) - Total processed: 1376
+Processing batch 174 (8 samples) - Total processed: 1384
+Processing batch 175 (8 samples) - Total processed: 1392
+Processing batch 176 (8 samples) - Total processed: 1400
+Processing batch 177 (8 samples) - Total processed: 1408
+Processing batch 178 (8 samples) - Total processed: 1416
+Processing batch 179 (8 samples) - Total processed: 1424
+Processing batch 180 (8 samples) - Total processed: 1432
+Processing batch 181 (8 samples) - Total processed: 1440
+Memory usage after batch 181: RSS=2253.8MB, VMS=36724.9MB, Increase=589.5MB
+Processing batch 182 (8 samples) - Total processed: 1448
+Processing batch 183 (8 samples) - Total processed: 1456
+Processing batch 184 (8 samples) - Total processed: 1464
+Processing batch 185 (8 samples) - Total processed: 1472
+Processing batch 186 (8 samples) - Total processed: 1480
+Processing batch 187 (8 samples) - Total processed: 1488
+Processing batch 188 (8 samples) - Total processed: 1496
+Processing batch 189 (8 samples) - Total processed: 1504
+Processing batch 190 (8 samples) - Total processed: 1512
+Processing batch 191 (8 samples) - Total processed: 1520
+Memory usage after batch 191: RSS=2270.4MB, VMS=36724.9MB, Increase=606.2MB
+Processing batch 192 (8 samples) - Total processed: 1528
+Processing batch 193 (8 samples) - Total processed: 1536
+Processing batch 194 (8 samples) - Total processed: 1544
+Processing batch 195 (8 samples) - Total processed: 1552
+Processing batch 196 (8 samples) - Total processed: 1560
+Processing batch 197 (8 samples) - Total processed: 1568
+Processing batch 198 (8 samples) - Total processed: 1576
+Processing batch 199 (8 samples) - Total processed: 1584
+Processing batch 200 (8 samples) - Total processed: 1592
+Processing batch 201 (8 samples) - Total processed: 1600
+Memory usage after batch 201: RSS=2285.8MB, VMS=36724.9MB, Increase=621.5MB
+Processing batch 202 (8 samples) - Total processed: 1608
+Processing batch 203 (8 samples) - Total processed: 1616
+Processing batch 204 (8 samples) - Total processed: 1624
+Processing batch 205 (8 samples) - Total processed: 1632
+Processing batch 206 (8 samples) - Total processed: 1640
+Processing batch 207 (8 samples) - Total processed: 1648
+Processing batch 208 (8 samples) - Total processed: 1656
+Processing batch 209 (8 samples) - Total processed: 1664
+Processing batch 210 (8 samples) - Total processed: 1672
+Processing batch 211 (8 samples) - Total processed: 1680
+Memory usage after batch 211: RSS=2317.7MB, VMS=36737.4MB, Increase=653.5MB
+Processing batch 212 (8 samples) - Total processed: 1688
+Processing batch 213 (8 samples) - Total processed: 1696
+Processing batch 214 (8 samples) - Total processed: 1704
+Processing batch 215 (8 samples) - Total processed: 1712
+Processing batch 216 (8 samples) - Total processed: 1720
+Processing batch 217 (8 samples) - Total processed: 1728
+Processing batch 218 (8 samples) - Total processed: 1736
+Processing batch 219 (8 samples) - Total processed: 1744
+Processing batch 220 (8 samples) - Total processed: 1752
+Processing batch 221 (8 samples) - Total processed: 1760
+Memory usage after batch 221: RSS=2332.2MB, VMS=36737.4MB, Increase=668.0MB
+Processing batch 222 (8 samples) - Total processed: 1768
+Processing batch 223 (8 samples) - Total processed: 1776
+Processing batch 224 (8 samples) - Total processed: 1784
+Processing batch 225 (8 samples) - Total processed: 1792
+Processing batch 226 (8 samples) - Total processed: 1800
+Processing batch 227 (8 samples) - Total processed: 1808
+Processing batch 228 (8 samples) - Total processed: 1816
+Processing batch 229 (8 samples) - Total processed: 1824
+Processing batch 230 (8 samples) - Total processed: 1832
+Processing batch 231 (8 samples) - Total processed: 1840
+Memory usage after batch 231: RSS=2348.1MB, VMS=36737.4MB, Increase=683.8MB
+Processing batch 232 (8 samples) - Total processed: 1848
+Processing batch 233 (8 samples) - Total processed: 1856
+Processing batch 234 (8 samples) - Total processed: 1864
+Processing batch 235 (8 samples) - Total processed: 1872
+Processing batch 236 (8 samples) - Total processed: 1880
+Processing batch 237 (8 samples) - Total processed: 1888
+Processing batch 238 (8 samples) - Total processed: 1896
+Processing batch 239 (8 samples) - Total processed: 1904
+Processing batch 240 (8 samples) - Total processed: 1912
+Processing batch 241 (8 samples) - Total processed: 1920
+Memory usage after batch 241: RSS=2364.4MB, VMS=36737.4MB, Increase=700.2MB
+Processing batch 242 (8 samples) - Total processed: 1928
+Processing batch 243 (8 samples) - Total processed: 1936
+Processing batch 244 (8 samples) - Total processed: 1944
+Processing batch 245 (8 samples) - Total processed: 1952
+Processing batch 246 (8 samples) - Total processed: 1960
+Processing batch 247 (8 samples) - Total processed: 1968
+Processing batch 248 (8 samples) - Total processed: 1976
+Processing batch 249 (8 samples) - Total processed: 1984
+Processing batch 250 (8 samples) - Total processed: 1992
+Processing batch 251 (8 samples) - Total processed: 2000
+Memory usage after batch 251: RSS=2380.7MB, VMS=36737.4MB, Increase=716.5MB
+Processing batch 252 (8 samples) - Total processed: 2008
+Processing batch 253 (8 samples) - Total processed: 2016
+Processing batch 254 (8 samples) - Total processed: 2024
+Processing batch 255 (8 samples) - Total processed: 2032
+Processing batch 256 (8 samples) - Total processed: 2040
+Processing batch 257 (8 samples) - Total processed: 2048
+Processing batch 258 (8 samples) - Total processed: 2056
+Processing batch 259 (8 samples) - Total processed: 2064
+Processing batch 260 (8 samples) - Total processed: 2072
+Processing batch 261 (8 samples) - Total processed: 2080
+Memory usage after batch 261: RSS=2396.0MB, VMS=36737.4MB, Increase=731.7MB
+Processing batch 262 (8 samples) - Total processed: 2088
+Processing batch 263 (8 samples) - Total processed: 2096
+Processing batch 264 (8 samples) - Total processed: 2104
+Processing batch 265 (8 samples) - Total processed: 2112
+Processing batch 266 (8 samples) - Total processed: 2120
+Processing batch 267 (8 samples) - Total processed: 2128
+Processing batch 268 (8 samples) - Total processed: 2136
+Processing batch 269 (8 samples) - Total processed: 2144
+Processing batch 270 (8 samples) - Total processed: 2152
+Processing batch 271 (8 samples) - Total processed: 2160
+Memory usage after batch 271: RSS=2411.8MB, VMS=36737.4MB, Increase=747.6MB
+Processing batch 272 (8 samples) - Total processed: 2168
+Processing batch 273 (8 samples) - Total processed: 2176
+Processing batch 274 (8 samples) - Total processed: 2184
+Processing batch 275 (8 samples) - Total processed: 2192
+Processing batch 276 (8 samples) - Total processed: 2200
+Processing batch 277 (8 samples) - Total processed: 2208
+Processing batch 278 (8 samples) - Total processed: 2216
+Processing batch 279 (8 samples) - Total processed: 2224
+Processing batch 280 (8 samples) - Total processed: 2232
+Processing batch 281 (8 samples) - Total processed: 2240
+Memory usage after batch 281: RSS=2432.2MB, VMS=36737.4MB, Increase=768.0MB
+Processing batch 282 (8 samples) - Total processed: 2248
+Processing batch 283 (8 samples) - Total processed: 2256
+Processing batch 284 (8 samples) - Total processed: 2264
+Processing batch 285 (8 samples) - Total processed: 2272
+Processing batch 286 (8 samples) - Total processed: 2280
+Processing batch 287 (8 samples) - Total processed: 2288
+Processing batch 288 (8 samples) - Total processed: 2296
+Processing batch 289 (8 samples) - Total processed: 2304
+Processing batch 290 (8 samples) - Total processed: 2312
+Processing batch 291 (8 samples) - Total processed: 2320
+Memory usage after batch 291: RSS=2449.3MB, VMS=36737.4MB, Increase=785.0MB
+Processing batch 292 (8 samples) - Total processed: 2328
+Processing batch 293 (8 samples) - Total processed: 2336
+Processing batch 294 (8 samples) - Total processed: 2344
+Processing batch 295 (8 samples) - Total processed: 2352
+Processing batch 296 (8 samples) - Total processed: 2360
+Processing batch 297 (8 samples) - Total processed: 2368
+Processing batch 298 (8 samples) - Total processed: 2376
+Processing batch 299 (8 samples) - Total processed: 2384
+Processing batch 300 (8 samples) - Total processed: 2392
+Processing batch 301 (8 samples) - Total processed: 2400
+Memory usage after batch 301: RSS=2463.7MB, VMS=36737.4MB, Increase=799.5MB
+Processing batch 302 (8 samples) - Total processed: 2408
+Processing batch 303 (8 samples) - Total processed: 2416
+Processing batch 304 (8 samples) - Total processed: 2424
+Processing batch 305 (8 samples) - Total processed: 2432
+Processing batch 306 (8 samples) - Total processed: 2440
+Processing batch 307 (8 samples) - Total processed: 2448
+Processing batch 308 (8 samples) - Total processed: 2456
+Processing batch 309 (8 samples) - Total processed: 2464
+Processing batch 310 (8 samples) - Total processed: 2472
+Processing batch 311 (8 samples) - Total processed: 2480
+Memory usage after batch 311: RSS=2478.7MB, VMS=36737.4MB, Increase=814.5MB
+Processing batch 312 (8 samples) - Total processed: 2488
+Processing batch 313 (8 samples) - Total processed: 2496
+Processing batch 314 (8 samples) - Total processed: 2504
+Processing batch 315 (8 samples) - Total processed: 2512
+Processing batch 316 (8 samples) - Total processed: 2520
+Processing batch 317 (8 samples) - Total processed: 2528
+Processing batch 318 (8 samples) - Total processed: 2536
+Processing batch 319 (8 samples) - Total processed: 2544
+Processing batch 320 (8 samples) - Total processed: 2552
+Processing batch 321 (8 samples) - Total processed: 2560
+Memory usage after batch 321: RSS=2494.0MB, VMS=36737.4MB, Increase=829.8MB
+Processing batch 322 (8 samples) - Total processed: 2568
+Processing batch 323 (8 samples) - Total processed: 2576
+Processing batch 324 (8 samples) - Total processed: 2584
+Processing batch 325 (8 samples) - Total processed: 2592
+Processing batch 326 (8 samples) - Total processed: 2600
+Processing batch 327 (8 samples) - Total processed: 2608
+Processing batch 328 (8 samples) - Total processed: 2616
+Processing batch 329 (8 samples) - Total processed: 2624
+Processing batch 330 (8 samples) - Total processed: 2632
+Processing batch 331 (8 samples) - Total processed: 2640
+Memory usage after batch 331: RSS=2541.3MB, VMS=36766.5MB, Increase=877.0MB
+Processing batch 332 (8 samples) - Total processed: 2648
+Processing batch 333 (8 samples) - Total processed: 2656
+Processing batch 334 (8 samples) - Total processed: 2664
+Processing batch 335 (8 samples) - Total processed: 2672
+Processing batch 336 (8 samples) - Total processed: 2680
+Processing batch 337 (8 samples) - Total processed: 2688
+Processing batch 338 (8 samples) - Total processed: 2696
+Processing batch 339 (8 samples) - Total processed: 2704
+Processing batch 340 (8 samples) - Total processed: 2712
+Processing batch 341 (8 samples) - Total processed: 2720
+Memory usage after batch 341: RSS=2561.0MB, VMS=36766.5MB, Increase=896.8MB
+Processing batch 342 (8 samples) - Total processed: 2728
+Processing batch 343 (8 samples) - Total processed: 2736
+Processing batch 344 (8 samples) - Total processed: 2744
+Processing batch 345 (8 samples) - Total processed: 2752
+Processing batch 346 (8 samples) - Total processed: 2760
+Processing batch 347 (8 samples) - Total processed: 2768
+Processing batch 348 (8 samples) - Total processed: 2776
+Processing batch 349 (8 samples) - Total processed: 2784
+Processing batch 350 (8 samples) - Total processed: 2792
+Processing batch 351 (8 samples) - Total processed: 2800
+Memory usage after batch 351: RSS=2581.4MB, VMS=36766.5MB, Increase=917.2MB
+Processing batch 352 (8 samples) - Total processed: 2808
+Processing batch 353 (8 samples) - Total processed: 2816
+Processing batch 354 (8 samples) - Total processed: 2824
+Processing batch 355 (8 samples) - Total processed: 2832
+Processing batch 356 (8 samples) - Total processed: 2840
+Processing batch 357 (8 samples) - Total processed: 2848
+Processing batch 358 (8 samples) - Total processed: 2856
+Processing batch 359 (8 samples) - Total processed: 2864
+Processing batch 360 (8 samples) - Total processed: 2872
+Processing batch 361 (8 samples) - Total processed: 2880
+Memory usage after batch 361: RSS=2598.0MB, VMS=36766.5MB, Increase=933.7MB
+Processing batch 362 (8 samples) - Total processed: 2888
+Processing batch 363 (8 samples) - Total processed: 2896
+Processing batch 364 (8 samples) - Total processed: 2904
+Processing batch 365 (8 samples) - Total processed: 2912
+Processing batch 366 (8 samples) - Total processed: 2920
+Processing batch 367 (8 samples) - Total processed: 2928
+Processing batch 368 (8 samples) - Total processed: 2936
+Processing batch 369 (8 samples) - Total processed: 2944
+Processing batch 370 (8 samples) - Total processed: 2952
+Processing batch 371 (8 samples) - Total processed: 2960
+Memory usage after batch 371: RSS=2615.3MB, VMS=36766.5MB, Increase=951.0MB
+Processing batch 372 (8 samples) - Total processed: 2968
+Processing batch 373 (8 samples) - Total processed: 2976
+Processing batch 374 (8 samples) - Total processed: 2984
+Processing batch 375 (8 samples) - Total processed: 2992
+Processing batch 376 (8 samples) - Total processed: 3000
+Processing batch 377 (8 samples) - Total processed: 3008
+Processing batch 378 (8 samples) - Total processed: 3016
+Processing batch 379 (8 samples) - Total processed: 3024
+Processing batch 380 (8 samples) - Total processed: 3032
+Processing batch 381 (8 samples) - Total processed: 3040
+Memory usage after batch 381: RSS=2631.1MB, VMS=36766.5MB, Increase=966.8MB
+Processing batch 382 (8 samples) - Total processed: 3048
+Processing batch 383 (8 samples) - Total processed: 3056
+Processing batch 384 (8 samples) - Total processed: 3064
+Processing batch 385 (8 samples) - Total processed: 3072
+Processing batch 386 (8 samples) - Total processed: 3080
+Processing batch 387 (8 samples) - Total processed: 3088
+Processing batch 388 (8 samples) - Total processed: 3096
+Processing batch 389 (8 samples) - Total processed: 3104
+Processing batch 390 (8 samples) - Total processed: 3112
+Processing batch 391 (8 samples) - Total processed: 3120
+Memory usage after batch 391: RSS=2648.2MB, VMS=36766.5MB, Increase=983.9MB
+Processing batch 392 (8 samples) - Total processed: 3128
+Processing batch 393 (8 samples) - Total processed: 3136
+Processing batch 394 (8 samples) - Total processed: 3144
+Processing batch 395 (8 samples) - Total processed: 3152
+Processing batch 396 (8 samples) - Total processed: 3160
+Processing batch 397 (8 samples) - Total processed: 3168
+Processing batch 398 (8 samples) - Total processed: 3176
+Processing batch 399 (8 samples) - Total processed: 3184
+Processing batch 400 (8 samples) - Total processed: 3192
+Processing batch 401 (8 samples) - Total processed: 3200
+Memory usage after batch 401: RSS=2662.3MB, VMS=36766.5MB, Increase=998.1MB
+Processing batch 402 (8 samples) - Total processed: 3208
+Processing batch 403 (8 samples) - Total processed: 3216
+Processing batch 404 (8 samples) - Total processed: 3224
+Processing batch 405 (8 samples) - Total processed: 3232
+Processing batch 406 (8 samples) - Total processed: 3240
+Processing batch 407 (8 samples) - Total processed: 3248
+Processing batch 408 (8 samples) - Total processed: 3256
+Processing batch 409 (8 samples) - Total processed: 3264
+Processing batch 410 (8 samples) - Total processed: 3272
+Processing batch 411 (8 samples) - Total processed: 3280
+Memory usage after batch 411: RSS=2679.6MB, VMS=36766.5MB, Increase=1015.3MB
+Processing batch 412 (8 samples) - Total processed: 3288
+Processing batch 413 (8 samples) - Total processed: 3296
+Processing batch 414 (8 samples) - Total processed: 3304
+Processing batch 415 (8 samples) - Total processed: 3312
+Processing batch 416 (8 samples) - Total processed: 3320
+Processing batch 417 (8 samples) - Total processed: 3328
+Processing batch 418 (8 samples) - Total processed: 3336
+Processing batch 419 (8 samples) - Total processed: 3344
+Processing batch 420 (8 samples) - Total processed: 3352
+Processing batch 421 (8 samples) - Total processed: 3360
+Memory usage after batch 421: RSS=2802.4MB, VMS=36870.1MB, Increase=1138.1MB
+Processing batch 422 (8 samples) - Total processed: 3368
+Processing batch 423 (8 samples) - Total processed: 3376
+Processing batch 424 (8 samples) - Total processed: 3384
+Processing batch 425 (8 samples) - Total processed: 3392
+Processing batch 426 (8 samples) - Total processed: 3400
+Processing batch 427 (8 samples) - Total processed: 3408
+Processing batch 428 (8 samples) - Total processed: 3416
+Processing batch 429 (8 samples) - Total processed: 3424
+Processing batch 430 (8 samples) - Total processed: 3432
+Processing batch 431 (8 samples) - Total processed: 3440
+Memory usage after batch 431: RSS=2825.0MB, VMS=36870.1MB, Increase=1160.7MB
+Processing batch 432 (8 samples) - Total processed: 3448
+Processing batch 433 (8 samples) - Total processed: 3456
+Processing batch 434 (8 samples) - Total processed: 3464
+Processing batch 435 (8 samples) - Total processed: 3472
+Processing batch 436 (8 samples) - Total processed: 3480
+Processing batch 437 (8 samples) - Total processed: 3488
+Processing batch 438 (8 samples) - Total processed: 3496
+Processing batch 439 (8 samples) - Total processed: 3504
+Processing batch 440 (8 samples) - Total processed: 3512
+Processing batch 441 (8 samples) - Total processed: 3520
+Memory usage after batch 441: RSS=2842.5MB, VMS=36870.1MB, Increase=1178.3MB
+Processing batch 442 (8 samples) - Total processed: 3528
+Processing batch 443 (8 samples) - Total processed: 3536
+Processing batch 444 (8 samples) - Total processed: 3544
+Processing batch 445 (8 samples) - Total processed: 3552
+Processing batch 446 (8 samples) - Total processed: 3560
+Processing batch 447 (8 samples) - Total processed: 3568
+Processing batch 448 (8 samples) - Total processed: 3576
+Processing batch 449 (8 samples) - Total processed: 3584
+Processing batch 450 (8 samples) - Total processed: 3592
+Processing batch 451 (8 samples) - Total processed: 3600
+Memory usage after batch 451: RSS=2859.8MB, VMS=36870.1MB, Increase=1195.5MB
+Processing batch 452 (8 samples) - Total processed: 3608
+Processing batch 453 (8 samples) - Total processed: 3616
+Processing batch 454 (8 samples) - Total processed: 3624
+Processing batch 455 (8 samples) - Total processed: 3632
+Processing batch 456 (8 samples) - Total processed: 3640
+Processing batch 457 (8 samples) - Total processed: 3648
+Processing batch 458 (8 samples) - Total processed: 3656
+Processing batch 459 (8 samples) - Total processed: 3664
+Processing batch 460 (8 samples) - Total processed: 3672
+Processing batch 461 (8 samples) - Total processed: 3680
+Memory usage after batch 461: RSS=2878.7MB, VMS=36870.1MB, Increase=1214.5MB
+Processing batch 462 (8 samples) - Total processed: 3688
+Processing batch 463 (8 samples) - Total processed: 3696
+Processing batch 464 (8 samples) - Total processed: 3704
+Processing batch 465 (8 samples) - Total processed: 3712
+Processing batch 466 (8 samples) - Total processed: 3720
+Processing batch 467 (8 samples) - Total processed: 3728
+Processing batch 468 (8 samples) - Total processed: 3736
+Processing batch 469 (8 samples) - Total processed: 3744
+Processing batch 470 (8 samples) - Total processed: 3752
+Processing batch 471 (8 samples) - Total processed: 3760
+Memory usage after batch 471: RSS=2895.4MB, VMS=36870.1MB, Increase=1231.2MB
+Processing batch 472 (8 samples) - Total processed: 3768
+Processing batch 473 (8 samples) - Total processed: 3776
+Processing batch 474 (8 samples) - Total processed: 3784
+Processing batch 475 (8 samples) - Total processed: 3792
+Processing batch 476 (8 samples) - Total processed: 3800
+Processing batch 477 (8 samples) - Total processed: 3808
+Processing batch 478 (8 samples) - Total processed: 3816
+Processing batch 479 (8 samples) - Total processed: 3824
+Processing batch 480 (8 samples) - Total processed: 3832
+Processing batch 481 (8 samples) - Total processed: 3840
+Memory usage after batch 481: RSS=2910.9MB, VMS=36870.1MB, Increase=1246.7MB
+Processing batch 482 (8 samples) - Total processed: 3848
+Processing batch 483 (8 samples) - Total processed: 3856
+Processing batch 484 (8 samples) - Total processed: 3864
+Processing batch 485 (8 samples) - Total processed: 3872
+Processing batch 486 (8 samples) - Total processed: 3880
+Processing batch 487 (8 samples) - Total processed: 3888
+Processing batch 488 (8 samples) - Total processed: 3896
+Processing batch 489 (8 samples) - Total processed: 3904
+Processing batch 490 (8 samples) - Total processed: 3912
+Processing batch 491 (8 samples) - Total processed: 3920
+Memory usage after batch 491: RSS=2926.6MB, VMS=36870.1MB, Increase=1262.4MB
+Processing batch 492 (8 samples) - Total processed: 3928
+Processing batch 493 (8 samples) - Total processed: 3936
+Processing batch 494 (8 samples) - Total processed: 3944
+Processing batch 495 (8 samples) - Total processed: 3952
+Processing batch 496 (8 samples) - Total processed: 3960
+Processing batch 497 (8 samples) - Total processed: 3968
+Processing batch 498 (8 samples) - Total processed: 3976
+Processing batch 499 (8 samples) - Total processed: 3984
+Processing batch 500 (8 samples) - Total processed: 3992
+Processing batch 501 (8 samples) - Total processed: 4000
+Memory usage after batch 501: RSS=2943.4MB, VMS=36870.1MB, Increase=1279.2MB
+Processing batch 502 (8 samples) - Total processed: 4008
+Processing batch 503 (8 samples) - Total processed: 4016
+Processing batch 504 (8 samples) - Total processed: 4024
+Processing batch 505 (8 samples) - Total processed: 4032
+Processing batch 506 (8 samples) - Total processed: 4040
+Processing batch 507 (8 samples) - Total processed: 4048
+Processing batch 508 (8 samples) - Total processed: 4056
+Processing batch 509 (8 samples) - Total processed: 4064
+Processing batch 510 (8 samples) - Total processed: 4072
+Processing batch 511 (8 samples) - Total processed: 4080
+Memory usage after batch 511: RSS=2961.9MB, VMS=36870.1MB, Increase=1297.6MB
+Processing batch 512 (8 samples) - Total processed: 4088
+Processing batch 513 (8 samples) - Total processed: 4096
+Processing batch 514 (8 samples) - Total processed: 4104
+Processing batch 515 (8 samples) - Total processed: 4112
+Processing batch 516 (8 samples) - Total processed: 4120
+Processing batch 517 (8 samples) - Total processed: 4128
+Processing batch 518 (8 samples) - Total processed: 4136
+Processing batch 519 (8 samples) - Total processed: 4144
+Processing batch 520 (8 samples) - Total processed: 4152
+Processing batch 521 (8 samples) - Total processed: 4160
+Memory usage after batch 521: RSS=2977.5MB, VMS=36870.1MB, Increase=1313.3MB
+Processing batch 522 (8 samples) - Total processed: 4168
+Processing batch 523 (8 samples) - Total processed: 4176
+Processing batch 524 (8 samples) - Total processed: 4184
+Processing batch 525 (8 samples) - Total processed: 4192
+Processing batch 526 (8 samples) - Total processed: 4200
+Processing batch 527 (8 samples) - Total processed: 4208
+Processing batch 528 (8 samples) - Total processed: 4216
+Processing batch 529 (8 samples) - Total processed: 4224
+Processing batch 530 (8 samples) - Total processed: 4232
+Processing batch 531 (8 samples) - Total processed: 4240
+Memory usage after batch 531: RSS=2995.3MB, VMS=36870.1MB, Increase=1331.0MB
+Processing batch 532 (8 samples) - Total processed: 4248
+Processing batch 533 (8 samples) - Total processed: 4256
+Processing batch 534 (8 samples) - Total processed: 4264
+Processing batch 535 (8 samples) - Total processed: 4272
+Processing batch 536 (8 samples) - Total processed: 4280
+Processing batch 537 (8 samples) - Total processed: 4288
+Processing batch 538 (8 samples) - Total processed: 4296
+Processing batch 539 (8 samples) - Total processed: 4304
+Processing batch 540 (8 samples) - Total processed: 4312
+Processing batch 541 (8 samples) - Total processed: 4320
+Memory usage after batch 541: RSS=3012.7MB, VMS=36870.1MB, Increase=1348.4MB
+Processing batch 542 (8 samples) - Total processed: 4328
+Processing batch 543 (8 samples) - Total processed: 4336
+Processing batch 544 (8 samples) - Total processed: 4344
+Processing batch 545 (8 samples) - Total processed: 4352
+Processing batch 546 (8 samples) - Total processed: 4360
+Processing batch 547 (8 samples) - Total processed: 4368
+Processing batch 548 (8 samples) - Total processed: 4376
+Processing batch 549 (8 samples) - Total processed: 4384
+Processing batch 550 (8 samples) - Total processed: 4392
+Processing batch 551 (8 samples) - Total processed: 4400
+Memory usage after batch 551: RSS=3032.2MB, VMS=36870.1MB, Increase=1367.9MB
+Processing batch 552 (8 samples) - Total processed: 4408
+Processing batch 553 (8 samples) - Total processed: 4416
+Processing batch 554 (8 samples) - Total processed: 4424
+Processing batch 555 (8 samples) - Total processed: 4432
+Processing batch 556 (8 samples) - Total processed: 4440
+Processing batch 557 (8 samples) - Total processed: 4448
+Processing batch 558 (8 samples) - Total processed: 4456
+Processing batch 559 (8 samples) - Total processed: 4464
+Processing batch 560 (8 samples) - Total processed: 4472
+Processing batch 561 (8 samples) - Total processed: 4480
+Memory usage after batch 561: RSS=3046.7MB, VMS=36870.1MB, Increase=1382.4MB
+Processing batch 562 (8 samples) - Total processed: 4488
+Processing batch 563 (8 samples) - Total processed: 4496
+Processing batch 564 (8 samples) - Total processed: 4504
+Processing batch 565 (8 samples) - Total processed: 4512
+Processing batch 566 (8 samples) - Total processed: 4520
+Processing batch 567 (8 samples) - Total processed: 4528
+Processing batch 568 (8 samples) - Total processed: 4536
+Processing batch 569 (8 samples) - Total processed: 4544
+Processing batch 570 (8 samples) - Total processed: 4552
+Processing batch 571 (8 samples) - Total processed: 4560
+Memory usage after batch 571: RSS=3067.7MB, VMS=36870.1MB, Increase=1403.4MB
+Processing batch 572 (8 samples) - Total processed: 4568
+Processing batch 573 (8 samples) - Total processed: 4576
+Processing batch 574 (8 samples) - Total processed: 4584
+Processing batch 575 (8 samples) - Total processed: 4592
+Processing batch 576 (8 samples) - Total processed: 4600
+Processing batch 577 (8 samples) - Total processed: 4608
+Processing batch 578 (8 samples) - Total processed: 4616
+Processing batch 579 (8 samples) - Total processed: 4624
+Processing batch 580 (8 samples) - Total processed: 4632
+Processing batch 581 (8 samples) - Total processed: 4640
+Memory usage after batch 581: RSS=3085.3MB, VMS=36870.1MB, Increase=1421.0MB
+Processing batch 582 (8 samples) - Total processed: 4648
+Processing batch 583 (8 samples) - Total processed: 4656
+Processing batch 584 (8 samples) - Total processed: 4664
+Processing batch 585 (8 samples) - Total processed: 4672
+Processing batch 586 (8 samples) - Total processed: 4680
+Processing batch 587 (8 samples) - Total processed: 4688
+Processing batch 588 (8 samples) - Total processed: 4696
+Processing batch 589 (8 samples) - Total processed: 4704
+Processing batch 590 (8 samples) - Total processed: 4712
+Processing batch 591 (8 samples) - Total processed: 4720
+Memory usage after batch 591: RSS=3104.9MB, VMS=36870.1MB, Increase=1440.7MB
+Processing batch 592 (8 samples) - Total processed: 4728
+Processing batch 593 (8 samples) - Total processed: 4736
+Processing batch 594 (8 samples) - Total processed: 4744
+Processing batch 595 (8 samples) - Total processed: 4752
+Processing batch 596 (8 samples) - Total processed: 4760
+Processing batch 597 (8 samples) - Total processed: 4768
+Processing batch 598 (8 samples) - Total processed: 4776
+Processing batch 599 (8 samples) - Total processed: 4784
+Processing batch 600 (8 samples) - Total processed: 4792
+Processing batch 601 (8 samples) - Total processed: 4800
+Memory usage after batch 601: RSS=3118.6MB, VMS=36870.1MB, Increase=1454.4MB
+Processing batch 602 (8 samples) - Total processed: 4808
+Processing batch 603 (8 samples) - Total processed: 4816
+Processing batch 604 (8 samples) - Total processed: 4824
+Processing batch 605 (8 samples) - Total processed: 4832
+Processing batch 606 (8 samples) - Total processed: 4840
+Processing batch 607 (8 samples) - Total processed: 4848
+Processing batch 608 (8 samples) - Total processed: 4856
+Processing batch 609 (8 samples) - Total processed: 4864
+Processing batch 610 (8 samples) - Total processed: 4872
+Processing batch 611 (8 samples) - Total processed: 4880
+Memory usage after batch 611: RSS=3135.2MB, VMS=36870.1MB, Increase=1470.9MB
+Processing batch 612 (8 samples) - Total processed: 4888
+Processing batch 613 (8 samples) - Total processed: 4896
+Processing batch 614 (8 samples) - Total processed: 4904
+Processing batch 615 (8 samples) - Total processed: 4912
+Processing batch 616 (8 samples) - Total processed: 4920
+Processing batch 617 (8 samples) - Total processed: 4928
+Processing batch 618 (8 samples) - Total processed: 4936
+Processing batch 619 (8 samples) - Total processed: 4944
+Processing batch 620 (8 samples) - Total processed: 4952
+Processing batch 621 (8 samples) - Total processed: 4960
+Memory usage after batch 621: RSS=3154.5MB, VMS=36870.1MB, Increase=1490.3MB
+Processing batch 622 (8 samples) - Total processed: 4968
+Processing batch 623 (8 samples) - Total processed: 4976
+Processing batch 624 (8 samples) - Total processed: 4984
+Processing batch 625 (8 samples) - Total processed: 4992
+Processing batch 626 (8 samples) - Total processed: 5000
+Processing batch 627 (8 samples) - Total processed: 5008
+Processing batch 628 (8 samples) - Total processed: 5016
+Processing batch 629 (8 samples) - Total processed: 5024
+Processing batch 630 (8 samples) - Total processed: 5032
+Processing batch 631 (8 samples) - Total processed: 5040
+Memory usage after batch 631: RSS=3170.4MB, VMS=36870.1MB, Increase=1506.1MB
+Processing batch 632 (8 samples) - Total processed: 5048
+Processing batch 633 (8 samples) - Total processed: 5056
+Processing batch 634 (8 samples) - Total processed: 5064
+Processing batch 635 (8 samples) - Total processed: 5072
+Processing batch 636 (8 samples) - Total processed: 5080
+Processing batch 637 (8 samples) - Total processed: 5088
+Processing batch 638 (8 samples) - Total processed: 5096
+Processing batch 639 (8 samples) - Total processed: 5104
+Processing batch 640 (8 samples) - Total processed: 5112
+Processing batch 641 (8 samples) - Total processed: 5120
+Memory usage after batch 641: RSS=3189.2MB, VMS=36870.1MB, Increase=1524.9MB
+Processing batch 642 (8 samples) - Total processed: 5128
+Processing batch 643 (8 samples) - Total processed: 5136
+Processing batch 644 (8 samples) - Total processed: 5144
+Processing batch 645 (8 samples) - Total processed: 5152
+Processing batch 646 (8 samples) - Total processed: 5160
+Processing batch 647 (8 samples) - Total processed: 5168
+Processing batch 648 (8 samples) - Total processed: 5176
+Processing batch 649 (8 samples) - Total processed: 5184
+Processing batch 650 (8 samples) - Total processed: 5192
+Processing batch 651 (8 samples) - Total processed: 5200
+Memory usage after batch 651: RSS=3205.1MB, VMS=36870.1MB, Increase=1540.9MB
+Processing batch 652 (8 samples) - Total processed: 5208
+Processing batch 653 (8 samples) - Total processed: 5216
+Processing batch 654 (8 samples) - Total processed: 5224
+Processing batch 655 (8 samples) - Total processed: 5232
+Processing batch 656 (8 samples) - Total processed: 5240
+Processing batch 657 (8 samples) - Total processed: 5248
+Processing batch 658 (8 samples) - Total processed: 5256
+Processing batch 659 (8 samples) - Total processed: 5264
+Processing batch 660 (8 samples) - Total processed: 5272
+Processing batch 661 (8 samples) - Total processed: 5280
+Memory usage after batch 661: RSS=3223.6MB, VMS=36870.1MB, Increase=1559.4MB
+Processing batch 662 (8 samples) - Total processed: 5288
+Processing batch 663 (8 samples) - Total processed: 5296
+Processing batch 664 (8 samples) - Total processed: 5304
+Processing batch 665 (8 samples) - Total processed: 5312
+Processing batch 666 (8 samples) - Total processed: 5320
+Processing batch 667 (8 samples) - Total processed: 5328
+Processing batch 668 (8 samples) - Total processed: 5336
+Processing batch 669 (8 samples) - Total processed: 5344
+Processing batch 670 (8 samples) - Total processed: 5352
+Processing batch 671 (8 samples) - Total processed: 5360
+Memory usage after batch 671: RSS=3240.7MB, VMS=36870.1MB, Increase=1576.5MB
+Processing batch 672 (8 samples) - Total processed: 5368
+Processing batch 673 (8 samples) - Total processed: 5376
+Processing batch 674 (8 samples) - Total processed: 5384
+Processing batch 675 (8 samples) - Total processed: 5392
+Processing batch 676 (8 samples) - Total processed: 5400
+Processing batch 677 (8 samples) - Total processed: 5408
+Processing batch 678 (8 samples) - Total processed: 5416
+Processing batch 679 (8 samples) - Total processed: 5424
+Processing batch 680 (8 samples) - Total processed: 5432
+Processing batch 681 (8 samples) - Total processed: 5440
+Memory usage after batch 681: RSS=3256.4MB, VMS=36870.1MB, Increase=1592.2MB
+Processing batch 682 (8 samples) - Total processed: 5448
+Processing batch 683 (8 samples) - Total processed: 5456
+Processing batch 684 (8 samples) - Total processed: 5464
+Processing batch 685 (8 samples) - Total processed: 5472
+Processing batch 686 (8 samples) - Total processed: 5480
+Processing batch 687 (8 samples) - Total processed: 5488
+Processing batch 688 (8 samples) - Total processed: 5496
+Processing batch 689 (8 samples) - Total processed: 5504
+Processing batch 690 (8 samples) - Total processed: 5512
+Processing batch 691 (8 samples) - Total processed: 5520
+Memory usage after batch 691: RSS=3272.6MB, VMS=36870.1MB, Increase=1608.4MB
+Processing batch 692 (8 samples) - Total processed: 5528
+Processing batch 693 (8 samples) - Total processed: 5536
+Processing batch 694 (8 samples) - Total processed: 5544
+Processing batch 695 (8 samples) - Total processed: 5552
+Processing batch 696 (8 samples) - Total processed: 5560
+Processing batch 697 (8 samples) - Total processed: 5568
+Processing batch 698 (8 samples) - Total processed: 5576
+Processing batch 699 (8 samples) - Total processed: 5584
+Processing batch 700 (8 samples) - Total processed: 5592
+Processing batch 701 (8 samples) - Total processed: 5600
+Memory usage after batch 701: RSS=3288.2MB, VMS=36870.1MB, Increase=1624.0MB
+Processing batch 702 (8 samples) - Total processed: 5608
+Processing batch 703 (8 samples) - Total processed: 5616
+Processing batch 704 (8 samples) - Total processed: 5624
+Processing batch 705 (8 samples) - Total processed: 5632
+Processing batch 706 (8 samples) - Total processed: 5640
+Processing batch 707 (8 samples) - Total processed: 5648
+Processing batch 708 (8 samples) - Total processed: 5656
+Processing batch 709 (8 samples) - Total processed: 5664
+Processing batch 710 (8 samples) - Total processed: 5672
+Processing batch 711 (8 samples) - Total processed: 5680
+Memory usage after batch 711: RSS=3303.2MB, VMS=36870.1MB, Increase=1638.9MB
+Processing batch 712 (8 samples) - Total processed: 5688
+Processing batch 713 (8 samples) - Total processed: 5696
+Processing batch 714 (8 samples) - Total processed: 5704
+Processing batch 715 (8 samples) - Total processed: 5712
+Processing batch 716 (8 samples) - Total processed: 5720
+Processing batch 717 (8 samples) - Total processed: 5728
+Processing batch 718 (8 samples) - Total processed: 5736
+Processing batch 719 (8 samples) - Total processed: 5744
+Processing batch 720 (8 samples) - Total processed: 5752
+Processing batch 721 (8 samples) - Total processed: 5760
+Memory usage after batch 721: RSS=3320.9MB, VMS=36870.1MB, Increase=1656.6MB
+Processing batch 722 (8 samples) - Total processed: 5768
+Processing batch 723 (8 samples) - Total processed: 5776
+Processing batch 724 (8 samples) - Total processed: 5784
+Processing batch 725 (8 samples) - Total processed: 5792
+Processing batch 726 (8 samples) - Total processed: 5800
+Processing batch 727 (8 samples) - Total processed: 5808
+Processing batch 728 (8 samples) - Total processed: 5816
+Processing batch 729 (8 samples) - Total processed: 5824
+Processing batch 730 (8 samples) - Total processed: 5832
+Processing batch 731 (8 samples) - Total processed: 5840
+Memory usage after batch 731: RSS=3336.4MB, VMS=36870.1MB, Increase=1672.2MB
+Processing batch 732 (8 samples) - Total processed: 5848
+Processing batch 733 (8 samples) - Total processed: 5856
+Processing batch 734 (8 samples) - Total processed: 5864
+Processing batch 735 (8 samples) - Total processed: 5872
+Processing batch 736 (8 samples) - Total processed: 5880
+Processing batch 737 (8 samples) - Total processed: 5888
+Processing batch 738 (8 samples) - Total processed: 5896
+Processing batch 739 (8 samples) - Total processed: 5904
+Processing batch 740 (8 samples) - Total processed: 5912
+Processing batch 741 (8 samples) - Total processed: 5920
+Memory usage after batch 741: RSS=3353.5MB, VMS=36870.1MB, Increase=1689.3MB
+Processing batch 742 (8 samples) - Total processed: 5928
+Processing batch 743 (8 samples) - Total processed: 5936
+Processing batch 744 (8 samples) - Total processed: 5944
+Processing batch 745 (8 samples) - Total processed: 5952
+Processing batch 746 (8 samples) - Total processed: 5960
+Processing batch 747 (8 samples) - Total processed: 5968
+Processing batch 748 (8 samples) - Total processed: 5976
+Processing batch 749 (8 samples) - Total processed: 5984
+Processing batch 750 (8 samples) - Total processed: 5992
+Processing batch 751 (8 samples) - Total processed: 6000
+Memory usage after batch 751: RSS=3370.0MB, VMS=36870.1MB, Increase=1705.8MB
+Processing batch 752 (8 samples) - Total processed: 6008
+Processing batch 753 (8 samples) - Total processed: 6016
+Processing batch 754 (8 samples) - Total processed: 6024
+Processing batch 755 (8 samples) - Total processed: 6032
+Processing batch 756 (8 samples) - Total processed: 6040
+Processing batch 757 (8 samples) - Total processed: 6048
+Processing batch 758 (8 samples) - Total processed: 6056
+Processing batch 759 (8 samples) - Total processed: 6064
+Processing batch 760 (8 samples) - Total processed: 6072
+Processing batch 761 (8 samples) - Total processed: 6080
+Memory usage after batch 761: RSS=3385.9MB, VMS=36870.1MB, Increase=1721.6MB
+Processing batch 762 (8 samples) - Total processed: 6088
+Processing batch 763 (8 samples) - Total processed: 6096
+Processing batch 764 (8 samples) - Total processed: 6104
+Processing batch 765 (8 samples) - Total processed: 6112
+Processing batch 766 (8 samples) - Total processed: 6120
+Processing batch 767 (8 samples) - Total processed: 6128
+Processing batch 768 (8 samples) - Total processed: 6136
+Processing batch 769 (8 samples) - Total processed: 6144
+Processing batch 770 (8 samples) - Total processed: 6152
+Processing batch 771 (8 samples) - Total processed: 6160
+Memory usage after batch 771: RSS=3402.4MB, VMS=36870.1MB, Increase=1738.2MB
+Processing batch 772 (8 samples) - Total processed: 6168
+Processing batch 773 (8 samples) - Total processed: 6176
+Processing batch 774 (8 samples) - Total processed: 6184
+Processing batch 775 (8 samples) - Total processed: 6192
+Processing batch 776 (8 samples) - Total processed: 6200
+Processing batch 777 (8 samples) - Total processed: 6208
+Processing batch 778 (8 samples) - Total processed: 6216
+Processing batch 779 (8 samples) - Total processed: 6224
+Processing batch 780 (8 samples) - Total processed: 6232
+Processing batch 781 (8 samples) - Total processed: 6240
+Memory usage after batch 781: RSS=3418.3MB, VMS=36870.1MB, Increase=1754.0MB
+Processing batch 782 (8 samples) - Total processed: 6248
+Processing batch 783 (8 samples) - Total processed: 6256
+Processing batch 784 (8 samples) - Total processed: 6264
+Processing batch 785 (8 samples) - Total processed: 6272
+Processing batch 786 (8 samples) - Total processed: 6280
+Processing batch 787 (8 samples) - Total processed: 6288
+Processing batch 788 (8 samples) - Total processed: 6296
+Processing batch 789 (8 samples) - Total processed: 6304
+Processing batch 790 (8 samples) - Total processed: 6312
+Processing batch 791 (8 samples) - Total processed: 6320
+Memory usage after batch 791: RSS=3432.7MB, VMS=36870.1MB, Increase=1768.5MB
+Processing batch 792 (8 samples) - Total processed: 6328
+Processing batch 793 (8 samples) - Total processed: 6336
+Processing batch 794 (8 samples) - Total processed: 6344
+Processing batch 795 (8 samples) - Total processed: 6352
+Processing batch 796 (8 samples) - Total processed: 6360
+Processing batch 797 (8 samples) - Total processed: 6368
+Processing batch 798 (8 samples) - Total processed: 6376
+Processing batch 799 (8 samples) - Total processed: 6384
+Processing batch 800 (8 samples) - Total processed: 6392
+Processing batch 801 (8 samples) - Total processed: 6400
+Memory usage after batch 801: RSS=3449.4MB, VMS=36870.1MB, Increase=1785.2MB
+Processing batch 802 (8 samples) - Total processed: 6408
+Processing batch 803 (8 samples) - Total processed: 6416
+Processing batch 804 (8 samples) - Total processed: 6424
+Processing batch 805 (8 samples) - Total processed: 6432
+Processing batch 806 (8 samples) - Total processed: 6440
+Processing batch 807 (8 samples) - Total processed: 6448
+Processing batch 808 (8 samples) - Total processed: 6456
+Processing batch 809 (8 samples) - Total processed: 6464
+Processing batch 810 (8 samples) - Total processed: 6472
+Processing batch 811 (8 samples) - Total processed: 6480
+Memory usage after batch 811: RSS=3469.0MB, VMS=36870.1MB, Increase=1804.8MB
+Processing batch 812 (8 samples) - Total processed: 6488
+Processing batch 813 (8 samples) - Total processed: 6496
+Processing batch 814 (8 samples) - Total processed: 6504
+Processing batch 815 (8 samples) - Total processed: 6512
+Processing batch 816 (8 samples) - Total processed: 6520
+Processing batch 817 (8 samples) - Total processed: 6528
+Processing batch 818 (8 samples) - Total processed: 6536
+Processing batch 819 (8 samples) - Total processed: 6544
+Processing batch 820 (8 samples) - Total processed: 6552
+Processing batch 821 (8 samples) - Total processed: 6560
+Memory usage after batch 821: RSS=3485.0MB, VMS=36870.1MB, Increase=1820.8MB
+Processing batch 822 (8 samples) - Total processed: 6568
+Processing batch 823 (8 samples) - Total processed: 6576
+Processing batch 824 (8 samples) - Total processed: 6584
+Processing batch 825 (8 samples) - Total processed: 6592
+Processing batch 826 (8 samples) - Total processed: 6600
+Processing batch 827 (8 samples) - Total processed: 6608
+Processing batch 828 (8 samples) - Total processed: 6616
+Processing batch 829 (8 samples) - Total processed: 6624
+Processing batch 830 (8 samples) - Total processed: 6632
+Processing batch 831 (8 samples) - Total processed: 6640
+Memory usage after batch 831: RSS=3500.5MB, VMS=36870.1MB, Increase=1836.3MB
+Processing batch 832 (8 samples) - Total processed: 6648
+Processing batch 833 (8 samples) - Total processed: 6656
+Processing batch 834 (8 samples) - Total processed: 6664
+Processing batch 835 (8 samples) - Total processed: 6672
+Processing batch 836 (8 samples) - Total processed: 6680
+Processing batch 837 (8 samples) - Total processed: 6688
+Processing batch 838 (8 samples) - Total processed: 6696
+Processing batch 839 (8 samples) - Total processed: 6704
+Processing batch 840 (8 samples) - Total processed: 6712
+Processing batch 841 (8 samples) - Total processed: 6720
+Memory usage after batch 841: RSS=3512.9MB, VMS=36870.1MB, Increase=1848.7MB
+Processing batch 842 (8 samples) - Total processed: 6728
+Processing batch 843 (8 samples) - Total processed: 6736
+Processing batch 844 (8 samples) - Total processed: 6744
+Processing batch 845 (8 samples) - Total processed: 6752
+Processing batch 846 (8 samples) - Total processed: 6760
+Processing batch 847 (8 samples) - Total processed: 6768
+Processing batch 848 (8 samples) - Total processed: 6776
+Processing batch 849 (8 samples) - Total processed: 6784
+Processing batch 850 (8 samples) - Total processed: 6792
+Processing batch 851 (8 samples) - Total processed: 6800
+Memory usage after batch 851: RSS=3529.2MB, VMS=36870.1MB, Increase=1865.0MB
+Processing batch 852 (8 samples) - Total processed: 6808
+Processing batch 853 (8 samples) - Total processed: 6816
+Processing batch 854 (8 samples) - Total processed: 6824
+Processing batch 855 (8 samples) - Total processed: 6832
+Processing batch 856 (8 samples) - Total processed: 6840
+Processing batch 857 (8 samples) - Total processed: 6848
+Processing batch 858 (8 samples) - Total processed: 6856
+Processing batch 859 (8 samples) - Total processed: 6864
+Processing batch 860 (8 samples) - Total processed: 6872
+Processing batch 861 (8 samples) - Total processed: 6880
+Memory usage after batch 861: RSS=3543.9MB, VMS=36870.1MB, Increase=1879.7MB
+Processing batch 862 (8 samples) - Total processed: 6888
+Processing batch 863 (8 samples) - Total processed: 6896
+Processing batch 864 (8 samples) - Total processed: 6904
+Processing batch 865 (8 samples) - Total processed: 6912
+Processing batch 866 (8 samples) - Total processed: 6920
+Processing batch 867 (8 samples) - Total processed: 6928
+Processing batch 868 (8 samples) - Total processed: 6936
+Processing batch 869 (8 samples) - Total processed: 6944
+Processing batch 870 (8 samples) - Total processed: 6952
+Processing batch 871 (8 samples) - Total processed: 6960
+Memory usage after batch 871: RSS=3561.1MB, VMS=36870.1MB, Increase=1896.9MB
+Processing batch 872 (8 samples) - Total processed: 6968
+Processing batch 873 (8 samples) - Total processed: 6976
+Processing batch 874 (8 samples) - Total processed: 6984
+Processing batch 875 (8 samples) - Total processed: 6992
+Processing batch 876 (8 samples) - Total processed: 7000
+Processing batch 877 (8 samples) - Total processed: 7008
+Processing batch 878 (8 samples) - Total processed: 7016
+Processing batch 879 (8 samples) - Total processed: 7024
+Processing batch 880 (8 samples) - Total processed: 7032
+Processing batch 881 (8 samples) - Total processed: 7040
+Memory usage after batch 881: RSS=3579.2MB, VMS=36870.1MB, Increase=1915.0MB
+Processing batch 882 (8 samples) - Total processed: 7048
+Processing batch 883 (8 samples) - Total processed: 7056
+Processing batch 884 (8 samples) - Total processed: 7064
+Processing batch 885 (8 samples) - Total processed: 7072
+Processing batch 886 (8 samples) - Total processed: 7080
+Processing batch 887 (8 samples) - Total processed: 7088
+Processing batch 888 (8 samples) - Total processed: 7096
+Processing batch 889 (8 samples) - Total processed: 7104
+Processing batch 890 (8 samples) - Total processed: 7112
+Processing batch 891 (8 samples) - Total processed: 7120
+Memory usage after batch 891: RSS=3594.7MB, VMS=36870.1MB, Increase=1930.5MB
+Processing batch 892 (8 samples) - Total processed: 7128
+Processing batch 893 (8 samples) - Total processed: 7136
+Processing batch 894 (8 samples) - Total processed: 7144
+Processing batch 895 (8 samples) - Total processed: 7152
+Processing batch 896 (8 samples) - Total processed: 7160
+Processing batch 897 (8 samples) - Total processed: 7168
+Processing batch 898 (8 samples) - Total processed: 7176
+Processing batch 899 (8 samples) - Total processed: 7184
+Processing batch 900 (8 samples) - Total processed: 7192
+Processing batch 901 (8 samples) - Total processed: 7200
+Memory usage after batch 901: RSS=3610.5MB, VMS=36870.1MB, Increase=1946.3MB
+Processing batch 902 (8 samples) - Total processed: 7208
+Processing batch 903 (8 samples) - Total processed: 7216
+Processing batch 904 (8 samples) - Total processed: 7224
+Processing batch 905 (8 samples) - Total processed: 7232
+Processing batch 906 (8 samples) - Total processed: 7240
+Processing batch 907 (8 samples) - Total processed: 7248
+Processing batch 908 (8 samples) - Total processed: 7256
+Processing batch 909 (8 samples) - Total processed: 7264
+Processing batch 910 (8 samples) - Total processed: 7272
+Processing batch 911 (8 samples) - Total processed: 7280
+Memory usage after batch 911: RSS=3628.6MB, VMS=36870.1MB, Increase=1964.3MB
+Processing batch 912 (8 samples) - Total processed: 7288
+Processing batch 913 (8 samples) - Total processed: 7296
+Processing batch 914 (8 samples) - Total processed: 7304
+Processing batch 915 (8 samples) - Total processed: 7312
+Processing batch 916 (8 samples) - Total processed: 7320
+Processing batch 917 (8 samples) - Total processed: 7328
+Processing batch 918 (8 samples) - Total processed: 7336
+Processing batch 919 (8 samples) - Total processed: 7344
+Processing batch 920 (8 samples) - Total processed: 7352
+Processing batch 921 (8 samples) - Total processed: 7360
+Memory usage after batch 921: RSS=3644.7MB, VMS=36870.1MB, Increase=1980.4MB
+Processing batch 922 (8 samples) - Total processed: 7368
+Processing batch 923 (8 samples) - Total processed: 7376
+Processing batch 924 (8 samples) - Total processed: 7384
+Processing batch 925 (8 samples) - Total processed: 7392
+Processing batch 926 (8 samples) - Total processed: 7400
+Processing batch 927 (8 samples) - Total processed: 7408
+Processing batch 928 (8 samples) - Total processed: 7416
+Processing batch 929 (8 samples) - Total processed: 7424
+Processing batch 930 (8 samples) - Total processed: 7432
+Processing batch 931 (8 samples) - Total processed: 7440
+Memory usage after batch 931: RSS=3664.6MB, VMS=36870.1MB, Increase=2000.4MB
+Processing batch 932 (8 samples) - Total processed: 7448
+Processing batch 933 (8 samples) - Total processed: 7456
+Processing batch 934 (8 samples) - Total processed: 7464
+Processing batch 935 (8 samples) - Total processed: 7472
+Processing batch 936 (8 samples) - Total processed: 7480
+Processing batch 937 (8 samples) - Total processed: 7488
+Processing batch 938 (8 samples) - Total processed: 7496
+Processing batch 939 (8 samples) - Total processed: 7504
+Processing batch 940 (8 samples) - Total processed: 7512
+Processing batch 941 (8 samples) - Total processed: 7520
+Memory usage after batch 941: RSS=3681.2MB, VMS=36870.1MB, Increase=2016.9MB
+Processing batch 942 (8 samples) - Total processed: 7528
+Processing batch 943 (8 samples) - Total processed: 7536
+Processing batch 944 (8 samples) - Total processed: 7544
+Processing batch 945 (8 samples) - Total processed: 7552
+Processing batch 946 (8 samples) - Total processed: 7560
+Processing batch 947 (8 samples) - Total processed: 7568
+Processing batch 948 (8 samples) - Total processed: 7576
+Processing batch 949 (8 samples) - Total processed: 7584
+Processing batch 950 (8 samples) - Total processed: 7592
+Processing batch 951 (8 samples) - Total processed: 7600
+Memory usage after batch 951: RSS=3699.1MB, VMS=36870.1MB, Increase=2034.9MB
+Processing batch 952 (8 samples) - Total processed: 7608
+Processing batch 953 (8 samples) - Total processed: 7616
+Processing batch 954 (8 samples) - Total processed: 7624
+Processing batch 955 (8 samples) - Total processed: 7632
+Processing batch 956 (8 samples) - Total processed: 7640
+Processing batch 957 (8 samples) - Total processed: 7648
+Processing batch 958 (8 samples) - Total processed: 7656
+Processing batch 959 (8 samples) - Total processed: 7664
+Processing batch 960 (8 samples) - Total processed: 7672
+Processing batch 961 (8 samples) - Total processed: 7680
+Memory usage after batch 961: RSS=3716.7MB, VMS=36870.1MB, Increase=2052.4MB
+Processing batch 962 (8 samples) - Total processed: 7688
+Processing batch 963 (8 samples) - Total processed: 7696
+Processing batch 964 (8 samples) - Total processed: 7704
+Processing batch 965 (8 samples) - Total processed: 7712
+Processing batch 966 (8 samples) - Total processed: 7720
+Processing batch 967 (8 samples) - Total processed: 7728
+Processing batch 968 (8 samples) - Total processed: 7736
+Processing batch 969 (8 samples) - Total processed: 7744
+Processing batch 970 (8 samples) - Total processed: 7752
+Processing batch 971 (8 samples) - Total processed: 7760
+Memory usage after batch 971: RSS=3734.4MB, VMS=36870.1MB, Increase=2070.2MB
+Processing batch 972 (8 samples) - Total processed: 7768
+Processing batch 973 (8 samples) - Total processed: 7776
+Processing batch 974 (8 samples) - Total processed: 7784
+Processing batch 975 (8 samples) - Total processed: 7792
+Processing batch 976 (8 samples) - Total processed: 7800
+Processing batch 977 (8 samples) - Total processed: 7808
+Processing batch 978 (8 samples) - Total processed: 7816
+Processing batch 979 (8 samples) - Total processed: 7824
+Processing batch 980 (8 samples) - Total processed: 7832
+Processing batch 981 (8 samples) - Total processed: 7840
+Memory usage after batch 981: RSS=3749.0MB, VMS=36870.1MB, Increase=2084.8MB
+Processing batch 982 (8 samples) - Total processed: 7848
+Processing batch 983 (8 samples) - Total processed: 7856
+Processing batch 984 (8 samples) - Total processed: 7864
+Processing batch 985 (8 samples) - Total processed: 7872
+Processing batch 986 (8 samples) - Total processed: 7880
+Processing batch 987 (8 samples) - Total processed: 7888
+Processing batch 988 (8 samples) - Total processed: 7896
+Processing batch 989 (8 samples) - Total processed: 7904
+Processing batch 990 (8 samples) - Total processed: 7912
+Processing batch 991 (8 samples) - Total processed: 7920
+Memory usage after batch 991: RSS=3766.3MB, VMS=36870.1MB, Increase=2102.1MB
+Processing batch 992 (8 samples) - Total processed: 7928
+Processing batch 993 (8 samples) - Total processed: 7936
+Processing batch 994 (8 samples) - Total processed: 7944
+Processing batch 995 (8 samples) - Total processed: 7952
+Processing batch 996 (8 samples) - Total processed: 7960
+Processing batch 997 (8 samples) - Total processed: 7968
+Processing batch 998 (8 samples) - Total processed: 7976
+Processing batch 999 (8 samples) - Total processed: 7984
+Processing batch 1000 (8 samples) - Total processed: 7992
+Processing batch 1001 (8 samples) - Total processed: 8000
+Memory usage after batch 1001: RSS=3781.5MB, VMS=36870.1MB, Increase=2117.2MB
+Processing batch 1002 (8 samples) - Total processed: 8008
+Processing batch 1003 (8 samples) - Total processed: 8016
+Processing batch 1004 (8 samples) - Total processed: 8024
+Processing batch 1005 (8 samples) - Total processed: 8032
+Processing batch 1006 (8 samples) - Total processed: 8040
+Processing batch 1007 (8 samples) - Total processed: 8048
+Processing batch 1008 (8 samples) - Total processed: 8056
+Processing batch 1009 (8 samples) - Total processed: 8064
+Processing batch 1010 (8 samples) - Total processed: 8072
+Processing batch 1011 (8 samples) - Total processed: 8080
+Memory usage after batch 1011: RSS=3797.8MB, VMS=36870.1MB, Increase=2133.6MB
+Processing batch 1012 (8 samples) - Total processed: 8088
+Processing batch 1013 (8 samples) - Total processed: 8096
+Processing batch 1014 (8 samples) - Total processed: 8104
+Processing batch 1015 (8 samples) - Total processed: 8112
+Processing batch 1016 (8 samples) - Total processed: 8120
+Processing batch 1017 (8 samples) - Total processed: 8128
+Processing batch 1018 (8 samples) - Total processed: 8136
+Processing batch 1019 (8 samples) - Total processed: 8144
+Processing batch 1020 (8 samples) - Total processed: 8152
+Processing batch 1021 (8 samples) - Total processed: 8160
+Memory usage after batch 1021: RSS=3813.9MB, VMS=36870.1MB, Increase=2149.6MB
+Processing batch 1022 (8 samples) - Total processed: 8168
+Processing batch 1023 (8 samples) - Total processed: 8176
+Processing batch 1024 (8 samples) - Total processed: 8184
+Processing batch 1025 (8 samples) - Total processed: 8192
+Processing batch 1026 (8 samples) - Total processed: 8200
+Processing batch 1027 (8 samples) - Total processed: 8208
+Processing batch 1028 (8 samples) - Total processed: 8216
+Processing batch 1029 (8 samples) - Total processed: 8224
+Processing batch 1030 (8 samples) - Total processed: 8232
+Processing batch 1031 (8 samples) - Total processed: 8240
+Memory usage after batch 1031: RSS=3829.4MB, VMS=36870.1MB, Increase=2165.2MB
+Processing batch 1032 (8 samples) - Total processed: 8248
+Processing batch 1033 (8 samples) - Total processed: 8256
+Processing batch 1034 (8 samples) - Total processed: 8264
+Processing batch 1035 (8 samples) - Total processed: 8272
+Processing batch 1036 (8 samples) - Total processed: 8280
+Processing batch 1037 (8 samples) - Total processed: 8288
+Processing batch 1038 (8 samples) - Total processed: 8296
+Processing batch 1039 (8 samples) - Total processed: 8304
+Processing batch 1040 (8 samples) - Total processed: 8312
+Processing batch 1041 (8 samples) - Total processed: 8320
+Memory usage after batch 1041: RSS=3847.3MB, VMS=36870.1MB, Increase=2183.1MB
+Processing batch 1042 (8 samples) - Total processed: 8328
+Processing batch 1043 (8 samples) - Total processed: 8336
+Processing batch 1044 (8 samples) - Total processed: 8344
+Processing batch 1045 (8 samples) - Total processed: 8352
+Processing batch 1046 (8 samples) - Total processed: 8360
+Processing batch 1047 (8 samples) - Total processed: 8368
+Processing batch 1048 (8 samples) - Total processed: 8376
+Processing batch 1049 (8 samples) - Total processed: 8384
+Processing batch 1050 (8 samples) - Total processed: 8392
+Processing batch 1051 (8 samples) - Total processed: 8400
+Memory usage after batch 1051: RSS=3862.7MB, VMS=36870.1MB, Increase=2198.5MB
+Processing batch 1052 (8 samples) - Total processed: 8408
+Processing batch 1053 (8 samples) - Total processed: 8416
+Processing batch 1054 (8 samples) - Total processed: 8424
+Processing batch 1055 (8 samples) - Total processed: 8432
+Processing batch 1056 (8 samples) - Total processed: 8440
+Processing batch 1057 (8 samples) - Total processed: 8448
+Processing batch 1058 (8 samples) - Total processed: 8456
+Processing batch 1059 (8 samples) - Total processed: 8464
+Processing batch 1060 (8 samples) - Total processed: 8472
+Processing batch 1061 (8 samples) - Total processed: 8480
+Memory usage after batch 1061: RSS=3878.3MB, VMS=36870.1MB, Increase=2214.0MB
+Processing batch 1062 (8 samples) - Total processed: 8488
+Processing batch 1063 (8 samples) - Total processed: 8496
+Processing batch 1064 (8 samples) - Total processed: 8504
+Processing batch 1065 (8 samples) - Total processed: 8512
+Processing batch 1066 (8 samples) - Total processed: 8520
+Processing batch 1067 (8 samples) - Total processed: 8528
+Processing batch 1068 (8 samples) - Total processed: 8536
+Processing batch 1069 (8 samples) - Total processed: 8544
+Processing batch 1070 (8 samples) - Total processed: 8552
+Processing batch 1071 (8 samples) - Total processed: 8560
+Memory usage after batch 1071: RSS=3896.8MB, VMS=36870.1MB, Increase=2232.6MB
+Processing batch 1072 (8 samples) - Total processed: 8568
+Processing batch 1073 (8 samples) - Total processed: 8576
+Processing batch 1074 (8 samples) - Total processed: 8584
+Processing batch 1075 (8 samples) - Total processed: 8592
+Processing batch 1076 (8 samples) - Total processed: 8600
+Processing batch 1077 (8 samples) - Total processed: 8608
+Processing batch 1078 (8 samples) - Total processed: 8616
+Processing batch 1079 (8 samples) - Total processed: 8624
+Processing batch 1080 (8 samples) - Total processed: 8632
+Processing batch 1081 (8 samples) - Total processed: 8640
+Memory usage after batch 1081: RSS=3916.4MB, VMS=36870.1MB, Increase=2252.1MB
+Processing batch 1082 (8 samples) - Total processed: 8648
+Processing batch 1083 (8 samples) - Total processed: 8656
+Processing batch 1084 (8 samples) - Total processed: 8664
+Processing batch 1085 (8 samples) - Total processed: 8672
+Processing batch 1086 (8 samples) - Total processed: 8680
+Processing batch 1087 (8 samples) - Total processed: 8688
+Processing batch 1088 (8 samples) - Total processed: 8696
+Processing batch 1089 (8 samples) - Total processed: 8704
+Processing batch 1090 (8 samples) - Total processed: 8712
+Processing batch 1091 (8 samples) - Total processed: 8720
+Memory usage after batch 1091: RSS=3932.5MB, VMS=36870.1MB, Increase=2268.3MB
+Processing batch 1092 (8 samples) - Total processed: 8728
+Processing batch 1093 (8 samples) - Total processed: 8736
+Processing batch 1094 (8 samples) - Total processed: 8744
+Processing batch 1095 (8 samples) - Total processed: 8752
+Processing batch 1096 (8 samples) - Total processed: 8760
+Processing batch 1097 (8 samples) - Total processed: 8768
+Processing batch 1098 (8 samples) - Total processed: 8776
+Processing batch 1099 (8 samples) - Total processed: 8784
+Processing batch 1100 (8 samples) - Total processed: 8792
+Processing batch 1101 (8 samples) - Total processed: 8800
+Memory usage after batch 1101: RSS=3949.8MB, VMS=36870.1MB, Increase=2285.5MB
+Processing batch 1102 (8 samples) - Total processed: 8808
+Processing batch 1103 (8 samples) - Total processed: 8816
+Processing batch 1104 (8 samples) - Total processed: 8824
+Processing batch 1105 (8 samples) - Total processed: 8832
+Processing batch 1106 (8 samples) - Total processed: 8840
+Processing batch 1107 (8 samples) - Total processed: 8848
+Processing batch 1108 (8 samples) - Total processed: 8856
+Processing batch 1109 (8 samples) - Total processed: 8864
+Processing batch 1110 (8 samples) - Total processed: 8872
+Processing batch 1111 (8 samples) - Total processed: 8880
+Memory usage after batch 1111: RSS=3964.5MB, VMS=36870.1MB, Increase=2300.2MB
+Processing batch 1112 (8 samples) - Total processed: 8888
+Processing batch 1113 (8 samples) - Total processed: 8896
+Processing batch 1114 (8 samples) - Total processed: 8904
+Processing batch 1115 (8 samples) - Total processed: 8912
+Processing batch 1116 (8 samples) - Total processed: 8920
+Processing batch 1117 (8 samples) - Total processed: 8928
+Processing batch 1118 (8 samples) - Total processed: 8936
+Processing batch 1119 (8 samples) - Total processed: 8944
+Processing batch 1120 (8 samples) - Total processed: 8952
+Processing batch 1121 (8 samples) - Total processed: 8960
+Memory usage after batch 1121: RSS=3982.0MB, VMS=36870.1MB, Increase=2317.7MB
+Processing batch 1122 (8 samples) - Total processed: 8968
+Processing batch 1123 (8 samples) - Total processed: 8976
+Processing batch 1124 (8 samples) - Total processed: 8984
+Processing batch 1125 (8 samples) - Total processed: 8992
+Processing batch 1126 (8 samples) - Total processed: 9000
+Processing batch 1127 (8 samples) - Total processed: 9008
+Processing batch 1128 (8 samples) - Total processed: 9016
+Processing batch 1129 (8 samples) - Total processed: 9024
+Processing batch 1130 (8 samples) - Total processed: 9032
+Processing batch 1131 (8 samples) - Total processed: 9040
+Memory usage after batch 1131: RSS=4000.2MB, VMS=36870.1MB, Increase=2336.0MB
+Processing batch 1132 (8 samples) - Total processed: 9048
+Processing batch 1133 (8 samples) - Total processed: 9056
+Processing batch 1134 (8 samples) - Total processed: 9064
+Processing batch 1135 (8 samples) - Total processed: 9072
+Processing batch 1136 (8 samples) - Total processed: 9080
+Processing batch 1137 (8 samples) - Total processed: 9088
+Processing batch 1138 (8 samples) - Total processed: 9096
+Processing batch 1139 (8 samples) - Total processed: 9104
+Processing batch 1140 (8 samples) - Total processed: 9112
+Processing batch 1141 (8 samples) - Total processed: 9120
+Memory usage after batch 1141: RSS=4017.6MB, VMS=36870.1MB, Increase=2353.3MB
+Processing batch 1142 (8 samples) - Total processed: 9128
+Processing batch 1143 (8 samples) - Total processed: 9136
+Processing batch 1144 (8 samples) - Total processed: 9144
+Processing batch 1145 (8 samples) - Total processed: 9152
+Processing batch 1146 (8 samples) - Total processed: 9160
+Processing batch 1147 (8 samples) - Total processed: 9168
+Processing batch 1148 (8 samples) - Total processed: 9176
+Processing batch 1149 (8 samples) - Total processed: 9184
+Processing batch 1150 (8 samples) - Total processed: 9192
+Processing batch 1151 (8 samples) - Total processed: 9200
+Memory usage after batch 1151: RSS=4034.9MB, VMS=36870.1MB, Increase=2370.7MB
+Processing batch 1152 (8 samples) - Total processed: 9208
+Processing batch 1153 (8 samples) - Total processed: 9216
+Processing batch 1154 (8 samples) - Total processed: 9224
+Processing batch 1155 (8 samples) - Total processed: 9232
+Processing batch 1156 (8 samples) - Total processed: 9240
+Processing batch 1157 (8 samples) - Total processed: 9248
+Processing batch 1158 (8 samples) - Total processed: 9256
+Processing batch 1159 (8 samples) - Total processed: 9264
+Processing batch 1160 (8 samples) - Total processed: 9272
+Processing batch 1161 (8 samples) - Total processed: 9280
+Memory usage after batch 1161: RSS=4055.0MB, VMS=36870.1MB, Increase=2390.7MB
+Processing batch 1162 (8 samples) - Total processed: 9288
+Processing batch 1163 (8 samples) - Total processed: 9296
+Processing batch 1164 (8 samples) - Total processed: 9304
+Processing batch 1165 (8 samples) - Total processed: 9312
+Processing batch 1166 (8 samples) - Total processed: 9320
+Processing batch 1167 (8 samples) - Total processed: 9328
+Processing batch 1168 (8 samples) - Total processed: 9336
+Processing batch 1169 (8 samples) - Total processed: 9344
+Processing batch 1170 (8 samples) - Total processed: 9352
+Processing batch 1171 (8 samples) - Total processed: 9360
+Memory usage after batch 1171: RSS=4072.1MB, VMS=36870.1MB, Increase=2407.9MB
+Processing batch 1172 (8 samples) - Total processed: 9368
+Processing batch 1173 (8 samples) - Total processed: 9376
+Processing batch 1174 (8 samples) - Total processed: 9384
+Processing batch 1175 (8 samples) - Total processed: 9392
+Processing batch 1176 (8 samples) - Total processed: 9400
+Processing batch 1177 (8 samples) - Total processed: 9408
+Processing batch 1178 (8 samples) - Total processed: 9416
+Processing batch 1179 (8 samples) - Total processed: 9424
+Processing batch 1180 (8 samples) - Total processed: 9432
+Processing batch 1181 (8 samples) - Total processed: 9440
+Memory usage after batch 1181: RSS=4088.3MB, VMS=36870.1MB, Increase=2424.1MB
+Processing batch 1182 (8 samples) - Total processed: 9448
+Processing batch 1183 (8 samples) - Total processed: 9456
+Processing batch 1184 (8 samples) - Total processed: 9464
+Processing batch 1185 (8 samples) - Total processed: 9472
+Processing batch 1186 (8 samples) - Total processed: 9480
+Processing batch 1187 (8 samples) - Total processed: 9488
+Processing batch 1188 (8 samples) - Total processed: 9496
+Processing batch 1189 (8 samples) - Total processed: 9504
+Processing batch 1190 (8 samples) - Total processed: 9512
+Processing batch 1191 (8 samples) - Total processed: 9520
+Memory usage after batch 1191: RSS=4106.3MB, VMS=36870.1MB, Increase=2442.1MB
+Processing batch 1192 (8 samples) - Total processed: 9528
+Processing batch 1193 (8 samples) - Total processed: 9536
+Processing batch 1194 (8 samples) - Total processed: 9544
+Processing batch 1195 (8 samples) - Total processed: 9552
+Processing batch 1196 (8 samples) - Total processed: 9560
+Processing batch 1197 (8 samples) - Total processed: 9568
+Processing batch 1198 (8 samples) - Total processed: 9576
+Processing batch 1199 (8 samples) - Total processed: 9584
+Processing batch 1200 (8 samples) - Total processed: 9592
+Processing batch 1201 (8 samples) - Total processed: 9600
+Memory usage after batch 1201: RSS=4122.3MB, VMS=36870.1MB, Increase=2458.0MB
+Processing batch 1202 (8 samples) - Total processed: 9608
+Processing batch 1203 (8 samples) - Total processed: 9616
+Processing batch 1204 (8 samples) - Total processed: 9624
+Processing batch 1205 (8 samples) - Total processed: 9632
+Processing batch 1206 (8 samples) - Total processed: 9640
+Processing batch 1207 (8 samples) - Total processed: 9648
+Processing batch 1208 (8 samples) - Total processed: 9656
+Processing batch 1209 (8 samples) - Total processed: 9664
+Processing batch 1210 (8 samples) - Total processed: 9672
+Processing batch 1211 (8 samples) - Total processed: 9680
+Memory usage after batch 1211: RSS=4138.8MB, VMS=36870.1MB, Increase=2474.5MB
+Processing batch 1212 (8 samples) - Total processed: 9688
+Processing batch 1213 (8 samples) - Total processed: 9696
+Processing batch 1214 (8 samples) - Total processed: 9704
+Processing batch 1215 (8 samples) - Total processed: 9712
+Processing batch 1216 (8 samples) - Total processed: 9720
+Processing batch 1217 (8 samples) - Total processed: 9728
+Processing batch 1218 (8 samples) - Total processed: 9736
+Processing batch 1219 (8 samples) - Total processed: 9744
+Processing batch 1220 (8 samples) - Total processed: 9752
+Processing batch 1221 (8 samples) - Total processed: 9760
+Memory usage after batch 1221: RSS=4157.0MB, VMS=36870.1MB, Increase=2492.8MB
+Processing batch 1222 (8 samples) - Total processed: 9768
+Processing batch 1223 (8 samples) - Total processed: 9776
+Processing batch 1224 (8 samples) - Total processed: 9784
+Processing batch 1225 (8 samples) - Total processed: 9792
+Processing batch 1226 (8 samples) - Total processed: 9800
+Processing batch 1227 (8 samples) - Total processed: 9808
+Processing batch 1228 (8 samples) - Total processed: 9816
+Processing batch 1229 (8 samples) - Total processed: 9824
+Processing batch 1230 (8 samples) - Total processed: 9832
+Processing batch 1231 (8 samples) - Total processed: 9840
+Memory usage after batch 1231: RSS=4176.5MB, VMS=36870.1MB, Increase=2512.3MB
+Processing batch 1232 (8 samples) - Total processed: 9848
+Processing batch 1233 (8 samples) - Total processed: 9856
+Processing batch 1234 (8 samples) - Total processed: 9864
+Processing batch 1235 (8 samples) - Total processed: 9872
+Processing batch 1236 (8 samples) - Total processed: 9880
+Processing batch 1237 (8 samples) - Total processed: 9888
+Processing batch 1238 (8 samples) - Total processed: 9896
+Processing batch 1239 (8 samples) - Total processed: 9904
+Processing batch 1240 (8 samples) - Total processed: 9912
+Processing batch 1241 (8 samples) - Total processed: 9920
+Memory usage after batch 1241: RSS=4193.8MB, VMS=36870.1MB, Increase=2529.5MB
+Processing batch 1242 (8 samples) - Total processed: 9928
+Processing batch 1243 (8 samples) - Total processed: 9936
+Processing batch 1244 (8 samples) - Total processed: 9944
+Processing batch 1245 (8 samples) - Total processed: 9952
+Processing batch 1246 (8 samples) - Total processed: 9960
+Processing batch 1247 (8 samples) - Total processed: 9968
+Processing batch 1248 (8 samples) - Total processed: 9976
+Processing batch 1249 (8 samples) - Total processed: 9984
+Processing batch 1250 (8 samples) - Total processed: 9992
+Adding 10000 embeddings to FAISS index...
+Memory usage after building: RSS=4209.6MB, VMS=36870.1MB, Increase=2545.4MB
+Successfully added 10000 image embeddings to the index
+Total samples processed: 10000
+  - Images not stored in memory for efficiency
+  - Vector database ready for similarity search
+3. Saving vector database for future use...
+Vector database saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+  - Index: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb/image_index.faiss
+  - Metadata: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb/metadata.json
+   Vector database saved to: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+Pipeline setup complete!
+============================================================
+============================================================
+GENERATING CAPTIONS WITH RAG
+============================================================
+Error running pipeline: 'MedicalImageCaptioner' object has no attribute 'num_validation_samples'
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 03:59:30 PM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13212.err para mais detalhes.
+==========================================

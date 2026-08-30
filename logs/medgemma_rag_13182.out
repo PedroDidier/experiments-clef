@@ -1,0 +1,8 @@
+==========================================
+Iniciando Job 13182 em Sun Aug 23 01:17:39 AM -03 2026
+Nó de execução: cluster-node10
+==========================================
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 01:18:37 AM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13182.err para mais detalhes.
+==========================================

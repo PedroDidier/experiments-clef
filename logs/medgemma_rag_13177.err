@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 451, in <module>
+    main(config)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 417, in main
+    pipeline = MedicalImageCaptioner(config_file=config.config_file if hasattr(config, 'config_file') else None)
+TypeError: MedicalImageCaptioner.__init__() got an unexpected keyword argument 'config_file'

@@ -1,0 +1,40 @@
+==========================================
+Iniciando Job 13218 em Sun Aug 23 05:25:24 PM -03 2026
+Nó de execução: cluster-node6
+==========================================
+Configured caching to use C: drive: /home/CIN/agsl/.cache/huggingface
+
+---> Running pipeline: google/medgemma-1.5-4b-it | RAG k=0 <---
+Carregando modelo local google/medgemma-1.5-4b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Loading ROCOv2 dataset from HuggingFace: eltorio/ROCOv2-radiology
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded dataset with splits: ['train', 'validation', 'test']
+Train samples: 59962
+Validation samples: 9904
+Test samples: 9927
+   Dataset info: {'dataset_name': 'eltorio/ROCOv2-radiology', 'splits': ['train', 'validation', 'test'], 'train_samples': 59962, 'validation_samples': 9904, 'test_samples': 9927, 'features': ['image', 'image_id', 'caption', 'cui']}
+2. Loading existing vector database...
+   Found existing vector database at: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+Using device: cuda
+Loading CLIP model: openai/clip-vit-base-patch32
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded CLIP model: openai/clip-vit-base-patch32
+Vector database loaded from /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+  - Index contains 10000 embeddings
+  - Metadata contains 10000 entries
+   Vector database loaded successfully!
+Pipeline setup complete!
+============================================================
+============================================================
+GENERATING CAPTIONS WITH RAG
+============================================================
+1. Sampling 300 validation images...
+Error running pipeline: 'MedicalImageCaptioner' object has no attribute 'random_seed'
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 05:26:00 PM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13218.err para mais detalhes.
+==========================================

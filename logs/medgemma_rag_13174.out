@@ -1,0 +1,12 @@
+==========================================
+Iniciando Job 13174 em Sun Aug 23 12:19:39 AM -03 2026
+Nó de execução: cluster-node7
+==========================================
+Configured caching to use C: drive: /home/CIN/agsl/.cache/huggingface
+
+---> Running pipeline: google/medgemma-27b-it | RAG k=0 <---
+Warning: HF_TOKEN not found. Ensure you are authenticated via 'huggingface-cli login'.
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 12:21:15 AM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13174.err para mais detalhes.
+==========================================

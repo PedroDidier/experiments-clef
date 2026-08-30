@@ -1,0 +1,29 @@
+==========================================
+Iniciando Job 13183 em Sun Aug 23 01:25:04 AM -03 2026
+Nó de execução: cluster-node10
+==========================================
+Configured caching to use C: drive: /home/CIN/agsl/.cache/huggingface
+
+---> Running pipeline: google/medgemma-27b-it | RAG k=0 <---
+Carregando modelo local google/medgemma-27b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Loading ROCOv2 dataset from HuggingFace: eltorio/ROCOv2-radiology
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded dataset with splits: ['train', 'validation', 'test']
+Train samples: 59962
+Validation samples: 9904
+Test samples: 9927
+   Dataset info: {'dataset_name': 'eltorio/ROCOv2-radiology', 'splits': ['train', 'validation', 'test'], 'train_samples': 59962, 'validation_samples': 9904, 'test_samples': 9927, 'features': ['image', 'image_id', 'caption', 'cui']}
+2. Building vector database from training data...
+   Using memory-efficient streaming to prevent RAM explosion...
+Preparing 59962 training samples for vector database
+Using memory-efficient streaming processing...
+   Processing up to 10000 training samples for vector database
+Error running pipeline: 'MedicalImageCaptioner' object has no attribute 'vectordb'
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 02:14:35 AM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13183.err para mais detalhes.
+==========================================

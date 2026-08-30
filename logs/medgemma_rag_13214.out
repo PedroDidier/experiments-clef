@@ -1,0 +1,26 @@
+==========================================
+Iniciando Job 13214 em Sun Aug 23 04:47:57 PM -03 2026
+Nó de execução: cluster-node6
+==========================================
+Configured caching to use C: drive: /home/CIN/agsl/.cache/huggingface
+
+---> Running pipeline: google/medgemma-1.5-4b-it | RAG k=0 <---
+Carregando modelo local google/medgemma-1.5-4b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Loading ROCOv2 dataset from HuggingFace: eltorio/ROCOv2-radiology
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded dataset with splits: ['train', 'validation', 'test']
+Train samples: 59962
+Validation samples: 9904
+Test samples: 9927
+   Dataset info: {'dataset_name': 'eltorio/ROCOv2-radiology', 'splits': ['train', 'validation', 'test'], 'train_samples': 59962, 'validation_samples': 9904, 'test_samples': 9927, 'features': ['image', 'image_id', 'caption', 'cui']}
+2. Loading existing vector database...
+   Found existing vector database at: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+Error running pipeline: 'MedicalImageCaptioner' object has no attribute 'vectordb'
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 04:57:29 PM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13214.err para mais detalhes.
+==========================================

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 187, in _run_module_as_main
+    mod_name, mod_spec, code = _get_module_details(mod_name, _Error)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 157, in _get_module_details
+    code = loader.get_code(mod_name)
+  File "<frozen importlib._bootstrap_external>", line 1017, in get_code
+  File "<frozen importlib._bootstrap_external>", line 947, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 77
+    self.config = get_config()
+TabError: inconsistent use of tabs and spaces in indentation

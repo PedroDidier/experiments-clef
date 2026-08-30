@@ -1,0 +1,8 @@
+==========================================
+Iniciando Job 13172 em Sun Aug 23 12:17:47 AM -03 2026
+Nó de execução: cluster-node7
+==========================================
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 12:17:51 AM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13172.err para mais detalhes.
+==========================================

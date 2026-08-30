@@ -1,0 +1,1392 @@
+==========================================
+Iniciando Job 13219 em Sun Aug 23 05:31:56 PM -03 2026
+Nó de execução: cluster-node6
+==========================================
+Configured caching to use C: drive: /home/CIN/agsl/.cache/huggingface
+
+---> Running pipeline: google/medgemma-1.5-4b-it | RAG k=0 <---
+Carregando modelo local google/medgemma-1.5-4b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Loading ROCOv2 dataset from HuggingFace: eltorio/ROCOv2-radiology
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded dataset with splits: ['train', 'validation', 'test']
+Train samples: 59962
+Validation samples: 9904
+Test samples: 9927
+   Dataset info: {'dataset_name': 'eltorio/ROCOv2-radiology', 'splits': ['train', 'validation', 'test'], 'train_samples': 59962, 'validation_samples': 9904, 'test_samples': 9927, 'features': ['image', 'image_id', 'caption', 'cui']}
+2. Loading existing vector database...
+   Found existing vector database at: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+Using device: cuda
+Loading CLIP model: openai/clip-vit-base-patch32
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded CLIP model: openai/clip-vit-base-patch32
+Vector database loaded from /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+  - Index contains 10000 embeddings
+  - Metadata contains 10000 entries
+   Vector database loaded successfully!
+Pipeline setup complete!
+============================================================
+============================================================
+GENERATING CAPTIONS WITH RAG
+============================================================
+1. Sampling 300 validation images...
+Sampled 300 validation samples for evaluation
+   Processing 300 validation samples
+[17:41:56] Amostra 1/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001832: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000410: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004521: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004027: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003671: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002296: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001687: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008976: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001432: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:41:57] Amostra 10/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009718: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006939: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000522: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000489: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001543: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003596: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003825: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008316: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009908: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000435: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:41:58] Amostra 20/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009236: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003270: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008969: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006898: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003625: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007389: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009698: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004572: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000107: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002625: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:41:59] Amostra 30/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006951: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005593: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004567: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002557: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003541: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005533: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001682: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001527: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006247: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001592: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:00] Amostra 40/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005901: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005654: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009936: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004348: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000713: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007558: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008826: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002055: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006224: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001299: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:00] Amostra 50/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009085: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004819: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005945: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009502: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003163: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001146: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000754: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003747: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004757: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001315: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:01] Amostra 60/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003828: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001662: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006250: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004569: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007458: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005999: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002674: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006087: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005840: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003446: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:02] Amostra 70/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004389: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001176: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002816: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008792: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004025: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002687: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007605: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006239: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004437: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009166: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:03] Amostra 80/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003612: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005331: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000922: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003766: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000527: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005185: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006596: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004401: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001090: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003470: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:04] Amostra 90/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009335: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005172: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003497: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008215: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006505: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007548: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002350: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004354: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002297: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004055: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:05] Amostra 100/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009238: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008871: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004319: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009621: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007046: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009604: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006567: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005950: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003607: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002276: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:05] Amostra 110/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008386: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008120: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001497: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000775: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001804: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002514: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002631: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006943: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009816: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001046: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:06] Amostra 120/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006327: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006275: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009808: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007700: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008710: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004134: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009105: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000189: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001885: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008838: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:07] Amostra 130/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004386: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005592: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001835: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004824: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007150: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002601: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007463: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000054: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004330: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008237: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:07] Amostra 140/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002940: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008354: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001751: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004905: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003271: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006148: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002656: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008878: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008730: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000010: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:08] Amostra 150/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009858: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005328: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008040: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000320: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001840: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005969: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005055: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003938: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000955: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003961: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:09] Amostra 160/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009338: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001298: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001411: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007997: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001140: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008768: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002070: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002113: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007819: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009048: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:10] Amostra 170/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002716: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004357: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008686: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006959: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003484: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008876: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003308: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005124: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006561: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006140: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:10] Amostra 180/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007205: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008519: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007427: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001991: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004076: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003695: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001055: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005558: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000345: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009682: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:11] Amostra 190/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009116: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003784: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009685: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003622: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000118: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001170: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000970: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003764: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001110: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000516: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:12] Amostra 200/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005431: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001167: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008462: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003914: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004577: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007988: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003524: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008875: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002177: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009398: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:13] Amostra 210/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009483: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007776: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003996: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007781: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006693: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003132: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001553: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001596: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007089: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005824: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:13] Amostra 220/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006966: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006759: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007683: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000893: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001620: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000999: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006620: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005578: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001798: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004088: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:14] Amostra 230/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003152: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003129: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008827: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007380: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002306: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003019: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004578: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007611: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004107: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001243: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:15] Amostra 240/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007289: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009057: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001612: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000834: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008897: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000242: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001536: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003887: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002735: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006682: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:16] Amostra 250/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007991: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007918: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003516: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006594: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000966: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002708: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006232: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000036: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006419: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004360: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:17] Amostra 260/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007484: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004688: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006957: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009146: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008008: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002546: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003124: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004877: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003580: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000964: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:17] Amostra 270/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009533: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008924: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001004: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005155: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000942: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000827: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009615: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007843: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008275: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008742: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:18] Amostra 280/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002589: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000937: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008357: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001320: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003057: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001129: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009794: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001119: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003867: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006639: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:19] Amostra 290/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001973: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009376: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004048: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009529: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009785: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000653: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001351: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006893: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009606: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009303: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:19] Amostra 300/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008605: 'MedicalImageCaptioner' object has no attribute 'captioner'
+
+============================================================
+CAPTION GENERATION COMPLETE
+============================================================
+Total samples processed: 300
+Successful generations: 0
+Failed generations: 300
+Total cost: $0.0000
+Average cost per sample: $0.0000
+Results saved to: /home/CIN/agsl/experimento-medgemma/Test-cluster/responses/responses_rag_hf_2026-08-23_17-41.jsonl
+============================================================
+RUNNING EVALUATION ANALYSIS
+============================================================
+Caption Metrics:
+  BLEU Mean: 0.0000
+  ROUGE-1 Mean: 0.0000
+  ROUGE-2 Mean: 0.0000
+  ROUGE-L Mean: 0.0000
+Caption visualizations saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/caption_metrics.png
+No detailed results available for examples
+Evaluation report saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/evaluation_report_2026-08-23_17-42.md
+Evaluation analysis complete! Check evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples for results.
+Saving pipeline state to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state...
+Vector database saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb
+  - Index: /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb/image_index.faiss
+  - Metadata: /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb/metadata.json
+Pipeline state saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state
+
+PIPELINE EXECUTION COMPLETE
+
+---> Running pipeline: google/medgemma-1.5-4b-it | RAG k=3 <---
+Carregando modelo local google/medgemma-1.5-4b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Loading ROCOv2 dataset from HuggingFace: eltorio/ROCOv2-radiology
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded dataset with splits: ['train', 'validation', 'test']
+Train samples: 59962
+Validation samples: 9904
+Test samples: 9927
+   Dataset info: {'dataset_name': 'eltorio/ROCOv2-radiology', 'splits': ['train', 'validation', 'test'], 'train_samples': 59962, 'validation_samples': 9904, 'test_samples': 9927, 'features': ['image', 'image_id', 'caption', 'cui']}
+2. Loading existing vector database...
+   Found existing vector database at: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+Using device: cuda
+Loading CLIP model: openai/clip-vit-base-patch32
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded CLIP model: openai/clip-vit-base-patch32
+Vector database loaded from /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+  - Index contains 10000 embeddings
+  - Metadata contains 10000 entries
+   Vector database loaded successfully!
+Pipeline setup complete!
+============================================================
+============================================================
+GENERATING CAPTIONS WITH RAG
+============================================================
+1. Sampling 300 validation images...
+Sampled 300 validation samples for evaluation
+   Processing 300 validation samples
+[17:42:44] Amostra 1/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001832: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000410: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004521: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004027: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003671: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002296: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001687: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008976: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001432: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:44] Amostra 10/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009718: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006939: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000522: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000489: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001543: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003596: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003825: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008316: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009908: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000435: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:45] Amostra 20/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009236: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003270: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008969: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006898: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003625: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007389: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009698: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004572: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000107: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002625: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:46] Amostra 30/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006951: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005593: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004567: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002557: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003541: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005533: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001682: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001527: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006247: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001592: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:46] Amostra 40/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005901: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005654: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009936: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004348: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000713: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007558: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008826: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002055: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006224: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001299: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:47] Amostra 50/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009085: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004819: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005945: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009502: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003163: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001146: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000754: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003747: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004757: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001315: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:48] Amostra 60/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003828: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001662: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006250: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004569: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007458: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005999: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002674: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006087: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005840: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003446: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:49] Amostra 70/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004389: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001176: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002816: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008792: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004025: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002687: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007605: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006239: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004437: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009166: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:50] Amostra 80/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003612: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005331: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000922: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003766: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000527: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005185: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006596: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004401: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001090: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003470: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:51] Amostra 90/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009335: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005172: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003497: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008215: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006505: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007548: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002350: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004354: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002297: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004055: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:51] Amostra 100/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009238: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008871: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004319: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009621: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007046: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009604: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006567: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005950: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003607: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002276: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:52] Amostra 110/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008386: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008120: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001497: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000775: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001804: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002514: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002631: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006943: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009816: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001046: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:53] Amostra 120/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006327: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006275: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009808: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007700: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008710: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004134: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009105: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000189: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001885: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008838: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:54] Amostra 130/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004386: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005592: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001835: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004824: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007150: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002601: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007463: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000054: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004330: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008237: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:54] Amostra 140/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002940: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008354: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001751: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004905: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003271: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006148: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002656: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008878: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008730: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000010: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:55] Amostra 150/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009858: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005328: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008040: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000320: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001840: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005969: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005055: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003938: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000955: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003961: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:56] Amostra 160/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009338: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001298: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001411: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007997: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001140: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008768: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002070: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002113: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007819: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009048: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:57] Amostra 170/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002716: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004357: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008686: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006959: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003484: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008876: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003308: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005124: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006561: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006140: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:57] Amostra 180/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007205: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008519: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007427: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001991: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004076: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003695: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001055: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005558: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000345: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009682: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:58] Amostra 190/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009116: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003784: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009685: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003622: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000118: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001170: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000970: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003764: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001110: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000516: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:42:59] Amostra 200/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005431: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001167: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008462: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003914: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004577: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007988: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003524: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008875: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002177: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009398: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:00] Amostra 210/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009483: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007776: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003996: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007781: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006693: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003132: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001553: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001596: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007089: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005824: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:01] Amostra 220/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006966: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006759: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007683: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000893: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001620: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000999: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006620: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005578: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001798: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004088: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:01] Amostra 230/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003152: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003129: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008827: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007380: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002306: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003019: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004578: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007611: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004107: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001243: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:02] Amostra 240/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007289: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009057: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001612: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000834: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008897: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000242: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001536: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003887: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002735: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006682: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:03] Amostra 250/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007991: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007918: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003516: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006594: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000966: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002708: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006232: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000036: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006419: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004360: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:03] Amostra 260/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007484: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004688: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006957: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009146: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008008: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002546: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003124: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004877: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003580: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000964: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:04] Amostra 270/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009533: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008924: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001004: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_005155: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000942: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000827: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009615: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_007843: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008275: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008742: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:05] Amostra 280/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_002589: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000937: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008357: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001320: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003057: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001129: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009794: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001119: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_003867: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006639: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:06] Amostra 290/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001973: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009376: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_004048: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009529: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009785: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_000653: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_001351: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_006893: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009606: 'MedicalImageCaptioner' object has no attribute 'captioner'
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_009303: 'MedicalImageCaptioner' object has no attribute 'captioner'
+[17:43:07] Amostra 300/300 em processamento...
+   Found 3 similar images for RAG
+   Error processing sample ROCOv2_2023_valid_008605: 'MedicalImageCaptioner' object has no attribute 'captioner'
+
+============================================================
+CAPTION GENERATION COMPLETE
+============================================================
+Total samples processed: 300
+Successful generations: 0
+Failed generations: 300
+Total cost: $0.0000
+Average cost per sample: $0.0000
+Results saved to: /home/CIN/agsl/experimento-medgemma/Test-cluster/responses/responses_rag_hf_2026-08-23_17-42.jsonl
+============================================================
+RUNNING EVALUATION ANALYSIS
+============================================================
+Caption Metrics:
+  BLEU Mean: 0.0000
+  ROUGE-1 Mean: 0.0000
+  ROUGE-2 Mean: 0.0000
+  ROUGE-L Mean: 0.0000
+Caption visualizations saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/caption_metrics.png
+No detailed results available for examples
+Evaluation report saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/evaluation_report_2026-08-23_17-43.md
+Evaluation analysis complete! Check evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples for results.
+Saving pipeline state to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state...
+Vector database saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb
+  - Index: /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb/image_index.faiss
+  - Metadata: /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb/metadata.json
+Pipeline state saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state
+
+PIPELINE EXECUTION COMPLETE
+==========================================
+ [SUCESSO] Pipeline finalizado com êxito em Sun Aug 23 05:43:11 PM -03 2026!
+==========================================

@@ -33,7 +33,7 @@ class Config:
         if custom_cache:
             self.cache_dir = Path(custom_cache)
         else:
-            self.cache_dir = Path(f"{self.cache_drive}:/huggingface_cache")
+            self.cache_dir = Path.home() / ".cache" / "huggingface"
         
         # Create cache directory
         self.cache_dir.mkdir(parents=True, exist_ok=True)
@@ -147,10 +147,6 @@ class Config:
         """Get analysis configuration."""
         return self.config_data.get('analysis', {})
     
-    def get_prompt_config(self) -> Dict[str, Any]:
-        """Get prompt configuration."""
-        return self.config_data.get('prompt', {})
-    
     def to_dict(self) -> dict:
         """Convert configuration to dictionary."""
         return {
@@ -181,26 +177,10 @@ class Config:
         
         for key, value in new_config.items():
             self.config_data['rag'][key] = value
-    
-    def update_prompt_config(self, new_config: Dict[str, Any]):
-        """Update prompt configuration."""
-        if 'prompt' not in self.config_data:
-            self.config_data['prompt'] = {}
-        
-        for key, value in new_config.items():
-            self.config_data['prompt'][key] = value
-        
-    def update_dataset_config(self, new_config: Dict[str, Any]):
-        """Update dataset configuration."""
-        if 'dataset' not in self.config_data:
-            self.config_data['dataset'] = {}
-        
-        for key, value in new_config.items():
-            self.config_data['dataset'][key] = value
 
 
 # Global configuration instance
-config = Config(config_file="config_deepinfra.yaml")
+config = Config(config_file="config_google.yaml")
 
 # Convenience function to get config
 def get_config() -> Config:

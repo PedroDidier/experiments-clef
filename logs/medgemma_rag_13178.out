@@ -1,0 +1,17 @@
+==========================================
+Iniciando Job 13178 em Sun Aug 23 12:29:36 AM -03 2026
+Nó de execução: cluster-node5
+==========================================
+Configured caching to use C: drive: /home/CIN/agsl/.cache/huggingface
+
+---> Running pipeline: google/medgemma-27b-it | RAG k=0 <---
+Carregando modelo local google/medgemma-27b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Error running pipeline: 'MedicalImageCaptioner' object has no attribute 'data_handler'
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 01:06:15 AM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13178.err para mais detalhes.
+==========================================

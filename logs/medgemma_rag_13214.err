@@ -1,0 +1,13 @@
+Loading weights:   0%|          | 0/883 [00:00<?, ?it/s]Loading weights:   0%|          | 1/883 [00:00<03:46,  3.90it/s]Loading weights:   1%|          | 5/883 [00:00<00:54, 16.16it/s]Loading weights:   4%|▍         | 37/883 [00:00<00:07, 115.31it/s]Loading weights:   7%|▋         | 66/883 [00:00<00:04, 170.80it/s]Loading weights:  11%|█         | 94/883 [00:00<00:03, 200.76it/s]Loading weights:  14%|█▎        | 121/883 [00:00<00:03, 218.82it/s]Loading weights:  17%|█▋        | 148/883 [00:00<00:03, 230.55it/s]Loading weights:  21%|██        | 182/883 [00:00<00:02, 261.96it/s]Loading weights:  24%|██▍       | 211/883 [00:01<00:02, 266.86it/s]Loading weights:  27%|██▋       | 239/883 [00:01<00:02, 260.35it/s]Loading weights:  31%|███       | 274/883 [00:01<00:02, 284.77it/s]Loading weights:  34%|███▍      | 303/883 [00:01<00:02, 274.90it/s]Loading weights:  37%|███▋      | 331/883 [00:01<00:02, 275.74it/s]Loading weights:  41%|████▏     | 365/883 [00:01<00:01, 294.30it/s]Loading weights:  45%|████▍     | 395/883 [00:01<00:01, 277.81it/s]Loading weights:  49%|████▉     | 432/883 [00:01<00:01, 294.76it/s]Loading weights:  60%|█████▉    | 528/883 [00:01<00:00, 481.39it/s]Loading weights:  74%|███████▍  | 653/883 [00:02<00:00, 700.40it/s]Loading weights:  88%|████████▊ | 781/883 [00:02<00:00, 865.97it/s]Loading weights: 100%|██████████| 883/883 [00:02<00:00, 395.19it/s]
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 463, in <module>
+    main(config)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 432, in main
+    pipeline.setup_pipeline()
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 97, in setup_pipeline
+    self.vectordb.load(str(vectordb_path))
+AttributeError: 'MedicalImageCaptioner' object has no attribute 'vectordb'

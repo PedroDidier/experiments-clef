@@ -1,0 +1,52 @@
+httpx.HTTPStatusError: Client error '403 Forbidden' for url 'https://huggingface.co/google/medgemma-1.5-4b-it/resolve/main/config.json'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/utils/hub.py", line 438, in cached_files
+    hf_hub_download(
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1019, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1166, in _hf_hub_download_to_cache_dir
+    _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1905, in _raise_on_head_call_error
+    raise head_call_error
+huggingface_hub.errors.GatedRepoError: 403 Client Error. (Request ID: Root=1-6a8b3a5a-4ef9326168c2fe5765403efd;787b3e26-f6e8-4c84-be0a-740c1f6b25be)
+
+Cannot access gated repo for url https://huggingface.co/google/medgemma-1.5-4b-it/resolve/main/config.json.
+Access to model google/medgemma-1.5-4b-it is restricted and you are not in the authorized list. Visit https://huggingface.co/google/medgemma-1.5-4b-it to ask for access.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 460, in <module>
+    main(config)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 423, in main
+    pipeline = MedicalImageCaptioner(
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 63, in __init__
+    self.model = AutoModelForImageTextToText.from_pretrained(
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 336, in from_pretrained
+    config, kwargs = AutoConfig.from_pretrained(
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/models/auto/configuration_auto.py", line 388, in from_pretrained
+    config_dict, unused_kwargs = PreTrainedConfig.get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/configuration_utils.py", line 745, in get_config_dict
+    config_dict, kwargs = cls._get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/configuration_utils.py", line 800, in _get_config_dict
+    resolved_config_file = cached_file(
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/utils/hub.py", line 294, in cached_file
+    file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/utils/hub.py", line 511, in cached_files
+    raise OSError(
+OSError: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/google/medgemma-1.5-4b-it.
+403 Client Error. (Request ID: Root=1-6a8b3a5a-4ef9326168c2fe5765403efd;787b3e26-f6e8-4c84-be0a-740c1f6b25be)
+
+Cannot access gated repo for url https://huggingface.co/google/medgemma-1.5-4b-it/resolve/main/config.json.
+Access to model google/medgemma-1.5-4b-it is restricted and you are not in the authorized list. Visit https://huggingface.co/google/medgemma-1.5-4b-it to ask for access.

@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/torch/_ops.py", line 1516, in load_library
+    ctypes.CDLL(path)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/torchaudio/lib/libtorchaudio.so: undefined symbol: _ZNK5torch8autograd4Node4nameEv
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 13, in <module>
+    from transformers import AutoProcessor, AutoModelForImageTextToText, BitsAndBytesConfig
+  File "<frozen importlib._bootstrap>", line 1075, in _handle_fromlist
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2535, in __getattr__
+    module = self._get_module(self._class_to_module[name])
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2769, in _get_module
+    raise e
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2767, in _get_module
+    return importlib.import_module("." + module_name, self.__name__)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/models/auto/processing_auto.py", line 25, in <module>
+    from ...image_processing_utils import ImageProcessingMixin
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/image_processing_utils.py", line 34, in <module>
+    from .processing_utils import ImagesKwargs, Unpack
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/processing_utils.py", line 38, in <module>
+    from .audio_utils import AudioInput, load_audio, make_list_of_audio
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/audio_utils.py", line 58, in <module>
+    import torchaudio
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/torchaudio/__init__.py", line 2, in <module>
+    from . import _extension  # noqa  # usort: skip
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/torchaudio/_extension/__init__.py", line 38, in <module>
+    _load_lib("libtorchaudio")
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/torchaudio/_extension/utils.py", line 60, in _load_lib
+    torch.ops.load_library(path)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/torch/_ops.py", line 1518, in load_library
+    raise OSError(f"Could not load this library: {path}") from e
+OSError: Could not load this library: /home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/torchaudio/lib/libtorchaudio.so

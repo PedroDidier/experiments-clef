@@ -1,0 +1,21 @@
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 457, in <module>
+    main(config)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 420, in main
+    pipeline = MedicalImageCaptioner(
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 62, in __init__
+    self.model = AutoModelForImageTextToText.from_pretrained(
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 402, in from_pretrained
+    return model_class.from_pretrained(
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/modeling_utils.py", line 4328, in from_pretrained
+    device_map = _get_device_map(model, device_map, max_memory, hf_quantizer)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/integrations/accelerate.py", line 370, in _get_device_map
+    hf_quantizer.validate_environment(device_map=device_map)
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/site-packages/transformers/quantizers/quantizer_bnb_4bit.py", line 74, in validate_environment
+    raise ValueError(
+ValueError: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `device_map` to `from_pretrained`. Check https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu for more details. 

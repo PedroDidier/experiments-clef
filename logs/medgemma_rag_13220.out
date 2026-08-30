@@ -1,0 +1,2642 @@
+==========================================
+Iniciando Job 13220 em Sun Aug 23 06:47:20 PM -03 2026
+Nó de execução: cluster-node6
+==========================================
+Configured caching to use C: drive: /home/CIN/agsl/.cache/huggingface
+
+---> Running pipeline: google/medgemma-1.5-4b-it | RAG k=0 <---
+Loading local model: google/medgemma-1.5-4b-it with 4-bit quantization...
+Carregando modelo local google/medgemma-1.5-4b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Loading ROCOv2 dataset from HuggingFace: eltorio/ROCOv2-radiology
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded dataset with splits: ['train', 'validation', 'test']
+Train samples: 59962
+Validation samples: 9904
+Test samples: 9927
+   Dataset info: {'dataset_name': 'eltorio/ROCOv2-radiology', 'splits': ['train', 'validation', 'test'], 'train_samples': 59962, 'validation_samples': 9904, 'test_samples': 9927, 'features': ['image', 'image_id', 'caption', 'cui']}
+2. Loading existing vector database...
+   Found existing vector database at: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+Using device: cuda
+Loading CLIP model: openai/clip-vit-base-patch32
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded CLIP model: openai/clip-vit-base-patch32
+Vector database loaded from /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+  - Index contains 10000 embeddings
+  - Metadata contains 10000 entries
+   Vector database loaded successfully!
+Pipeline setup complete!
+============================================================
+============================================================
+GENERATING CAPTIONS WITH RAG
+============================================================
+1. Sampling 300 validation images...
+Sampled 300 validation samples for evaluation
+   Processing 300 validation samples
+[18:54:43] Amostra 1/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Enhanced abdominal CT scan showing a large, hypodense mass in the right hepatic lobe, with associate...
+   Token usage: {'input_tokens': 367, 'output_tokens': 39, 'total_tokens': 406, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Here's a clinical caption for the provided image:
+
+**Intraoperative cholangiography showing patent b...
+   Token usage: {'input_tokens': 399, 'output_tokens': 91, 'total_tokens': 490, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The CT scan shows a large, well-defined, and enhancing mass in the right paranasal sinus, likely rep...
+   Token usage: {'input_tokens': 386, 'output_tokens': 90, 'total_tokens': 476, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the chest shows cardiomegaly and a possible enlarged right ventricle....
+   Token usage: {'input_tokens': 372, 'output_tokens': 19, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound of the left shoulder shows a normal α angle of 60 degrees....
+   Token usage: {'input_tokens': 417, 'output_tokens': 21, 'total_tokens': 438, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Post-contrast CT scan of the abdomen showing a lobulated mass (arrowheads) with cystic components in...
+   Token usage: {'input_tokens': 411, 'output_tokens': 39, 'total_tokens': 450, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right humerus, lateral view, showing a fracture of the distal humerus with displacement. The fractur...
+   Token usage: {'input_tokens': 373, 'output_tokens': 50, 'total_tokens': 423, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Posteroanterior chest X-ray showing a left pleural effusion (arrow)....
+   Token usage: {'input_tokens': 399, 'output_tokens': 16, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan showing a large retroperitoneal hematoma with contrast extravasation. The hematoma is locate...
+   Token usage: {'input_tokens': 372, 'output_tokens': 41, 'total_tokens': 413, 'cost_usd': 0.0}
+   Cost: $0.0000
+[18:55:26] Amostra 10/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial T2 fat suppressed MRI of the chest at the level of T3 showing a paravertebral mass ext...
+   Token usage: {'input_tokens': 397, 'output_tokens': 63, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronal section of the abdomen showing a large hepatic lesion and a bowel wall hematoma at the splen...
+   Token usage: {'input_tokens': 357, 'output_tokens': 24, 'total_tokens': 381, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen and pelvis shows dilated loops of small bowel in the left upper quadran...
+   Token usage: {'input_tokens': 377, 'output_tokens': 22, 'total_tokens': 399, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT Chest - Axial View: A large, round, well-defined, hyperdense lesion is seen in the right atrium (...
+   Token usage: {'input_tokens': 440, 'output_tokens': 113, 'total_tokens': 553, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: The image shows a transverse view of the right thyroid gland. A nodule is identified in th...
+   Token usage: {'input_tokens': 469, 'output_tokens': 59, 'total_tokens': 528, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Ultrasound of the liver showing a hyperechoic lesion with possible trapped gas....
+   Token usage: {'input_tokens': 414, 'output_tokens': 18, 'total_tokens': 432, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the chest showing a large mass in the left lung. The mass is located in the upper...
+   Token usage: {'input_tokens': 440, 'output_tokens': 512, 'total_tokens': 952, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Pancreatic head mass with a small amount of necrosis. The mass is located in the pancreatic ...
+   Token usage: {'input_tokens': 482, 'output_tokens': 512, 'total_tokens': 994, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: X-ray of the right wrist showing a lunotriquetral coalition with associated ulnar impaction ...
+   Token usage: {'input_tokens': 454, 'output_tokens': 119, 'total_tokens': 573, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Barium meal showing a large hiatal hernia with a large air-filled stomach....
+   Token usage: {'input_tokens': 372, 'output_tokens': 22, 'total_tokens': 394, 'cost_usd': 0.0}
+   Cost: $0.0000
+[18:56:56] Amostra 20/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the abdomen and pelvis showing a large mass in the right lower quadrant, likely represent...
+   Token usage: {'input_tokens': 400, 'output_tokens': 55, 'total_tokens': 455, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT brain showing a ring-like hyperdensity with central calcification (red arrow)....
+   Token usage: {'input_tokens': 371, 'output_tokens': 20, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T1-weighted MRI showing a lesion with enhancement of its walls, involving the cerebellum. This...
+   Token usage: {'input_tokens': 406, 'output_tokens': 30, 'total_tokens': 436, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: The radiograph shows a large shell of periosteal bone (arrows) at the left femur. There is i...
+   Token usage: {'input_tokens': 412, 'output_tokens': 512, 'total_tokens': 924, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Final OPT....
+   Token usage: {'input_tokens': 354, 'output_tokens': 4, 'total_tokens': 358, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the chest showing a large mass in the right lung, with a possible associated medi...
+   Token usage: {'input_tokens': 493, 'output_tokens': 70, 'total_tokens': 563, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the chest showing bilateral pleural effusions and possible pneumonia.
+CT: Computed tomogr...
+   Token usage: {'input_tokens': 371, 'output_tokens': 512, 'total_tokens': 883, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT coronal section demonstrating a large mass in the left upper quadrant displacing the stomach and ...
+   Token usage: {'input_tokens': 406, 'output_tokens': 512, 'total_tokens': 918, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: The PET/CT scan shows increased FDG uptake in the liver, spleen, and lymph nodes in the he...
+   Token usage: {'input_tokens': 398, 'output_tokens': 87, 'total_tokens': 485, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Coronary Angiogram showing a significant stenosis in the proximal left anterior descending a...
+   Token usage: {'input_tokens': 451, 'output_tokens': 68, 'total_tokens': 519, 'cost_usd': 0.0}
+   Cost: $0.0000
+[18:58:49] Amostra 30/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS:
+The image shows a chest X-ray. There is a large opacity in the left lower lung field, whic...
+   Token usage: {'input_tokens': 378, 'output_tokens': 80, 'total_tokens': 458, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a posteroanterior (PA) skull radiograph. There is a radiopaque foreign body (indicat...
+   Token usage: {'input_tokens': 379, 'output_tokens': 73, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transversal T1-weighted magnetic resonance image of the chest showing a large mass in the ri...
+   Token usage: {'input_tokens': 393, 'output_tokens': 51, 'total_tokens': 444, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal CBCT section showing the points at which measurements were made in a edentulous stu...
+   Token usage: {'input_tokens': 482, 'output_tokens': 66, 'total_tokens': 548, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan showing a large, fluid-filled structure in the left upper quadrant, likely representing a cy...
+   Token usage: {'input_tokens': 379, 'output_tokens': 52, 'total_tokens': 431, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Large air fluid levels in the abdominal cavity....
+   Token usage: {'input_tokens': 390, 'output_tokens': 10, 'total_tokens': 400, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT scan (axial) in a patient with gastric cancer exhibiting port-site metastasis (arrow) a...
+   Token usage: {'input_tokens': 424, 'output_tokens': 46, 'total_tokens': 470, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronary angiography showing a bifurcation lesion in the obtuse marginal branch of the circumflex co...
+   Token usage: {'input_tokens': 370, 'output_tokens': 21, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Postoperative CT scan showing a large paravaginal hematoma extending to the supralevator space....
+   Token usage: {'input_tokens': 371, 'output_tokens': 22, 'total_tokens': 393, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT abdomen showing a large amount of free fluid in the abdomen. The fluid is likely a result of a ru...
+   Token usage: {'input_tokens': 395, 'output_tokens': 59, 'total_tokens': 454, 'cost_usd': 0.0}
+   Cost: $0.0000
+[18:59:23] Amostra 40/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Large pseudocyst in the left lobe of the liver....
+   Token usage: {'input_tokens': 361, 'output_tokens': 12, 'total_tokens': 373, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Abdominal X-ray showing dilated loops of bowel and low air in the colon, consistent with the...
+   Token usage: {'input_tokens': 384, 'output_tokens': 41, 'total_tokens': 425, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT image of the abdomen shows a dilated common bile duct and gallbladder, with a thickened ana...
+   Token usage: {'input_tokens': 416, 'output_tokens': 29, 'total_tokens': 445, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Angiography after coil placement. The contrast medium injected reaches the proximal portal v...
+   Token usage: {'input_tokens': 427, 'output_tokens': 68, 'total_tokens': 495, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: RT ADNEXA SAG
+
+This image shows a sagittal ultrasound view of the right adnexa. The uterus is not cl...
+   Token usage: {'input_tokens': 402, 'output_tokens': 512, 'total_tokens': 914, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen showing a rim-enhancing fluid collection with air-fluid level in the ga...
+   Token usage: {'input_tokens': 408, 'output_tokens': 31, 'total_tokens': 439, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right knee, anteroposterior (AP) view.
+
+This image shows a normal knee joint with no obvious signs o...
+   Token usage: {'input_tokens': 362, 'output_tokens': 70, 'total_tokens': 432, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Final panoramic radiograph....
+   Token usage: {'input_tokens': 347, 'output_tokens': 6, 'total_tokens': 353, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Post-operative X-ray of the pelvis showing a total hip replacement. The femoral head is repl...
+   Token usage: {'input_tokens': 376, 'output_tokens': 66, 'total_tokens': 442, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen showing a 6.5 x 4.5 cm mass in the right lower quadrant, with a small a...
+   Token usage: {'input_tokens': 426, 'output_tokens': 36, 'total_tokens': 462, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:00:18] Amostra 50/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the chest. Note the presence of a large bulla in the right upper lobe. The left l...
+   Token usage: {'input_tokens': 462, 'output_tokens': 512, 'total_tokens': 974, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen showing a large, well-defined cystic lesion in the left upper quadrant,...
+   Token usage: {'input_tokens': 394, 'output_tokens': 51, 'total_tokens': 445, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray PA shows bilateral pleural effusions.
+PA: posteroanterior....
+   Token usage: {'input_tokens': 357, 'output_tokens': 19, 'total_tokens': 376, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right chest CT showing a large pleural effusion with associated compressive atelectasis of the right...
+   Token usage: {'input_tokens': 367, 'output_tokens': 33, 'total_tokens': 400, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen showing a large mass in the pelvis, likely representing a tumor. The ma...
+   Token usage: {'input_tokens': 383, 'output_tokens': 512, 'total_tokens': 895, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a hyperintense signal involving the white matter, potentially indicative of...
+   Token usage: {'input_tokens': 378, 'output_tokens': 37, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The PA chest X-ray shows a large mass in the left lung, potentially causing a shift of the heart to ...
+   Token usage: {'input_tokens': 383, 'output_tokens': 38, 'total_tokens': 421, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the right ankle showing a plantar fasciitis and abnormality in the signal of ADQ muscle fiber...
+   Token usage: {'input_tokens': 420, 'output_tokens': 40, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT Chest (Coronal View) showing a right pulmonary artery stent graft. The stent graft is occluded, w...
+   Token usage: {'input_tokens': 451, 'output_tokens': 512, 'total_tokens': 963, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the right ankle showing subcutaneous scars anterior to the ankle....
+   Token usage: {'input_tokens': 424, 'output_tokens': 15, 'total_tokens': 439, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:02:06] Amostra 60/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest CT showing ground-glass nodular opacities, with poorly defined nodules....
+   Token usage: {'input_tokens': 408, 'output_tokens': 22, 'total_tokens': 430, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left ankle: X-ray showing a midfoot fracture-dislocation of the diabetic CN foot....
+   Token usage: {'input_tokens': 406, 'output_tokens': 21, 'total_tokens': 427, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: Contrast-enhanced thoracic computed tomography on 1st admission at the hospital. Lung absces...
+   Token usage: {'input_tokens': 437, 'output_tokens': 45, 'total_tokens': 482, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest X-ray showing a nasogastric tube (arrow) with its tip in the stomach. There is a small...
+   Token usage: {'input_tokens': 433, 'output_tokens': 74, 'total_tokens': 507, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left coronary artery (LCA) in 60 degree LAO position (45 months, pre-operative coronary angiography)...
+   Token usage: {'input_tokens': 387, 'output_tokens': 39, 'total_tokens': 426, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right-sided pleural effusion....
+   Token usage: {'input_tokens': 373, 'output_tokens': 7, 'total_tokens': 380, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Color Doppler imaging demonstrating a normal flow pattern in the pulmonary artery. The B-lin...
+   Token usage: {'input_tokens': 394, 'output_tokens': 37, 'total_tokens': 431, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal X-ray showing marked dilation of the small bowel, likely due to adhesive ileus. The dilate...
+   Token usage: {'input_tokens': 367, 'output_tokens': 31, 'total_tokens': 398, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: X-ray of the right shoulder, AP view, showing a screw in the humerus....
+   Token usage: {'input_tokens': 365, 'output_tokens': 24, 'total_tokens': 389, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Here is a clinical caption for the provided image:
+
+**Anteroposterior fluoroscopic view showing a ca...
+   Token usage: {'input_tokens': 386, 'output_tokens': 50, 'total_tokens': 436, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:02:32] Amostra 70/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transesophageal echocardiogram showing the right ventricle with a proximal chamber (PC) an...
+   Token usage: {'input_tokens': 377, 'output_tokens': 59, 'total_tokens': 436, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: The image is a portable semi-upright chest X-ray. There is increased opacity in the lower ...
+   Token usage: {'input_tokens': 432, 'output_tokens': 84, 'total_tokens': 516, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest X-ray showing a Swan-Ganz catheter with the tip in the right pulmonary artery. The cat...
+   Token usage: {'input_tokens': 414, 'output_tokens': 49, 'total_tokens': 463, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing hyperintensity of the genu and splenium of the corpus callosum....
+   Token usage: {'input_tokens': 420, 'output_tokens': 20, 'total_tokens': 440, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Postoperative anterior-posterior radiograph of the ankle following open reduction and internal fixat...
+   Token usage: {'input_tokens': 403, 'output_tokens': 83, 'total_tokens': 486, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T2-weighted MRI of the brain showing a lesion in the right cerebellopontine angle, likely an e...
+   Token usage: {'input_tokens': 399, 'output_tokens': 512, 'total_tokens': 911, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest radiography showing bilateral pulmonary infiltrates, suggestive of pneumonia. There is also ev...
+   Token usage: {'input_tokens': 357, 'output_tokens': 24, 'total_tokens': 381, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain axial view showing bilateral maxillary sinusitis and left mastoiditis....
+   Token usage: {'input_tokens': 370, 'output_tokens': 15, 'total_tokens': 385, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the paranasal sinuses showing bilateral ethmoid sinusitis. The ethmoid air cells ar...
+   Token usage: {'input_tokens': 428, 'output_tokens': 82, 'total_tokens': 510, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI T2. Orange circle indicates edema at the junction of the Jugular Foramen and the Hypoglossal Can...
+   Token usage: {'input_tokens': 390, 'output_tokens': 25, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:03:33] Amostra 80/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Postoperative chest X-ray showing a normal mediastinum....
+   Token usage: {'input_tokens': 357, 'output_tokens': 13, 'total_tokens': 370, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: The right-sided pneumothorax appearing on the chest anteroposterior (AP) radiograph acquired...
+   Token usage: {'input_tokens': 394, 'output_tokens': 30, 'total_tokens': 424, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T2 MRI image showing a large arachnoid cyst deforming the right frontal lobe. The cyst wall is...
+   Token usage: {'input_tokens': 390, 'output_tokens': 39, 'total_tokens': 429, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Catheter placement in the superior vesical artery to redirect flow away from the bladder. Th...
+   Token usage: {'input_tokens': 421, 'output_tokens': 74, 'total_tokens': 495, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Post-operative X-ray image. Lateral projection showing a plate and screws in the humerus and...
+   Token usage: {'input_tokens': 371, 'output_tokens': 28, 'total_tokens': 399, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT Chest (Coronal View) showing bilateral patchy ground-glass opacities, cardiomegaly, and a small r...
+   Token usage: {'input_tokens': 405, 'output_tokens': 29, 'total_tokens': 434, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: A chest X-ray showing a nasogastric tube (yellow arrow) in the stomach. The tube is position...
+   Token usage: {'input_tokens': 402, 'output_tokens': 53, 'total_tokens': 455, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray showing cardiomegaly and interstitial pulmonary edema with cephalization....
+   Token usage: {'input_tokens': 369, 'output_tokens': 17, 'total_tokens': 386, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the pelvis showing the right inguinal ligament, right LFCN, ilium, sartorius, and iliacus mus...
+   Token usage: {'input_tokens': 466, 'output_tokens': 28, 'total_tokens': 494, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Cardiac Catheterization of Patient 4 Revealing LAD Segment after Stenting...
+   Token usage: {'input_tokens': 372, 'output_tokens': 20, 'total_tokens': 392, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:03:58] Amostra 90/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: CT abdomen, coronal view demonstrates a 5 × 6.7 × 7 cm right adrenal mass (white arrows) w...
+   Token usage: {'input_tokens': 486, 'output_tokens': 126, 'total_tokens': 612, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T2 FLAIR sequence magnetic resonance imaging showing enhancement of the medial temporal lobe (...
+   Token usage: {'input_tokens': 375, 'output_tokens': 29, 'total_tokens': 404, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the abdomen. The arrow points to a small, low-density fluid collection in the rig...
+   Token usage: {'input_tokens': 481, 'output_tokens': 512, 'total_tokens': 993, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: A 55-year-old male with a history of smoking presenting with cough and shortness of breath. ...
+   Token usage: {'input_tokens': 478, 'output_tokens': 512, 'total_tokens': 990, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: T2-weighted MRI image showing a small, hyperintense lesion in the right frontal lobe, likely...
+   Token usage: {'input_tokens': 463, 'output_tokens': 138, 'total_tokens': 601, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound of the left upper arm. The long head of the biceps tendon is indicated by the whi...
+   Token usage: {'input_tokens': 512, 'output_tokens': 512, 'total_tokens': 1024, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a focus of acute parenchymal hemorrhage in the left occipital lobe, with an...
+   Token usage: {'input_tokens': 404, 'output_tokens': 31, 'total_tokens': 435, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain, sagittal view. Shows herniation of the cerebellar tonsil 7 mm below the foramen magnum....
+   Token usage: {'input_tokens': 362, 'output_tokens': 24, 'total_tokens': 386, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest CT scan showing a large mass in the right lung (arrow). The mass is causing compressio...
+   Token usage: {'input_tokens': 421, 'output_tokens': 46, 'total_tokens': 467, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior plain radiograph of both hip joints shows a displaced femoral neck fracture ...
+   Token usage: {'input_tokens': 475, 'output_tokens': 52, 'total_tokens': 527, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:05:59] Amostra 100/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the pelvis showing a large, well-circumscribed, heterogeneous mass in the right low...
+   Token usage: {'input_tokens': 369, 'output_tokens': 68, 'total_tokens': 437, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the abdomen showing a large mass in the upper abdomen, with a white arrow pointin...
+   Token usage: {'input_tokens': 426, 'output_tokens': 42, 'total_tokens': 468, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial CT image of the heart shows a large pericardial effusion (red circle) and a small left...
+   Token usage: {'input_tokens': 424, 'output_tokens': 36, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan showing a large mediastinal mass (red arrow) and a small left pleural effusion (blue...
+   Token usage: {'input_tokens': 381, 'output_tokens': 27, 'total_tokens': 408, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: MRI of the breast showing multiple enhancing nodules in both breasts....
+   Token usage: {'input_tokens': 391, 'output_tokens': 17, 'total_tokens': 408, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal view of the C-shaped mandibular first premolar representative of the furcation area...
+   Token usage: {'input_tokens': 409, 'output_tokens': 38, 'total_tokens': 447, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transverse view of the uterus showing a single gestational sac with a measurement of 26.8 ...
+   Token usage: {'input_tokens': 412, 'output_tokens': 73, 'total_tokens': 485, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the abdomen shows a well-defined, round lesion with a high density (approximately...
+   Token usage: {'input_tokens': 496, 'output_tokens': 57, 'total_tokens': 553, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Post-operative radiograph after the patient underwent a left hip hemiarthroplasty. The image...
+   Token usage: {'input_tokens': 466, 'output_tokens': 53, 'total_tokens': 519, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain axial view showing a small focus of calcification in the right parietal lobe with moderate...
+   Token usage: {'input_tokens': 420, 'output_tokens': 46, 'total_tokens': 466, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:06:31] Amostra 110/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Left main coronary artery angiography showing a significant stenosis....
+   Token usage: {'input_tokens': 356, 'output_tokens': 11, 'total_tokens': 367, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT imaging of the chest showing a large mass in the right lung (arrow)....
+   Token usage: {'input_tokens': 416, 'output_tokens': 21, 'total_tokens': 437, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the abdomen showing a large retroperitoneal mass, likely a tumor. The mass is loc...
+   Token usage: {'input_tokens': 397, 'output_tokens': 64, 'total_tokens': 461, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the pelvis showing a large mass in the right iliac bone (arrows)....
+   Token usage: {'input_tokens': 395, 'output_tokens': 23, 'total_tokens': 418, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Postoperative imaging studies using contrast-enhanced CT at (A) postoperative day 1 and (B) 5 months...
+   Token usage: {'input_tokens': 444, 'output_tokens': 50, 'total_tokens': 494, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the right ankle shows edema of the skin and subcutaneous tissue with diffuse and patchy bone ...
+   Token usage: {'input_tokens': 429, 'output_tokens': 42, 'total_tokens': 471, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right knee anteroposterior radiograph showing no obvious abnormalities....
+   Token usage: {'input_tokens': 372, 'output_tokens': 14, 'total_tokens': 386, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior radiograph of the distal tibia and fibula showing a fracture of the distal t...
+   Token usage: {'input_tokens': 396, 'output_tokens': 512, 'total_tokens': 908, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT showing a distended and medially located cecum with fecalization of the distal ileum an...
+   Token usage: {'input_tokens': 395, 'output_tokens': 37, 'total_tokens': 432, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right lower lobe consolidation with a possible cavitary lesion....
+   Token usage: {'input_tokens': 402, 'output_tokens': 13, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:07:22] Amostra 120/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Computed tomography showing a left anterior descending artery (LAD) with a possible plaque. ...
+   Token usage: {'input_tokens': 404, 'output_tokens': 39, 'total_tokens': 443, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the abdomen and pelvis showing a large left flank lymphocele with no associated gas forma...
+   Token usage: {'input_tokens': 405, 'output_tokens': 26, 'total_tokens': 431, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a contrast injection into the right femoral vein, with contrast flowing into the lef...
+   Token usage: {'input_tokens': 429, 'output_tokens': 512, 'total_tokens': 941, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: A) Enhanced computed tomography scan shows a right thyroid nodule (red arrow).
+
+The target i...
+   Token usage: {'input_tokens': 403, 'output_tokens': 512, 'total_tokens': 915, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT abdomen and pelvis showing a large, heterogeneous, and ill-defined mass in the uterus, co...
+   Token usage: {'input_tokens': 403, 'output_tokens': 87, 'total_tokens': 490, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left chest wall edema....
+   Token usage: {'input_tokens': 366, 'output_tokens': 6, 'total_tokens': 372, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT image showing patchy hypodensity in the posterior parietal and occipital lobes, right great...
+   Token usage: {'input_tokens': 379, 'output_tokens': 42, 'total_tokens': 421, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior radiograph of the right hip showing a total hip arthroplasty. The femoral co...
+   Token usage: {'input_tokens': 405, 'output_tokens': 53, 'total_tokens': 458, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronary angiography showing a collateral branch (small arrow) from the right coronary artery (RCA) ...
+   Token usage: {'input_tokens': 422, 'output_tokens': 31, 'total_tokens': 453, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial MRI of the pelvis showing a large, hypervascular mass in the anterior abdominal wall, likely r...
+   Token usage: {'input_tokens': 415, 'output_tokens': 33, 'total_tokens': 448, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:08:46] Amostra 130/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Normal chest X-ray. The image shows the typical appearance of the chest with the lungs, heart, and o...
+   Token usage: {'input_tokens': 420, 'output_tokens': 34, 'total_tokens': 454, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Post-operative X-ray of the thoracic spine following anterior cervical discectomy and fusion...
+   Token usage: {'input_tokens': 388, 'output_tokens': 54, 'total_tokens': 442, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the chest showing a large mass in the right breast. The mass is characterized by ...
+   Token usage: {'input_tokens': 438, 'output_tokens': 512, 'total_tokens': 950, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MR angiography of the abdomen (MRA): visualization of the portal vein and its branches, including th...
+   Token usage: {'input_tokens': 371, 'output_tokens': 52, 'total_tokens': 423, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a large meningioma in the atrium of the left lateral ventricle....
+   Token usage: {'input_tokens': 394, 'output_tokens': 20, 'total_tokens': 414, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT image showing mesenteric panniculitis (red arrow) and a small amount of mesenteric lymphade...
+   Token usage: {'input_tokens': 401, 'output_tokens': 54, 'total_tokens': 455, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT showing a gallstone impacted in the terminal ileum, causing proximal small bowel dilata...
+   Token usage: {'input_tokens': 440, 'output_tokens': 21, 'total_tokens': 461, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan: Large cyst in the right lower lobe representing parenchymal hydatid cyst (yellow arrow); th...
+   Token usage: {'input_tokens': 420, 'output_tokens': 50, 'total_tokens': 470, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain showing a ring-enhancing lesion in the pons. This is suggestive of a primary central nervo...
+   Token usage: {'input_tokens': 490, 'output_tokens': 37, 'total_tokens': 527, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial view of the pelvis at the level of the hip joint further demonstrating the pelvic mass...
+   Token usage: {'input_tokens': 451, 'output_tokens': 42, 'total_tokens': 493, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:09:42] Amostra 140/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Brain MRI showing tonsillar herniation....
+   Token usage: {'input_tokens': 381, 'output_tokens': 9, 'total_tokens': 390, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a small, well-defined, non-enhancing lesion in the right frontal lobe, like...
+   Token usage: {'input_tokens': 402, 'output_tokens': 512, 'total_tokens': 914, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray showing diffuse bilateral pulmonary infiltrates, suggestive of pulmonary edema or pneumo...
+   Token usage: {'input_tokens': 381, 'output_tokens': 32, 'total_tokens': 413, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Two-chamber 2D echocardiogram showing a large vegetation on the right side of the interatria...
+   Token usage: {'input_tokens': 483, 'output_tokens': 61, 'total_tokens': 544, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI showing acute ischemic stroke in the territory of the left anterior choroidal artery....
+   Token usage: {'input_tokens': 405, 'output_tokens': 17, 'total_tokens': 422, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: CT scan of the chest in lung window shows multiple nodular opacities distributed along the p...
+   Token usage: {'input_tokens': 386, 'output_tokens': 79, 'total_tokens': 465, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Coronary angiography showing a significant stenosis (indicated by the red arrow) in the left...
+   Token usage: {'input_tokens': 386, 'output_tokens': 58, 'total_tokens': 444, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Panoramic radiograph showing a fractured mandibular condyle with a small displaced fragment....
+   Token usage: {'input_tokens': 419, 'output_tokens': 39, 'total_tokens': 458, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT chest showing a filling defect in the left pulmonary artery, suggestive of pulmonary embolism. A ...
+   Token usage: {'input_tokens': 418, 'output_tokens': 31, 'total_tokens': 449, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Portable upright chest X-ray showing a large opacity in the left lower lung field, which m...
+   Token usage: {'input_tokens': 422, 'output_tokens': 63, 'total_tokens': 485, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:10:40] Amostra 150/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT scan showing a large pelvic mass, likely a tumor, with significant surrounding edema. T...
+   Token usage: {'input_tokens': 423, 'output_tokens': 45, 'total_tokens': 468, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI imaging showing a cystic mass located between the gastric antrum, pancreas, spleen, and hepatic ...
+   Token usage: {'input_tokens': 399, 'output_tokens': 23, 'total_tokens': 422, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT Chest - Axial View: Bilateral lung opacities, including ground-glass opacities in the right upper...
+   Token usage: {'input_tokens': 423, 'output_tokens': 58, 'total_tokens': 481, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI showing a large, complex fluid collection in the right lower quadrant, with multiple smaller flu...
+   Token usage: {'input_tokens': 430, 'output_tokens': 61, 'total_tokens': 491, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Ultrasound of the eye showing a thickened, hypoechoic lesion in the anterior chamber (arrow). This c...
+   Token usage: {'input_tokens': 423, 'output_tokens': 44, 'total_tokens': 467, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Prevertebral soft tissue swelling is present. The distance between the anterior surface of t...
+   Token usage: {'input_tokens': 377, 'output_tokens': 512, 'total_tokens': 889, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Target image: Abdominal ultrasound. The image shows a large, cystic structure in the upper abdomen, ...
+   Token usage: {'input_tokens': 387, 'output_tokens': 91, 'total_tokens': 478, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: A hypermetabolic abnormality was observed in the right lower abdomen on positron emission to...
+   Token usage: {'input_tokens': 442, 'output_tokens': 50, 'total_tokens': 492, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Pelvic CT scan showing a large, heterogeneous mass in the pelvis, with invasion into the sigmoid col...
+   Token usage: {'input_tokens': 395, 'output_tokens': 49, 'total_tokens': 444, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest radiograph showing a central venous catheter and an endotracheal tube. There is a possible opa...
+   Token usage: {'input_tokens': 381, 'output_tokens': 27, 'total_tokens': 408, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:11:42] Amostra 160/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: This axial contrast-enhanced CT shows a defect in the membranous portion of the interatrial ...
+   Token usage: {'input_tokens': 519, 'output_tokens': 107, 'total_tokens': 626, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Ultrasound of the abdomen shows the liver, spleen, kidneys, and aorta. The liver appears n...
+   Token usage: {'input_tokens': 407, 'output_tokens': 512, 'total_tokens': 919, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: abdominal ultrasound showing splenomegaly. The spleen measures 17 cm in diameter. There is no eviden...
+   Token usage: {'input_tokens': 447, 'output_tokens': 40, 'total_tokens': 487, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Bilateral interstitial infiltrates, worse in the lower lung fields. Right jugular transvenous pacing...
+   Token usage: {'input_tokens': 387, 'output_tokens': 29, 'total_tokens': 416, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Findings: CT abdomen shows a large, fluid-filled mass in the right upper quadrant, suspicious for a ...
+   Token usage: {'input_tokens': 376, 'output_tokens': 71, 'total_tokens': 447, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain showing a mass in the right internal auditory canal....
+   Token usage: {'input_tokens': 379, 'output_tokens': 13, 'total_tokens': 392, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronal view of abdominal CT scan with IV contrast showing a distended and medially located cecum wi...
+   Token usage: {'input_tokens': 412, 'output_tokens': 44, 'total_tokens': 456, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Evaluation of the pharyngeal airway changes. The largest transverse width (LTW) and anteropo...
+   Token usage: {'input_tokens': 449, 'output_tokens': 55, 'total_tokens': 504, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Supine chest X-ray showing a large gastric bubble, likely representing a large hiatal hern...
+   Token usage: {'input_tokens': 363, 'output_tokens': 59, 'total_tokens': 422, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: MRI of the lumbar spine showing a T1-weighted image with a white arrow pointing to the verte...
+   Token usage: {'input_tokens': 459, 'output_tokens': 45, 'total_tokens': 504, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:12:44] Amostra 170/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Panoramic radiograph showing a patient with a history of tooth extraction and possible osteo...
+   Token usage: {'input_tokens': 372, 'output_tokens': 107, 'total_tokens': 479, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal CT scan image showing bony destruction of L4 and L5....
+   Token usage: {'input_tokens': 458, 'output_tokens': 20, 'total_tokens': 478, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest X-ray showing a central venous catheter (CVC) with the tip in the superior vena cava (...
+   Token usage: {'input_tokens': 375, 'output_tokens': 44, 'total_tokens': 419, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial non-enhanced T1 weighted image of the brain showing the trigeminal nerves (pink arrows...
+   Token usage: {'input_tokens': 378, 'output_tokens': 45, 'total_tokens': 423, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Barium swallow showing a collapsed colon....
+   Token usage: {'input_tokens': 370, 'output_tokens': 9, 'total_tokens': 379, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Coronal slice of T2 MRI demonstrating the large os trigonum lateral to the FHL tendon and th...
+   Token usage: {'input_tokens': 438, 'output_tokens': 35, 'total_tokens': 473, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the chest showing a large left upper lobe lung mass with associated mediastinal lym...
+   Token usage: {'input_tokens': 383, 'output_tokens': 24, 'total_tokens': 407, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Angiogram of the brachiocephalic artery shows the hypertrophic aberrant bronchial artery (white arro...
+   Token usage: {'input_tokens': 429, 'output_tokens': 45, 'total_tokens': 474, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Pelvic MRI showing a large, multiloculated cystic lesion in the pelvis, possibly representing a comp...
+   Token usage: {'input_tokens': 466, 'output_tokens': 67, 'total_tokens': 533, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Digital subtraction angiogram of the right internal carotid artery showing a small aneurysm ...
+   Token usage: {'input_tokens': 442, 'output_tokens': 44, 'total_tokens': 486, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:13:15] Amostra 180/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Chest CT scan in the axial section of the mediastinal window showing ground glass images w...
+   Token usage: {'input_tokens': 433, 'output_tokens': 46, 'total_tokens': 479, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right navicular bone sclerosis and volume reduction, consistent with avascular necrosis (arrow). The...
+   Token usage: {'input_tokens': 370, 'output_tokens': 28, 'total_tokens': 398, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: 1-year follow-up radiograph showing bone formation around the root canal filling of tooth 12...
+   Token usage: {'input_tokens': 345, 'output_tokens': 28, 'total_tokens': 373, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transvaginal ultrasound image showing a uterus with a thickened endometrium (red arrow). The...
+   Token usage: {'input_tokens': 413, 'output_tokens': 512, 'total_tokens': 925, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT abdomen showing a large, well-defined, hypodense mass in the right upper quadrant, likely represe...
+   Token usage: {'input_tokens': 401, 'output_tokens': 54, 'total_tokens': 455, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a ring-enhancing lesion in the left cerebellum with mass effect on the four...
+   Token usage: {'input_tokens': 390, 'output_tokens': 37, 'total_tokens': 427, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: A contrast-enhanced CT scan of the abdomen shows a large, enhancing mass in the right upper quadrant...
+   Token usage: {'input_tokens': 424, 'output_tokens': 56, 'total_tokens': 480, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal T2W MRI image shows a small, well-defined, hyperintense lesion in the right posteri...
+   Token usage: {'input_tokens': 538, 'output_tokens': 73, 'total_tokens': 611, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT scan showing a large mass with diffuse calcification in the right retroperitoneal space...
+   Token usage: {'input_tokens': 401, 'output_tokens': 52, 'total_tokens': 453, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a CT scan of the pelvis. There is a large, heterogeneous mass in the pelvis, which a...
+   Token usage: {'input_tokens': 424, 'output_tokens': 512, 'total_tokens': 936, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:14:42] Amostra 190/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Patient no. 11. Diaphyseal reconstruction....
+   Token usage: {'input_tokens': 383, 'output_tokens': 18, 'total_tokens': 401, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Image from a transesophageal echocardiogram showing a cooling device in the esophagus. The anterior ...
+   Token usage: {'input_tokens': 368, 'output_tokens': 47, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the ankle showing a small area of bone marrow edema, indicated by the white arrow. This could...
+   Token usage: {'input_tokens': 448, 'output_tokens': 41, 'total_tokens': 489, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: ultrasonogram showing polyhydramnios and dilated stomach (arrow) (Case 1)...
+   Token usage: {'input_tokens': 362, 'output_tokens': 21, 'total_tokens': 383, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Echocardiographic short axis view of the right (RV) and left (LV) ventricles in a patient wi...
+   Token usage: {'input_tokens': 534, 'output_tokens': 73, 'total_tokens': 607, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Transthoracic echocardiography, parasternal long-axis view. No evidence of intracardiac thrombus or ...
+   Token usage: {'input_tokens': 384, 'output_tokens': 28, 'total_tokens': 412, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a radiograph of the abdomen. A large, rounded structure is visible in the upper abdo...
+   Token usage: {'input_tokens': 398, 'output_tokens': 183, 'total_tokens': 581, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the sinuses showing a radiolucent margin lining the sinus and the presence of air inside ...
+   Token usage: {'input_tokens': 428, 'output_tokens': 35, 'total_tokens': 463, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT scan showing diffuse liver metastases with multiple lesions, suggestive of metastatic d...
+   Token usage: {'input_tokens': 399, 'output_tokens': 18, 'total_tokens': 417, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray showing cardiomegaly and mild pulmonary edema....
+   Token usage: {'input_tokens': 391, 'output_tokens': 14, 'total_tokens': 405, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:15:16] Amostra 200/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Ultrasound of the abdomen showing a large left paracardiac lesion (star) widely communicating with t...
+   Token usage: {'input_tokens': 422, 'output_tokens': 28, 'total_tokens': 450, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: Sagittal reformat of the post-operative contrast-enhanced CT scan on soft tissue window. The...
+   Token usage: {'input_tokens': 449, 'output_tokens': 60, 'total_tokens': 509, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right hydronephrosis with lower pole mass (red arrow)....
+   Token usage: {'input_tokens': 382, 'output_tokens': 14, 'total_tokens': 396, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Lateral radiograph of the distal femur showing a large bone cyst. The cyst is located in the...
+   Token usage: {'input_tokens': 395, 'output_tokens': 36, 'total_tokens': 431, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the neck showing a well-circumscribed, heterogeneous lesion in the left pre-epiglot...
+   Token usage: {'input_tokens': 459, 'output_tokens': 37, 'total_tokens': 496, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Abdominal ultrasound showing the liver (labeled) and the portal vein (labeled). The portal v...
+   Token usage: {'input_tokens': 376, 'output_tokens': 54, 'total_tokens': 430, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Target image: CT abdomen showing a large, ill-defined, hypodense lesion in the right hepatic lobe wi...
+   Token usage: {'input_tokens': 366, 'output_tokens': 68, 'total_tokens': 434, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Barium swallow showing a dilated esophagus with retained barium, suggestive of achalasia....
+   Token usage: {'input_tokens': 429, 'output_tokens': 22, 'total_tokens': 451, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Ultrasound of the bladder shows a small, irregularly shaped bladder wall with areas of focal thicken...
+   Token usage: {'input_tokens': 411, 'output_tokens': 22, 'total_tokens': 433, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial fused PET/CT image shows a large, hypermetabolic mass in the right axilla, with associated ski...
+   Token usage: {'input_tokens': 449, 'output_tokens': 37, 'total_tokens': 486, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:15:44] Amostra 210/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest CT (Coronal View) shows a large right pneumothorax with associated pleural thickening ...
+   Token usage: {'input_tokens': 425, 'output_tokens': 48, 'total_tokens': 473, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a lateral cephalogram with measurements indicated by arrows. The arrows point to the...
+   Token usage: {'input_tokens': 576, 'output_tokens': 319, 'total_tokens': 895, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left lobe liver abscess....
+   Token usage: {'input_tokens': 385, 'output_tokens': 6, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the abdomen showing a fluid collection in the superior mediastinum....
+   Token usage: {'input_tokens': 383, 'output_tokens': 16, 'total_tokens': 399, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest X-ray obtained immediately after weaning of extracorporeal membrane oxygenation (ECMO)...
+   Token usage: {'input_tokens': 389, 'output_tokens': 46, 'total_tokens': 435, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T2-weighted MRI of the brain showing left cerebral hemiatrophy, ipsilateral occipital horn dil...
+   Token usage: {'input_tokens': 390, 'output_tokens': 62, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT image showing a large left renal cyst. There is also a small amount of free fluid in the left par...
+   Token usage: {'input_tokens': 397, 'output_tokens': 40, 'total_tokens': 437, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Right lateral survey radiograph obtained from a 2-year-old MC Bernese mountain dog (dog 4). ...
+   Token usage: {'input_tokens': 474, 'output_tokens': 112, 'total_tokens': 586, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound of the left upper extremity showing the brachial artery (BA) and the median nerve...
+   Token usage: {'input_tokens': 439, 'output_tokens': 77, 'total_tokens': 516, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Lateral cephalogram of the patient. The arrows indicate the points where the cranial base angle was ...
+   Token usage: {'input_tokens': 346, 'output_tokens': 21, 'total_tokens': 367, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:16:33] Amostra 220/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Abdominal X-ray of the 48-year-old male with Ogilvie syndrome....
+   Token usage: {'input_tokens': 415, 'output_tokens': 22, 'total_tokens': 437, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Saccular aneurysm of the A2 segment of the anterior cerebral artery....
+   Token usage: {'input_tokens': 369, 'output_tokens': 20, 'total_tokens': 389, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transesophageal echocardiography. Transesophageal view shows a mass in the right ventricular...
+   Token usage: {'input_tokens': 469, 'output_tokens': 65, 'total_tokens': 534, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right ankle X-ray showing a possible fracture of the fibula and dislocation of the talus....
+   Token usage: {'input_tokens': 452, 'output_tokens': 21, 'total_tokens': 473, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronal plane CT chest showing bilateral patchy ground-glass opacities, cardiomegaly, and no pleural...
+   Token usage: {'input_tokens': 402, 'output_tokens': 26, 'total_tokens': 428, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Cholangiogram performed after repeat procedure in Patient 3 to flush remnant stones showed s...
+   Token usage: {'input_tokens': 447, 'output_tokens': 31, 'total_tokens': 478, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior radiograph of the right hip demonstrating a total hip arthroplasty with a sp...
+   Token usage: {'input_tokens': 412, 'output_tokens': 45, 'total_tokens': 457, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: The image shows a liver lesion with increased FDG uptake, suggestive of a tumor. The lesio...
+   Token usage: {'input_tokens': 414, 'output_tokens': 51, 'total_tokens': 465, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Findings consistent with acute pancreatitis, including diffuse hypoattenuation of the pancreatic par...
+   Token usage: {'input_tokens': 405, 'output_tokens': 80, 'total_tokens': 485, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Post-contrast CT image showing a patent foramen ovale (PFO) with a flap (arrow). The image is taken ...
+   Token usage: {'input_tokens': 440, 'output_tokens': 43, 'total_tokens': 483, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:17:03] Amostra 230/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Mammogram of the right breast showing a 1.5 cm oval, well-defined, high-density mass in the ...
+   Token usage: {'input_tokens': 420, 'output_tokens': 512, 'total_tokens': 932, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: CT scan of the chest in lung window shows multiple nodular opacities distributed along the p...
+   Token usage: {'input_tokens': 426, 'output_tokens': 119, 'total_tokens': 545, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI follow-up at 1 year post-operation (glued AMIC®, medial femoral condyle): Proton density weighte...
+   Token usage: {'input_tokens': 504, 'output_tokens': 72, 'total_tokens': 576, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Based on the image, here's a possible clinical caption:
+
+**Thoracoscopic view of the cavity**
+
+This ...
+   Token usage: {'input_tokens': 343, 'output_tokens': 115, 'total_tokens': 458, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Normal axial CT scan at the level of the fourth ventricle....
+   Token usage: {'input_tokens': 433, 'output_tokens': 17, 'total_tokens': 450, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI sagittal view showing a well-defined, round, hyperintense lesion in the supratentorial cerebellu...
+   Token usage: {'input_tokens': 389, 'output_tokens': 29, 'total_tokens': 418, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Chest CT scan reveals extensive bilateral diffuse irregular nodular and airspace opacities...
+   Token usage: {'input_tokens': 353, 'output_tokens': 74, 'total_tokens': 427, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transvaginal ultrasound of the pelvis shows a low-level intrauterine fluid. The uterus is ...
+   Token usage: {'input_tokens': 400, 'output_tokens': 70, 'total_tokens': 470, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Venogram demonstrating restoration of venous outflow following angioplasty and stent placement....
+   Token usage: {'input_tokens': 374, 'output_tokens': 18, 'total_tokens': 392, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Panoramic X-ray showing the anterior teeth. The distance between the most inferior point of ...
+   Token usage: {'input_tokens': 468, 'output_tokens': 40, 'total_tokens': 508, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:18:11] Amostra 240/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: deep ulcer
+
+This image shows a deep ulcer, likely in the gastrointestinal tract, based on the appear...
+   Token usage: {'input_tokens': 416, 'output_tokens': 512, 'total_tokens': 928, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: Abdominal CT showing a large amount of ascites and abdominal distension.
+Case 2: Coronal vie...
+   Token usage: {'input_tokens': 392, 'output_tokens': 68, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT abdomen showing liver cirrhosis with portal venous gas....
+   Token usage: {'input_tokens': 378, 'output_tokens': 13, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT image showing a large, well-defined, round opacity in the left maxillary sinus, suggestive ...
+   Token usage: {'input_tokens': 447, 'output_tokens': 40, 'total_tokens': 487, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the right ankle showing a well-defined, large, and somewhat irregular mass in the anterior as...
+   Token usage: {'input_tokens': 440, 'output_tokens': 54, 'total_tokens': 494, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Cervical spine X-ray showing a possible atlantoaxial dislocation. The image shows the C1-C2 joint, w...
+   Token usage: {'input_tokens': 382, 'output_tokens': 78, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left main coronary artery occlusion....
+   Token usage: {'input_tokens': 370, 'output_tokens': 7, 'total_tokens': 377, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior radiograph of the pelvis showing bilateral hip arthroplasty. The arrows poin...
+   Token usage: {'input_tokens': 414, 'output_tokens': 31, 'total_tokens': 445, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transthoracic echocardiogram demonstrating left ventricular pseudoaneurysm (arrow) in the ...
+   Token usage: {'input_tokens': 421, 'output_tokens': 27, 'total_tokens': 448, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT of the neck showing a left-sided tonsillar abscess with a maximum diameter of 1.3 cm....
+   Token usage: {'input_tokens': 376, 'output_tokens': 26, 'total_tokens': 402, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:19:06] Amostra 250/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial post-contrast T1-weighted MRI showing an enhancing lesion in the right cavernous sinus...
+   Token usage: {'input_tokens': 433, 'output_tokens': 50, 'total_tokens': 483, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right knee lateral radiograph showing a slight inferior displacement of the patella. The quadriceps ...
+   Token usage: {'input_tokens': 444, 'output_tokens': 42, 'total_tokens': 486, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CE bone. The image shows a cross-section of a bone, likely a long bone, with a line indicating the C...
+   Token usage: {'input_tokens': 459, 'output_tokens': 512, 'total_tokens': 971, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Midesophageal long-axis view showing a large ventricular septal defect (VSD) with flow across the de...
+   Token usage: {'input_tokens': 428, 'output_tokens': 38, 'total_tokens': 466, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Lateral view of the left knee showing the patella and femur. The patella appears to be in a normal p...
+   Token usage: {'input_tokens': 355, 'output_tokens': 47, 'total_tokens': 402, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT abdomen with and without contrast showing a 12.3 mm lesion in the right adrenal gland. A similar ...
+   Token usage: {'input_tokens': 406, 'output_tokens': 37, 'total_tokens': 443, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transabdominal ultrasound reveals a hypoechoic solid mass lesion in the right breast at 1 ...
+   Token usage: {'input_tokens': 404, 'output_tokens': 36, 'total_tokens': 440, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right-sided pleural effusion (yellow arrow) and a possible right lower lobe consolidation (red arrow...
+   Token usage: {'input_tokens': 373, 'output_tokens': 21, 'total_tokens': 394, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transvaginal ultrasound showing measurement of tumor/anteroposterior uterine diameter ratio ...
+   Token usage: {'input_tokens': 421, 'output_tokens': 46, 'total_tokens': 467, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right portable chest radiograph showing a large, rounded opacity in the left lower hemithorax, likel...
+   Token usage: {'input_tokens': 371, 'output_tokens': 58, 'total_tokens': 429, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:20:02] Amostra 260/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Final panoramic radiograph....
+   Token usage: {'input_tokens': 327, 'output_tokens': 6, 'total_tokens': 333, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Panoramic radiograph showing the correct inclination of 3.7 before miniscrew removal....
+   Token usage: {'input_tokens': 367, 'output_tokens': 18, 'total_tokens': 385, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: High frequency ultrasound using 12 to 3 MHz broadband linear array transducer revealed a wel...
+   Token usage: {'input_tokens': 438, 'output_tokens': 36, 'total_tokens': 474, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT neck showing a small, well-defined, hypodense lesion in the left thyroid lobe, possibly represent...
+   Token usage: {'input_tokens': 398, 'output_tokens': 56, 'total_tokens': 454, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: A thickened bladder wall (arrowhead) with stranding of the mesenteric fat, status post-JJ stents. De...
+   Token usage: {'input_tokens': 406, 'output_tokens': 35, 'total_tokens': 441, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronal CT scan of the abdomen and pelvis showing a large, heterogeneous mass in the right lower qua...
+   Token usage: {'input_tokens': 392, 'output_tokens': 58, 'total_tokens': 450, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Apical 4-chamber view showing a mass in the pericardial space near the right auriculo-ventricular ju...
+   Token usage: {'input_tokens': 410, 'output_tokens': 26, 'total_tokens': 436, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transthoracic echocardiography parasternal long-axis view showing a mobile thrombus in the r...
+   Token usage: {'input_tokens': 386, 'output_tokens': 33, 'total_tokens': 419, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: AP erect chest X-ray showing a nasogastric tube. There is a small left pleural effusion. The lungs a...
+   Token usage: {'input_tokens': 418, 'output_tokens': 54, 'total_tokens': 472, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left shoulder X-ray showing a possible fracture of the humerus. The humeral head is displaced anteri...
+   Token usage: {'input_tokens': 431, 'output_tokens': 512, 'total_tokens': 943, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:20:56] Amostra 270/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Bilateral diffuse ground glass opacities, suggestive of pulmonary edema or interstitial lung disease...
+   Token usage: {'input_tokens': 356, 'output_tokens': 19, 'total_tokens': 375, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Echocardiography of Case 3 showing a fixed and immobile pulmonary valve.
+
+The image shows a ...
+   Token usage: {'input_tokens': 358, 'output_tokens': 512, 'total_tokens': 870, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI horizontal section T1 + Gadolinium. Arrows show areas with enhancement in left pars petrosa....
+   Token usage: {'input_tokens': 388, 'output_tokens': 21, 'total_tokens': 409, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal T2 restore magnetic resonance image demonstrating a posterior hyperintense lesion (...
+   Token usage: {'input_tokens': 447, 'output_tokens': 43, 'total_tokens': 490, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Post-transcatheter aortic valve replacement (TAVR) coronary angiogram showing adequate flow in the l...
+   Token usage: {'input_tokens': 406, 'output_tokens': 512, 'total_tokens': 918, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray showing a left-sided chest tube in place, with some residual opacity in the left lower l...
+   Token usage: {'input_tokens': 364, 'output_tokens': 26, 'total_tokens': 390, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left foot postoperative x-ray showing the negative pressure wound therapy application over the surgi...
+   Token usage: {'input_tokens': 375, 'output_tokens': 44, 'total_tokens': 419, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the sacroiliac joints showing ankylosis in the previously treated areas (indicated by arrows)...
+   Token usage: {'input_tokens': 437, 'output_tokens': 35, 'total_tokens': 472, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT thorax with intravenous contrast in a 50-year-old male patient with Castleman disease. A 5 cm wel...
+   Token usage: {'input_tokens': 394, 'output_tokens': 58, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT abdomen showing a large, well-defined, hypodense mass in the right hepatic lobe, consistent with ...
+   Token usage: {'input_tokens': 388, 'output_tokens': 39, 'total_tokens': 427, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:22:16] Amostra 280/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: MRI of the brain showing a large cystic lesion with a cutaneous sinus tract extending from t...
+   Token usage: {'input_tokens': 452, 'output_tokens': 512, 'total_tokens': 964, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Ultrasound of the neck. The thyroid cartilage is visualized. The trachea is seen. The voca...
+   Token usage: {'input_tokens': 411, 'output_tokens': 41, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound of the abdomen in a 77-year-old female demonstrating an ovoid mass (curved arrow)...
+   Token usage: {'input_tokens': 412, 'output_tokens': 45, 'total_tokens': 457, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI T2 of the thoracic spine showing multilevel spondylosis and moderate cord impingement at T10-T11...
+   Token usage: {'input_tokens': 445, 'output_tokens': 27, 'total_tokens': 472, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Brain CT scan showing a hypodense area in the right internal capsule....
+   Token usage: {'input_tokens': 364, 'output_tokens': 16, 'total_tokens': 380, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal T2 restore magnetic resonance image demonstrating a posterior hyperintense lesion (...
+   Token usage: {'input_tokens': 419, 'output_tokens': 43, 'total_tokens': 462, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal plain film showing a radiopaque tubular structure around the ileocecal junction in the rig...
+   Token usage: {'input_tokens': 365, 'output_tokens': 23, 'total_tokens': 388, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial brain MRI showing bilateral, symmetric, confluent T2/FLAIR hyperintensities involving ...
+   Token usage: {'input_tokens': 422, 'output_tokens': 53, 'total_tokens': 475, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial CT head showing a ventricular shunt catheter (yellow arrow) and worsening ventriculome...
+   Token usage: {'input_tokens': 438, 'output_tokens': 27, 'total_tokens': 465, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the chest showing a suspicious lymph node in the left axilla, indicated by the white arro...
+   Token usage: {'input_tokens': 368, 'output_tokens': 32, 'total_tokens': 400, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:23:08] Amostra 290/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Right chest CT showing bilateral, patchy alveolar opacities, with a "white lung" appearance and wide...
+   Token usage: {'input_tokens': 388, 'output_tokens': 36, 'total_tokens': 424, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the head showing a metallic foreign body in the right temporal lobe....
+   Token usage: {'input_tokens': 393, 'output_tokens': 16, 'total_tokens': 409, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Abdominal MRI showing a large left-sided hydronephrosis with a dilated renal pelvis and caly...
+   Token usage: {'input_tokens': 398, 'output_tokens': 40, 'total_tokens': 438, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Echocardiogram showing a large left atrium....
+   Token usage: {'input_tokens': 343, 'output_tokens': 11, 'total_tokens': 354, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transesophageal echocardiogram, mid-esophageal short-axis view. Bicuspid aortic valve with...
+   Token usage: {'input_tokens': 464, 'output_tokens': 60, 'total_tokens': 524, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the abdomen showing the kidneys. The right kidney is visible on the right side of the image, ...
+   Token usage: {'input_tokens': 396, 'output_tokens': 56, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The CT scan shows a large, spiculated nodule in the right lung, which is concerning for malignancy. ...
+   Token usage: {'input_tokens': 427, 'output_tokens': 108, 'total_tokens': 535, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Based on the provided image, here is a possible clinical caption:
+
+**Liver Ultrasound:** The image s...
+   Token usage: {'input_tokens': 500, 'output_tokens': 121, 'total_tokens': 621, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound image showing a large lymph node with a central area of increased echogenicity, s...
+   Token usage: {'input_tokens': 368, 'output_tokens': 44, 'total_tokens': 412, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Chest CT scan showing extensive diffuse irregular nodular and airspace opacities mainly af...
+   Token usage: {'input_tokens': 388, 'output_tokens': 47, 'total_tokens': 435, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:23:44] Amostra 300/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing no evidence of intracranial bleed. The periventricular white matter and the...
+   Token usage: {'input_tokens': 409, 'output_tokens': 58, 'total_tokens': 467, 'cost_usd': 0.0}
+   Cost: $0.0000
+
+============================================================
+CAPTION GENERATION COMPLETE
+============================================================
+Total samples processed: 300
+Successful generations: 300
+Failed generations: 0
+Total cost: $0.0000
+Average cost per sample: $0.0000
+Results saved to: /home/CIN/agsl/experimento-medgemma/Test-cluster/responses/responses_rag_hf_2026-08-23_18-54.jsonl
+============================================================
+RUNNING EVALUATION ANALYSIS
+============================================================
+Caption Metrics:
+  BLEU Mean: 0.0269
+  ROUGE-1 Mean: 0.1721
+  ROUGE-2 Mean: 0.0446
+  ROUGE-L Mean: 0.1401
+Caption visualizations saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/caption_metrics.png
+Prediction examples saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/prediction_examples.png
+Evaluation report saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/evaluation_report_2026-08-23_19-23.md
+Evaluation analysis complete! Check evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples for results.
+Saving pipeline state to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state...
+Vector database saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb
+  - Index: /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb/image_index.faiss
+  - Metadata: /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb/metadata.json
+Pipeline state saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state
+
+PIPELINE EXECUTION COMPLETE
+
+---> Running pipeline: google/medgemma-1.5-4b-it | RAG k=3 <---
+Loading local model: google/medgemma-1.5-4b-it with 4-bit quantization...
+Carregando modelo local google/medgemma-1.5-4b-it
+============================================================
+SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE
+============================================================
+1. Loading ROCOv2 dataset from HuggingFace...
+Loading ROCOv2 dataset from HuggingFace: eltorio/ROCOv2-radiology
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded dataset with splits: ['train', 'validation', 'test']
+Train samples: 59962
+Validation samples: 9904
+Test samples: 9927
+   Dataset info: {'dataset_name': 'eltorio/ROCOv2-radiology', 'splits': ['train', 'validation', 'test'], 'train_samples': 59962, 'validation_samples': 9904, 'test_samples': 9927, 'features': ['image', 'image_id', 'caption', 'cui']}
+2. Loading existing vector database...
+   Found existing vector database at: /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+Using device: cuda
+Loading CLIP model: openai/clip-vit-base-patch32
+Using cache directory: /home/CIN/agsl/.cache/huggingface
+Successfully loaded CLIP model: openai/clip-vit-base-patch32
+Vector database loaded from /home/CIN/agsl/experimento-medgemma/Test-cluster/vectordb/image_vectordb
+  - Index contains 10000 embeddings
+  - Metadata contains 10000 entries
+   Vector database loaded successfully!
+Pipeline setup complete!
+============================================================
+============================================================
+GENERATING CAPTIONS WITH RAG
+============================================================
+1. Sampling 300 validation images...
+Sampled 300 validation samples for evaluation
+   Processing 300 validation samples
+[19:25:18] Amostra 1/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Enhanced abdominal CT scan showing a large, hypodense mass in the right hepatic lobe, with associate...
+   Token usage: {'input_tokens': 367, 'output_tokens': 39, 'total_tokens': 406, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Here's a clinical caption for the provided image:
+
+**Intraoperative cholangiography showing patent b...
+   Token usage: {'input_tokens': 399, 'output_tokens': 91, 'total_tokens': 490, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The CT scan shows a large, well-defined, and enhancing mass in the right paranasal sinus, likely rep...
+   Token usage: {'input_tokens': 386, 'output_tokens': 90, 'total_tokens': 476, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the chest shows cardiomegaly and a possible enlarged right ventricle....
+   Token usage: {'input_tokens': 372, 'output_tokens': 19, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound of the left shoulder shows a normal α angle of 60 degrees....
+   Token usage: {'input_tokens': 417, 'output_tokens': 21, 'total_tokens': 438, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Post-contrast CT scan of the abdomen showing a lobulated mass (arrowheads) with cystic components in...
+   Token usage: {'input_tokens': 411, 'output_tokens': 39, 'total_tokens': 450, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right humerus, lateral view, showing a fracture of the distal humerus with displacement. The fractur...
+   Token usage: {'input_tokens': 373, 'output_tokens': 50, 'total_tokens': 423, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Posteroanterior chest X-ray showing a left pleural effusion (arrow)....
+   Token usage: {'input_tokens': 399, 'output_tokens': 16, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan showing a large retroperitoneal hematoma with contrast extravasation. The hematoma is locate...
+   Token usage: {'input_tokens': 372, 'output_tokens': 41, 'total_tokens': 413, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:25:46] Amostra 10/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial T2 fat suppressed MRI of the chest at the level of T3 showing a paravertebral mass ext...
+   Token usage: {'input_tokens': 397, 'output_tokens': 63, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronal section of the abdomen showing a large hepatic lesion and a bowel wall hematoma at the splen...
+   Token usage: {'input_tokens': 357, 'output_tokens': 24, 'total_tokens': 381, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen and pelvis shows dilated loops of small bowel in the left upper quadran...
+   Token usage: {'input_tokens': 377, 'output_tokens': 22, 'total_tokens': 399, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT Chest - Axial View: A large, round, well-defined, hyperdense lesion is seen in the right atrium (...
+   Token usage: {'input_tokens': 440, 'output_tokens': 113, 'total_tokens': 553, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: The image shows a transverse view of the right thyroid gland. A nodule is identified in th...
+   Token usage: {'input_tokens': 469, 'output_tokens': 59, 'total_tokens': 528, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Ultrasound of the liver showing a hyperechoic lesion with possible trapped gas....
+   Token usage: {'input_tokens': 414, 'output_tokens': 18, 'total_tokens': 432, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the chest showing a large mass in the left lung. The mass is located in the upper...
+   Token usage: {'input_tokens': 440, 'output_tokens': 512, 'total_tokens': 952, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Pancreatic head mass with a small amount of necrosis. The mass is located in the pancreatic ...
+   Token usage: {'input_tokens': 482, 'output_tokens': 512, 'total_tokens': 994, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: X-ray of the right wrist showing a lunotriquetral coalition with associated ulnar impaction ...
+   Token usage: {'input_tokens': 454, 'output_tokens': 119, 'total_tokens': 573, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Barium meal showing a large hiatal hernia with a large air-filled stomach....
+   Token usage: {'input_tokens': 372, 'output_tokens': 22, 'total_tokens': 394, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:27:14] Amostra 20/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the abdomen and pelvis showing a large mass in the right lower quadrant, likely represent...
+   Token usage: {'input_tokens': 400, 'output_tokens': 55, 'total_tokens': 455, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT brain showing a ring-like hyperdensity with central calcification (red arrow)....
+   Token usage: {'input_tokens': 371, 'output_tokens': 20, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T1-weighted MRI showing a lesion with enhancement of its walls, involving the cerebellum. This...
+   Token usage: {'input_tokens': 406, 'output_tokens': 30, 'total_tokens': 436, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: The radiograph shows a large shell of periosteal bone (arrows) at the left femur. There is i...
+   Token usage: {'input_tokens': 412, 'output_tokens': 512, 'total_tokens': 924, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Final OPT....
+   Token usage: {'input_tokens': 354, 'output_tokens': 4, 'total_tokens': 358, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the chest showing a large mass in the right lung, with a possible associated medi...
+   Token usage: {'input_tokens': 493, 'output_tokens': 70, 'total_tokens': 563, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the chest showing bilateral pleural effusions and possible pneumonia.
+CT: Computed tomogr...
+   Token usage: {'input_tokens': 371, 'output_tokens': 512, 'total_tokens': 883, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT coronal section demonstrating a large mass in the left upper quadrant displacing the stomach and ...
+   Token usage: {'input_tokens': 406, 'output_tokens': 512, 'total_tokens': 918, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: The PET/CT scan shows increased FDG uptake in the liver, spleen, and lymph nodes in the he...
+   Token usage: {'input_tokens': 398, 'output_tokens': 87, 'total_tokens': 485, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Coronary Angiogram showing a significant stenosis in the proximal left anterior descending a...
+   Token usage: {'input_tokens': 451, 'output_tokens': 68, 'total_tokens': 519, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:29:04] Amostra 30/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS:
+The image shows a chest X-ray. There is a large opacity in the left lower lung field, whic...
+   Token usage: {'input_tokens': 378, 'output_tokens': 80, 'total_tokens': 458, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a posteroanterior (PA) skull radiograph. There is a radiopaque foreign body (indicat...
+   Token usage: {'input_tokens': 379, 'output_tokens': 73, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transversal T1-weighted magnetic resonance image of the chest showing a large mass in the ri...
+   Token usage: {'input_tokens': 393, 'output_tokens': 51, 'total_tokens': 444, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal CBCT section showing the points at which measurements were made in a edentulous stu...
+   Token usage: {'input_tokens': 482, 'output_tokens': 66, 'total_tokens': 548, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan showing a large, fluid-filled structure in the left upper quadrant, likely representing a cy...
+   Token usage: {'input_tokens': 379, 'output_tokens': 52, 'total_tokens': 431, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Large air fluid levels in the abdominal cavity....
+   Token usage: {'input_tokens': 390, 'output_tokens': 10, 'total_tokens': 400, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT scan (axial) in a patient with gastric cancer exhibiting port-site metastasis (arrow) a...
+   Token usage: {'input_tokens': 424, 'output_tokens': 46, 'total_tokens': 470, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronary angiography showing a bifurcation lesion in the obtuse marginal branch of the circumflex co...
+   Token usage: {'input_tokens': 370, 'output_tokens': 21, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Postoperative CT scan showing a large paravaginal hematoma extending to the supralevator space....
+   Token usage: {'input_tokens': 371, 'output_tokens': 22, 'total_tokens': 393, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT abdomen showing a large amount of free fluid in the abdomen. The fluid is likely a result of a ru...
+   Token usage: {'input_tokens': 395, 'output_tokens': 59, 'total_tokens': 454, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:29:37] Amostra 40/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Large pseudocyst in the left lobe of the liver....
+   Token usage: {'input_tokens': 361, 'output_tokens': 12, 'total_tokens': 373, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Abdominal X-ray showing dilated loops of bowel and low air in the colon, consistent with the...
+   Token usage: {'input_tokens': 384, 'output_tokens': 41, 'total_tokens': 425, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT image of the abdomen shows a dilated common bile duct and gallbladder, with a thickened ana...
+   Token usage: {'input_tokens': 416, 'output_tokens': 29, 'total_tokens': 445, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Angiography after coil placement. The contrast medium injected reaches the proximal portal v...
+   Token usage: {'input_tokens': 427, 'output_tokens': 68, 'total_tokens': 495, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: RT ADNEXA SAG
+
+This image shows a sagittal ultrasound view of the right adnexa. The uterus is not cl...
+   Token usage: {'input_tokens': 402, 'output_tokens': 512, 'total_tokens': 914, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen showing a rim-enhancing fluid collection with air-fluid level in the ga...
+   Token usage: {'input_tokens': 408, 'output_tokens': 31, 'total_tokens': 439, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right knee, anteroposterior (AP) view.
+
+This image shows a normal knee joint with no obvious signs o...
+   Token usage: {'input_tokens': 362, 'output_tokens': 70, 'total_tokens': 432, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Final panoramic radiograph....
+   Token usage: {'input_tokens': 347, 'output_tokens': 6, 'total_tokens': 353, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Post-operative X-ray of the pelvis showing a total hip replacement. The femoral head is repl...
+   Token usage: {'input_tokens': 376, 'output_tokens': 66, 'total_tokens': 442, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen showing a 6.5 x 4.5 cm mass in the right lower quadrant, with a small a...
+   Token usage: {'input_tokens': 426, 'output_tokens': 36, 'total_tokens': 462, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:30:32] Amostra 50/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the chest. Note the presence of a large bulla in the right upper lobe. The left l...
+   Token usage: {'input_tokens': 462, 'output_tokens': 512, 'total_tokens': 974, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen showing a large, well-defined cystic lesion in the left upper quadrant,...
+   Token usage: {'input_tokens': 394, 'output_tokens': 51, 'total_tokens': 445, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray PA shows bilateral pleural effusions.
+PA: posteroanterior....
+   Token usage: {'input_tokens': 357, 'output_tokens': 19, 'total_tokens': 376, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right chest CT showing a large pleural effusion with associated compressive atelectasis of the right...
+   Token usage: {'input_tokens': 367, 'output_tokens': 33, 'total_tokens': 400, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the abdomen showing a large mass in the pelvis, likely representing a tumor. The ma...
+   Token usage: {'input_tokens': 383, 'output_tokens': 512, 'total_tokens': 895, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a hyperintense signal involving the white matter, potentially indicative of...
+   Token usage: {'input_tokens': 378, 'output_tokens': 37, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The PA chest X-ray shows a large mass in the left lung, potentially causing a shift of the heart to ...
+   Token usage: {'input_tokens': 383, 'output_tokens': 38, 'total_tokens': 421, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the right ankle showing a plantar fasciitis and abnormality in the signal of ADQ muscle fiber...
+   Token usage: {'input_tokens': 420, 'output_tokens': 40, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT Chest (Coronal View) showing a right pulmonary artery stent graft. The stent graft is occluded, w...
+   Token usage: {'input_tokens': 451, 'output_tokens': 512, 'total_tokens': 963, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the right ankle showing subcutaneous scars anterior to the ankle....
+   Token usage: {'input_tokens': 424, 'output_tokens': 15, 'total_tokens': 439, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:32:17] Amostra 60/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest CT showing ground-glass nodular opacities, with poorly defined nodules....
+   Token usage: {'input_tokens': 408, 'output_tokens': 22, 'total_tokens': 430, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left ankle: X-ray showing a midfoot fracture-dislocation of the diabetic CN foot....
+   Token usage: {'input_tokens': 406, 'output_tokens': 21, 'total_tokens': 427, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: Contrast-enhanced thoracic computed tomography on 1st admission at the hospital. Lung absces...
+   Token usage: {'input_tokens': 437, 'output_tokens': 45, 'total_tokens': 482, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest X-ray showing a nasogastric tube (arrow) with its tip in the stomach. There is a small...
+   Token usage: {'input_tokens': 433, 'output_tokens': 74, 'total_tokens': 507, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left coronary artery (LCA) in 60 degree LAO position (45 months, pre-operative coronary angiography)...
+   Token usage: {'input_tokens': 387, 'output_tokens': 39, 'total_tokens': 426, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right-sided pleural effusion....
+   Token usage: {'input_tokens': 373, 'output_tokens': 7, 'total_tokens': 380, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Color Doppler imaging demonstrating a normal flow pattern in the pulmonary artery. The B-lin...
+   Token usage: {'input_tokens': 394, 'output_tokens': 37, 'total_tokens': 431, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal X-ray showing marked dilation of the small bowel, likely due to adhesive ileus. The dilate...
+   Token usage: {'input_tokens': 367, 'output_tokens': 31, 'total_tokens': 398, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: X-ray of the right shoulder, AP view, showing a screw in the humerus....
+   Token usage: {'input_tokens': 365, 'output_tokens': 24, 'total_tokens': 389, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Here is a clinical caption for the provided image:
+
+**Anteroposterior fluoroscopic view showing a ca...
+   Token usage: {'input_tokens': 386, 'output_tokens': 50, 'total_tokens': 436, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:32:43] Amostra 70/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transesophageal echocardiogram showing the right ventricle with a proximal chamber (PC) an...
+   Token usage: {'input_tokens': 377, 'output_tokens': 59, 'total_tokens': 436, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: The image is a portable semi-upright chest X-ray. There is increased opacity in the lower ...
+   Token usage: {'input_tokens': 432, 'output_tokens': 84, 'total_tokens': 516, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest X-ray showing a Swan-Ganz catheter with the tip in the right pulmonary artery. The cat...
+   Token usage: {'input_tokens': 414, 'output_tokens': 49, 'total_tokens': 463, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing hyperintensity of the genu and splenium of the corpus callosum....
+   Token usage: {'input_tokens': 420, 'output_tokens': 20, 'total_tokens': 440, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Postoperative anterior-posterior radiograph of the ankle following open reduction and internal fixat...
+   Token usage: {'input_tokens': 403, 'output_tokens': 83, 'total_tokens': 486, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T2-weighted MRI of the brain showing a lesion in the right cerebellopontine angle, likely an e...
+   Token usage: {'input_tokens': 399, 'output_tokens': 512, 'total_tokens': 911, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest radiography showing bilateral pulmonary infiltrates, suggestive of pneumonia. There is also ev...
+   Token usage: {'input_tokens': 357, 'output_tokens': 24, 'total_tokens': 381, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain axial view showing bilateral maxillary sinusitis and left mastoiditis....
+   Token usage: {'input_tokens': 370, 'output_tokens': 15, 'total_tokens': 385, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the paranasal sinuses showing bilateral ethmoid sinusitis. The ethmoid air cells ar...
+   Token usage: {'input_tokens': 428, 'output_tokens': 82, 'total_tokens': 510, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI T2. Orange circle indicates edema at the junction of the Jugular Foramen and the Hypoglossal Can...
+   Token usage: {'input_tokens': 390, 'output_tokens': 25, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:33:43] Amostra 80/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Postoperative chest X-ray showing a normal mediastinum....
+   Token usage: {'input_tokens': 357, 'output_tokens': 13, 'total_tokens': 370, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: The right-sided pneumothorax appearing on the chest anteroposterior (AP) radiograph acquired...
+   Token usage: {'input_tokens': 394, 'output_tokens': 30, 'total_tokens': 424, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T2 MRI image showing a large arachnoid cyst deforming the right frontal lobe. The cyst wall is...
+   Token usage: {'input_tokens': 390, 'output_tokens': 39, 'total_tokens': 429, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Catheter placement in the superior vesical artery to redirect flow away from the bladder. Th...
+   Token usage: {'input_tokens': 421, 'output_tokens': 74, 'total_tokens': 495, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Post-operative X-ray image. Lateral projection showing a plate and screws in the humerus and...
+   Token usage: {'input_tokens': 371, 'output_tokens': 28, 'total_tokens': 399, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT Chest (Coronal View) showing bilateral patchy ground-glass opacities, cardiomegaly, and a small r...
+   Token usage: {'input_tokens': 405, 'output_tokens': 29, 'total_tokens': 434, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: A chest X-ray showing a nasogastric tube (yellow arrow) in the stomach. The tube is position...
+   Token usage: {'input_tokens': 402, 'output_tokens': 53, 'total_tokens': 455, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray showing cardiomegaly and interstitial pulmonary edema with cephalization....
+   Token usage: {'input_tokens': 369, 'output_tokens': 17, 'total_tokens': 386, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the pelvis showing the right inguinal ligament, right LFCN, ilium, sartorius, and iliacus mus...
+   Token usage: {'input_tokens': 466, 'output_tokens': 28, 'total_tokens': 494, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Cardiac Catheterization of Patient 4 Revealing LAD Segment after Stenting...
+   Token usage: {'input_tokens': 372, 'output_tokens': 20, 'total_tokens': 392, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:34:07] Amostra 90/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: CT abdomen, coronal view demonstrates a 5 × 6.7 × 7 cm right adrenal mass (white arrows) w...
+   Token usage: {'input_tokens': 486, 'output_tokens': 126, 'total_tokens': 612, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T2 FLAIR sequence magnetic resonance imaging showing enhancement of the medial temporal lobe (...
+   Token usage: {'input_tokens': 375, 'output_tokens': 29, 'total_tokens': 404, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the abdomen. The arrow points to a small, low-density fluid collection in the rig...
+   Token usage: {'input_tokens': 481, 'output_tokens': 512, 'total_tokens': 993, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: A 55-year-old male with a history of smoking presenting with cough and shortness of breath. ...
+   Token usage: {'input_tokens': 478, 'output_tokens': 512, 'total_tokens': 990, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: T2-weighted MRI image showing a small, hyperintense lesion in the right frontal lobe, likely...
+   Token usage: {'input_tokens': 463, 'output_tokens': 138, 'total_tokens': 601, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound of the left upper arm. The long head of the biceps tendon is indicated by the whi...
+   Token usage: {'input_tokens': 512, 'output_tokens': 512, 'total_tokens': 1024, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a focus of acute parenchymal hemorrhage in the left occipital lobe, with an...
+   Token usage: {'input_tokens': 404, 'output_tokens': 31, 'total_tokens': 435, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain, sagittal view. Shows herniation of the cerebellar tonsil 7 mm below the foramen magnum....
+   Token usage: {'input_tokens': 362, 'output_tokens': 24, 'total_tokens': 386, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest CT scan showing a large mass in the right lung (arrow). The mass is causing compressio...
+   Token usage: {'input_tokens': 421, 'output_tokens': 46, 'total_tokens': 467, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior plain radiograph of both hip joints shows a displaced femoral neck fracture ...
+   Token usage: {'input_tokens': 475, 'output_tokens': 52, 'total_tokens': 527, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:36:05] Amostra 100/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the pelvis showing a large, well-circumscribed, heterogeneous mass in the right low...
+   Token usage: {'input_tokens': 369, 'output_tokens': 68, 'total_tokens': 437, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the abdomen showing a large mass in the upper abdomen, with a white arrow pointin...
+   Token usage: {'input_tokens': 426, 'output_tokens': 42, 'total_tokens': 468, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial CT image of the heart shows a large pericardial effusion (red circle) and a small left...
+   Token usage: {'input_tokens': 424, 'output_tokens': 36, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan showing a large mediastinal mass (red arrow) and a small left pleural effusion (blue...
+   Token usage: {'input_tokens': 381, 'output_tokens': 27, 'total_tokens': 408, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: MRI of the breast showing multiple enhancing nodules in both breasts....
+   Token usage: {'input_tokens': 391, 'output_tokens': 17, 'total_tokens': 408, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal view of the C-shaped mandibular first premolar representative of the furcation area...
+   Token usage: {'input_tokens': 409, 'output_tokens': 38, 'total_tokens': 447, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transverse view of the uterus showing a single gestational sac with a measurement of 26.8 ...
+   Token usage: {'input_tokens': 412, 'output_tokens': 73, 'total_tokens': 485, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the abdomen shows a well-defined, round lesion with a high density (approximately...
+   Token usage: {'input_tokens': 496, 'output_tokens': 57, 'total_tokens': 553, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Post-operative radiograph after the patient underwent a left hip hemiarthroplasty. The image...
+   Token usage: {'input_tokens': 466, 'output_tokens': 53, 'total_tokens': 519, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain axial view showing a small focus of calcification in the right parietal lobe with moderate...
+   Token usage: {'input_tokens': 420, 'output_tokens': 46, 'total_tokens': 466, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:36:36] Amostra 110/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Left main coronary artery angiography showing a significant stenosis....
+   Token usage: {'input_tokens': 356, 'output_tokens': 11, 'total_tokens': 367, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT imaging of the chest showing a large mass in the right lung (arrow)....
+   Token usage: {'input_tokens': 416, 'output_tokens': 21, 'total_tokens': 437, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the abdomen showing a large retroperitoneal mass, likely a tumor. The mass is loc...
+   Token usage: {'input_tokens': 397, 'output_tokens': 64, 'total_tokens': 461, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the pelvis showing a large mass in the right iliac bone (arrows)....
+   Token usage: {'input_tokens': 395, 'output_tokens': 23, 'total_tokens': 418, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Postoperative imaging studies using contrast-enhanced CT at (A) postoperative day 1 and (B) 5 months...
+   Token usage: {'input_tokens': 444, 'output_tokens': 50, 'total_tokens': 494, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the right ankle shows edema of the skin and subcutaneous tissue with diffuse and patchy bone ...
+   Token usage: {'input_tokens': 429, 'output_tokens': 42, 'total_tokens': 471, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right knee anteroposterior radiograph showing no obvious abnormalities....
+   Token usage: {'input_tokens': 372, 'output_tokens': 14, 'total_tokens': 386, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior radiograph of the distal tibia and fibula showing a fracture of the distal t...
+   Token usage: {'input_tokens': 396, 'output_tokens': 512, 'total_tokens': 908, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT showing a distended and medially located cecum with fecalization of the distal ileum an...
+   Token usage: {'input_tokens': 395, 'output_tokens': 37, 'total_tokens': 432, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right lower lobe consolidation with a possible cavitary lesion....
+   Token usage: {'input_tokens': 402, 'output_tokens': 13, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:37:27] Amostra 120/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Computed tomography showing a left anterior descending artery (LAD) with a possible plaque. ...
+   Token usage: {'input_tokens': 404, 'output_tokens': 39, 'total_tokens': 443, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the abdomen and pelvis showing a large left flank lymphocele with no associated gas forma...
+   Token usage: {'input_tokens': 405, 'output_tokens': 26, 'total_tokens': 431, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a contrast injection into the right femoral vein, with contrast flowing into the lef...
+   Token usage: {'input_tokens': 429, 'output_tokens': 512, 'total_tokens': 941, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: A) Enhanced computed tomography scan shows a right thyroid nodule (red arrow).
+
+The target i...
+   Token usage: {'input_tokens': 403, 'output_tokens': 512, 'total_tokens': 915, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT abdomen and pelvis showing a large, heterogeneous, and ill-defined mass in the uterus, co...
+   Token usage: {'input_tokens': 403, 'output_tokens': 87, 'total_tokens': 490, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left chest wall edema....
+   Token usage: {'input_tokens': 366, 'output_tokens': 6, 'total_tokens': 372, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT image showing patchy hypodensity in the posterior parietal and occipital lobes, right great...
+   Token usage: {'input_tokens': 379, 'output_tokens': 42, 'total_tokens': 421, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior radiograph of the right hip showing a total hip arthroplasty. The femoral co...
+   Token usage: {'input_tokens': 405, 'output_tokens': 53, 'total_tokens': 458, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronary angiography showing a collateral branch (small arrow) from the right coronary artery (RCA) ...
+   Token usage: {'input_tokens': 422, 'output_tokens': 31, 'total_tokens': 453, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial MRI of the pelvis showing a large, hypervascular mass in the anterior abdominal wall, likely r...
+   Token usage: {'input_tokens': 415, 'output_tokens': 33, 'total_tokens': 448, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:38:48] Amostra 130/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Normal chest X-ray. The image shows the typical appearance of the chest with the lungs, heart, and o...
+   Token usage: {'input_tokens': 420, 'output_tokens': 34, 'total_tokens': 454, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Post-operative X-ray of the thoracic spine following anterior cervical discectomy and fusion...
+   Token usage: {'input_tokens': 388, 'output_tokens': 54, 'total_tokens': 442, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: CT scan of the chest showing a large mass in the right breast. The mass is characterized by ...
+   Token usage: {'input_tokens': 438, 'output_tokens': 512, 'total_tokens': 950, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MR angiography of the abdomen (MRA): visualization of the portal vein and its branches, including th...
+   Token usage: {'input_tokens': 371, 'output_tokens': 52, 'total_tokens': 423, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a large meningioma in the atrium of the left lateral ventricle....
+   Token usage: {'input_tokens': 394, 'output_tokens': 20, 'total_tokens': 414, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT image showing mesenteric panniculitis (red arrow) and a small amount of mesenteric lymphade...
+   Token usage: {'input_tokens': 401, 'output_tokens': 54, 'total_tokens': 455, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT showing a gallstone impacted in the terminal ileum, causing proximal small bowel dilata...
+   Token usage: {'input_tokens': 440, 'output_tokens': 21, 'total_tokens': 461, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan: Large cyst in the right lower lobe representing parenchymal hydatid cyst (yellow arrow); th...
+   Token usage: {'input_tokens': 420, 'output_tokens': 50, 'total_tokens': 470, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain showing a ring-enhancing lesion in the pons. This is suggestive of a primary central nervo...
+   Token usage: {'input_tokens': 490, 'output_tokens': 37, 'total_tokens': 527, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial view of the pelvis at the level of the hip joint further demonstrating the pelvic mass...
+   Token usage: {'input_tokens': 451, 'output_tokens': 42, 'total_tokens': 493, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:39:43] Amostra 140/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Brain MRI showing tonsillar herniation....
+   Token usage: {'input_tokens': 381, 'output_tokens': 9, 'total_tokens': 390, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a small, well-defined, non-enhancing lesion in the right frontal lobe, like...
+   Token usage: {'input_tokens': 402, 'output_tokens': 512, 'total_tokens': 914, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray showing diffuse bilateral pulmonary infiltrates, suggestive of pulmonary edema or pneumo...
+   Token usage: {'input_tokens': 381, 'output_tokens': 32, 'total_tokens': 413, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Two-chamber 2D echocardiogram showing a large vegetation on the right side of the interatria...
+   Token usage: {'input_tokens': 483, 'output_tokens': 61, 'total_tokens': 544, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI showing acute ischemic stroke in the territory of the left anterior choroidal artery....
+   Token usage: {'input_tokens': 405, 'output_tokens': 17, 'total_tokens': 422, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: CT scan of the chest in lung window shows multiple nodular opacities distributed along the p...
+   Token usage: {'input_tokens': 386, 'output_tokens': 79, 'total_tokens': 465, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Coronary angiography showing a significant stenosis (indicated by the red arrow) in the left...
+   Token usage: {'input_tokens': 386, 'output_tokens': 58, 'total_tokens': 444, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Panoramic radiograph showing a fractured mandibular condyle with a small displaced fragment....
+   Token usage: {'input_tokens': 419, 'output_tokens': 39, 'total_tokens': 458, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT chest showing a filling defect in the left pulmonary artery, suggestive of pulmonary embolism. A ...
+   Token usage: {'input_tokens': 418, 'output_tokens': 31, 'total_tokens': 449, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Portable upright chest X-ray showing a large opacity in the left lower lung field, which m...
+   Token usage: {'input_tokens': 422, 'output_tokens': 63, 'total_tokens': 485, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:40:40] Amostra 150/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT scan showing a large pelvic mass, likely a tumor, with significant surrounding edema. T...
+   Token usage: {'input_tokens': 423, 'output_tokens': 45, 'total_tokens': 468, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI imaging showing a cystic mass located between the gastric antrum, pancreas, spleen, and hepatic ...
+   Token usage: {'input_tokens': 399, 'output_tokens': 23, 'total_tokens': 422, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT Chest - Axial View: Bilateral lung opacities, including ground-glass opacities in the right upper...
+   Token usage: {'input_tokens': 423, 'output_tokens': 58, 'total_tokens': 481, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI showing a large, complex fluid collection in the right lower quadrant, with multiple smaller flu...
+   Token usage: {'input_tokens': 430, 'output_tokens': 61, 'total_tokens': 491, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Ultrasound of the eye showing a thickened, hypoechoic lesion in the anterior chamber (arrow). This c...
+   Token usage: {'input_tokens': 423, 'output_tokens': 44, 'total_tokens': 467, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Prevertebral soft tissue swelling is present. The distance between the anterior surface of t...
+   Token usage: {'input_tokens': 377, 'output_tokens': 512, 'total_tokens': 889, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Target image: Abdominal ultrasound. The image shows a large, cystic structure in the upper abdomen, ...
+   Token usage: {'input_tokens': 387, 'output_tokens': 91, 'total_tokens': 478, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: A hypermetabolic abnormality was observed in the right lower abdomen on positron emission to...
+   Token usage: {'input_tokens': 442, 'output_tokens': 50, 'total_tokens': 492, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Pelvic CT scan showing a large, heterogeneous mass in the pelvis, with invasion into the sigmoid col...
+   Token usage: {'input_tokens': 395, 'output_tokens': 49, 'total_tokens': 444, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest radiograph showing a central venous catheter and an endotracheal tube. There is a possible opa...
+   Token usage: {'input_tokens': 381, 'output_tokens': 27, 'total_tokens': 408, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:41:40] Amostra 160/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: This axial contrast-enhanced CT shows a defect in the membranous portion of the interatrial ...
+   Token usage: {'input_tokens': 519, 'output_tokens': 107, 'total_tokens': 626, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Ultrasound of the abdomen shows the liver, spleen, kidneys, and aorta. The liver appears n...
+   Token usage: {'input_tokens': 407, 'output_tokens': 512, 'total_tokens': 919, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: abdominal ultrasound showing splenomegaly. The spleen measures 17 cm in diameter. There is no eviden...
+   Token usage: {'input_tokens': 447, 'output_tokens': 40, 'total_tokens': 487, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Bilateral interstitial infiltrates, worse in the lower lung fields. Right jugular transvenous pacing...
+   Token usage: {'input_tokens': 387, 'output_tokens': 29, 'total_tokens': 416, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Findings: CT abdomen shows a large, fluid-filled mass in the right upper quadrant, suspicious for a ...
+   Token usage: {'input_tokens': 376, 'output_tokens': 71, 'total_tokens': 447, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI brain showing a mass in the right internal auditory canal....
+   Token usage: {'input_tokens': 379, 'output_tokens': 13, 'total_tokens': 392, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronal view of abdominal CT scan with IV contrast showing a distended and medially located cecum wi...
+   Token usage: {'input_tokens': 412, 'output_tokens': 44, 'total_tokens': 456, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Evaluation of the pharyngeal airway changes. The largest transverse width (LTW) and anteropo...
+   Token usage: {'input_tokens': 449, 'output_tokens': 55, 'total_tokens': 504, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Supine chest X-ray showing a large gastric bubble, likely representing a large hiatal hern...
+   Token usage: {'input_tokens': 363, 'output_tokens': 59, 'total_tokens': 422, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: MRI of the lumbar spine showing a T1-weighted image with a white arrow pointing to the verte...
+   Token usage: {'input_tokens': 459, 'output_tokens': 45, 'total_tokens': 504, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:42:40] Amostra 170/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Panoramic radiograph showing a patient with a history of tooth extraction and possible osteo...
+   Token usage: {'input_tokens': 372, 'output_tokens': 107, 'total_tokens': 479, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal CT scan image showing bony destruction of L4 and L5....
+   Token usage: {'input_tokens': 458, 'output_tokens': 20, 'total_tokens': 478, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest X-ray showing a central venous catheter (CVC) with the tip in the superior vena cava (...
+   Token usage: {'input_tokens': 375, 'output_tokens': 44, 'total_tokens': 419, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial non-enhanced T1 weighted image of the brain showing the trigeminal nerves (pink arrows...
+   Token usage: {'input_tokens': 378, 'output_tokens': 45, 'total_tokens': 423, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Barium swallow showing a collapsed colon....
+   Token usage: {'input_tokens': 370, 'output_tokens': 9, 'total_tokens': 379, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Coronal slice of T2 MRI demonstrating the large os trigonum lateral to the FHL tendon and th...
+   Token usage: {'input_tokens': 438, 'output_tokens': 35, 'total_tokens': 473, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the chest showing a large left upper lobe lung mass with associated mediastinal lym...
+   Token usage: {'input_tokens': 383, 'output_tokens': 24, 'total_tokens': 407, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Angiogram of the brachiocephalic artery shows the hypertrophic aberrant bronchial artery (white arro...
+   Token usage: {'input_tokens': 429, 'output_tokens': 45, 'total_tokens': 474, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Pelvic MRI showing a large, multiloculated cystic lesion in the pelvis, possibly representing a comp...
+   Token usage: {'input_tokens': 466, 'output_tokens': 67, 'total_tokens': 533, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Digital subtraction angiogram of the right internal carotid artery showing a small aneurysm ...
+   Token usage: {'input_tokens': 442, 'output_tokens': 44, 'total_tokens': 486, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:43:11] Amostra 180/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Chest CT scan in the axial section of the mediastinal window showing ground glass images w...
+   Token usage: {'input_tokens': 433, 'output_tokens': 46, 'total_tokens': 479, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right navicular bone sclerosis and volume reduction, consistent with avascular necrosis (arrow). The...
+   Token usage: {'input_tokens': 370, 'output_tokens': 28, 'total_tokens': 398, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: 1-year follow-up radiograph showing bone formation around the root canal filling of tooth 12...
+   Token usage: {'input_tokens': 345, 'output_tokens': 28, 'total_tokens': 373, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transvaginal ultrasound image showing a uterus with a thickened endometrium (red arrow). The...
+   Token usage: {'input_tokens': 413, 'output_tokens': 512, 'total_tokens': 925, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT abdomen showing a large, well-defined, hypodense mass in the right upper quadrant, likely represe...
+   Token usage: {'input_tokens': 401, 'output_tokens': 54, 'total_tokens': 455, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing a ring-enhancing lesion in the left cerebellum with mass effect on the four...
+   Token usage: {'input_tokens': 390, 'output_tokens': 37, 'total_tokens': 427, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: A contrast-enhanced CT scan of the abdomen shows a large, enhancing mass in the right upper quadrant...
+   Token usage: {'input_tokens': 424, 'output_tokens': 56, 'total_tokens': 480, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal T2W MRI image shows a small, well-defined, hyperintense lesion in the right posteri...
+   Token usage: {'input_tokens': 538, 'output_tokens': 73, 'total_tokens': 611, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT scan showing a large mass with diffuse calcification in the right retroperitoneal space...
+   Token usage: {'input_tokens': 401, 'output_tokens': 52, 'total_tokens': 453, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a CT scan of the pelvis. There is a large, heterogeneous mass in the pelvis, which a...
+   Token usage: {'input_tokens': 424, 'output_tokens': 512, 'total_tokens': 936, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:44:36] Amostra 190/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Patient no. 11. Diaphyseal reconstruction....
+   Token usage: {'input_tokens': 383, 'output_tokens': 18, 'total_tokens': 401, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Image from a transesophageal echocardiogram showing a cooling device in the esophagus. The anterior ...
+   Token usage: {'input_tokens': 368, 'output_tokens': 47, 'total_tokens': 415, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the ankle showing a small area of bone marrow edema, indicated by the white arrow. This could...
+   Token usage: {'input_tokens': 448, 'output_tokens': 41, 'total_tokens': 489, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: ultrasonogram showing polyhydramnios and dilated stomach (arrow) (Case 1)...
+   Token usage: {'input_tokens': 362, 'output_tokens': 21, 'total_tokens': 383, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Echocardiographic short axis view of the right (RV) and left (LV) ventricles in a patient wi...
+   Token usage: {'input_tokens': 534, 'output_tokens': 73, 'total_tokens': 607, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Transthoracic echocardiography, parasternal long-axis view. No evidence of intracardiac thrombus or ...
+   Token usage: {'input_tokens': 384, 'output_tokens': 28, 'total_tokens': 412, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a radiograph of the abdomen. A large, rounded structure is visible in the upper abdo...
+   Token usage: {'input_tokens': 398, 'output_tokens': 183, 'total_tokens': 581, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the sinuses showing a radiolucent margin lining the sinus and the presence of air inside ...
+   Token usage: {'input_tokens': 428, 'output_tokens': 35, 'total_tokens': 463, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal CT scan showing diffuse liver metastases with multiple lesions, suggestive of metastatic d...
+   Token usage: {'input_tokens': 399, 'output_tokens': 18, 'total_tokens': 417, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray showing cardiomegaly and mild pulmonary edema....
+   Token usage: {'input_tokens': 391, 'output_tokens': 14, 'total_tokens': 405, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:45:09] Amostra 200/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Ultrasound of the abdomen showing a large left paracardiac lesion (star) widely communicating with t...
+   Token usage: {'input_tokens': 422, 'output_tokens': 28, 'total_tokens': 450, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: Sagittal reformat of the post-operative contrast-enhanced CT scan on soft tissue window. The...
+   Token usage: {'input_tokens': 449, 'output_tokens': 60, 'total_tokens': 509, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right hydronephrosis with lower pole mass (red arrow)....
+   Token usage: {'input_tokens': 382, 'output_tokens': 14, 'total_tokens': 396, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Lateral radiograph of the distal femur showing a large bone cyst. The cyst is located in the...
+   Token usage: {'input_tokens': 395, 'output_tokens': 36, 'total_tokens': 431, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT scan of the neck showing a well-circumscribed, heterogeneous lesion in the left pre-epiglot...
+   Token usage: {'input_tokens': 459, 'output_tokens': 37, 'total_tokens': 496, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Abdominal ultrasound showing the liver (labeled) and the portal vein (labeled). The portal v...
+   Token usage: {'input_tokens': 376, 'output_tokens': 54, 'total_tokens': 430, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Target image: CT abdomen showing a large, ill-defined, hypodense lesion in the right hepatic lobe wi...
+   Token usage: {'input_tokens': 366, 'output_tokens': 68, 'total_tokens': 434, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Barium swallow showing a dilated esophagus with retained barium, suggestive of achalasia....
+   Token usage: {'input_tokens': 429, 'output_tokens': 22, 'total_tokens': 451, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Ultrasound of the bladder shows a small, irregularly shaped bladder wall with areas of focal thicken...
+   Token usage: {'input_tokens': 411, 'output_tokens': 22, 'total_tokens': 433, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial fused PET/CT image shows a large, hypermetabolic mass in the right axilla, with associated ski...
+   Token usage: {'input_tokens': 449, 'output_tokens': 37, 'total_tokens': 486, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:45:36] Amostra 210/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest CT (Coronal View) shows a large right pneumothorax with associated pleural thickening ...
+   Token usage: {'input_tokens': 425, 'output_tokens': 48, 'total_tokens': 473, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The image shows a lateral cephalogram with measurements indicated by arrows. The arrows point to the...
+   Token usage: {'input_tokens': 576, 'output_tokens': 319, 'total_tokens': 895, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left lobe liver abscess....
+   Token usage: {'input_tokens': 385, 'output_tokens': 6, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the abdomen showing a fluid collection in the superior mediastinum....
+   Token usage: {'input_tokens': 383, 'output_tokens': 16, 'total_tokens': 399, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Chest X-ray obtained immediately after weaning of extracorporeal membrane oxygenation (ECMO)...
+   Token usage: {'input_tokens': 389, 'output_tokens': 46, 'total_tokens': 435, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial T2-weighted MRI of the brain showing left cerebral hemiatrophy, ipsilateral occipital horn dil...
+   Token usage: {'input_tokens': 390, 'output_tokens': 62, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT image showing a large left renal cyst. There is also a small amount of free fluid in the left par...
+   Token usage: {'input_tokens': 397, 'output_tokens': 40, 'total_tokens': 437, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Right lateral survey radiograph obtained from a 2-year-old MC Bernese mountain dog (dog 4). ...
+   Token usage: {'input_tokens': 474, 'output_tokens': 112, 'total_tokens': 586, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound of the left upper extremity showing the brachial artery (BA) and the median nerve...
+   Token usage: {'input_tokens': 439, 'output_tokens': 77, 'total_tokens': 516, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Lateral cephalogram of the patient. The arrows indicate the points where the cranial base angle was ...
+   Token usage: {'input_tokens': 346, 'output_tokens': 21, 'total_tokens': 367, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:46:24] Amostra 220/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Abdominal X-ray of the 48-year-old male with Ogilvie syndrome....
+   Token usage: {'input_tokens': 415, 'output_tokens': 22, 'total_tokens': 437, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Saccular aneurysm of the A2 segment of the anterior cerebral artery....
+   Token usage: {'input_tokens': 369, 'output_tokens': 20, 'total_tokens': 389, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transesophageal echocardiography. Transesophageal view shows a mass in the right ventricular...
+   Token usage: {'input_tokens': 469, 'output_tokens': 65, 'total_tokens': 534, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right ankle X-ray showing a possible fracture of the fibula and dislocation of the talus....
+   Token usage: {'input_tokens': 452, 'output_tokens': 21, 'total_tokens': 473, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronal plane CT chest showing bilateral patchy ground-glass opacities, cardiomegaly, and no pleural...
+   Token usage: {'input_tokens': 402, 'output_tokens': 26, 'total_tokens': 428, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Cholangiogram performed after repeat procedure in Patient 3 to flush remnant stones showed s...
+   Token usage: {'input_tokens': 447, 'output_tokens': 31, 'total_tokens': 478, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior radiograph of the right hip demonstrating a total hip arthroplasty with a sp...
+   Token usage: {'input_tokens': 412, 'output_tokens': 45, 'total_tokens': 457, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: The image shows a liver lesion with increased FDG uptake, suggestive of a tumor. The lesio...
+   Token usage: {'input_tokens': 414, 'output_tokens': 51, 'total_tokens': 465, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Findings consistent with acute pancreatitis, including diffuse hypoattenuation of the pancreatic par...
+   Token usage: {'input_tokens': 405, 'output_tokens': 80, 'total_tokens': 485, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Post-contrast CT image showing a patent foramen ovale (PFO) with a flap (arrow). The image is taken ...
+   Token usage: {'input_tokens': 440, 'output_tokens': 43, 'total_tokens': 483, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:46:53] Amostra 230/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Mammogram of the right breast showing a 1.5 cm oval, well-defined, high-density mass in the ...
+   Token usage: {'input_tokens': 420, 'output_tokens': 512, 'total_tokens': 932, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: CT scan of the chest in lung window shows multiple nodular opacities distributed along the p...
+   Token usage: {'input_tokens': 426, 'output_tokens': 119, 'total_tokens': 545, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI follow-up at 1 year post-operation (glued AMIC®, medial femoral condyle): Proton density weighte...
+   Token usage: {'input_tokens': 504, 'output_tokens': 72, 'total_tokens': 576, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Based on the image, here's a possible clinical caption:
+
+**Thoracoscopic view of the cavity**
+
+This ...
+   Token usage: {'input_tokens': 343, 'output_tokens': 115, 'total_tokens': 458, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Normal axial CT scan at the level of the fourth ventricle....
+   Token usage: {'input_tokens': 433, 'output_tokens': 17, 'total_tokens': 450, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI sagittal view showing a well-defined, round, hyperintense lesion in the supratentorial cerebellu...
+   Token usage: {'input_tokens': 389, 'output_tokens': 29, 'total_tokens': 418, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Chest CT scan reveals extensive bilateral diffuse irregular nodular and airspace opacities...
+   Token usage: {'input_tokens': 353, 'output_tokens': 74, 'total_tokens': 427, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transvaginal ultrasound of the pelvis shows a low-level intrauterine fluid. The uterus is ...
+   Token usage: {'input_tokens': 400, 'output_tokens': 70, 'total_tokens': 470, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Venogram demonstrating restoration of venous outflow following angioplasty and stent placement....
+   Token usage: {'input_tokens': 374, 'output_tokens': 18, 'total_tokens': 392, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Panoramic X-ray showing the anterior teeth. The distance between the most inferior point of ...
+   Token usage: {'input_tokens': 468, 'output_tokens': 40, 'total_tokens': 508, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:47:58] Amostra 240/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: deep ulcer
+
+This image shows a deep ulcer, likely in the gastrointestinal tract, based on the appear...
+   Token usage: {'input_tokens': 416, 'output_tokens': 512, 'total_tokens': 928, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 1: Abdominal CT showing a large amount of ascites and abdominal distension.
+Case 2: Coronal vie...
+   Token usage: {'input_tokens': 392, 'output_tokens': 68, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT abdomen showing liver cirrhosis with portal venous gas....
+   Token usage: {'input_tokens': 378, 'output_tokens': 13, 'total_tokens': 391, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT image showing a large, well-defined, round opacity in the left maxillary sinus, suggestive ...
+   Token usage: {'input_tokens': 447, 'output_tokens': 40, 'total_tokens': 487, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the right ankle showing a well-defined, large, and somewhat irregular mass in the anterior as...
+   Token usage: {'input_tokens': 440, 'output_tokens': 54, 'total_tokens': 494, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Cervical spine X-ray showing a possible atlantoaxial dislocation. The image shows the C1-C2 joint, w...
+   Token usage: {'input_tokens': 382, 'output_tokens': 78, 'total_tokens': 460, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left main coronary artery occlusion....
+   Token usage: {'input_tokens': 370, 'output_tokens': 7, 'total_tokens': 377, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Anteroposterior radiograph of the pelvis showing bilateral hip arthroplasty. The arrows poin...
+   Token usage: {'input_tokens': 414, 'output_tokens': 31, 'total_tokens': 445, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transthoracic echocardiogram demonstrating left ventricular pseudoaneurysm (arrow) in the ...
+   Token usage: {'input_tokens': 421, 'output_tokens': 27, 'total_tokens': 448, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Axial CT of the neck showing a left-sided tonsillar abscess with a maximum diameter of 1.3 cm....
+   Token usage: {'input_tokens': 376, 'output_tokens': 26, 'total_tokens': 402, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:48:52] Amostra 250/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial post-contrast T1-weighted MRI showing an enhancing lesion in the right cavernous sinus...
+   Token usage: {'input_tokens': 433, 'output_tokens': 50, 'total_tokens': 483, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right knee lateral radiograph showing a slight inferior displacement of the patella. The quadriceps ...
+   Token usage: {'input_tokens': 444, 'output_tokens': 42, 'total_tokens': 486, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CE bone. The image shows a cross-section of a bone, likely a long bone, with a line indicating the C...
+   Token usage: {'input_tokens': 459, 'output_tokens': 512, 'total_tokens': 971, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Midesophageal long-axis view showing a large ventricular septal defect (VSD) with flow across the de...
+   Token usage: {'input_tokens': 428, 'output_tokens': 38, 'total_tokens': 466, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Lateral view of the left knee showing the patella and femur. The patella appears to be in a normal p...
+   Token usage: {'input_tokens': 355, 'output_tokens': 47, 'total_tokens': 402, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT abdomen with and without contrast showing a 12.3 mm lesion in the right adrenal gland. A similar ...
+   Token usage: {'input_tokens': 406, 'output_tokens': 37, 'total_tokens': 443, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transabdominal ultrasound reveals a hypoechoic solid mass lesion in the right breast at 1 ...
+   Token usage: {'input_tokens': 404, 'output_tokens': 36, 'total_tokens': 440, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right-sided pleural effusion (yellow arrow) and a possible right lower lobe consolidation (red arrow...
+   Token usage: {'input_tokens': 373, 'output_tokens': 21, 'total_tokens': 394, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transvaginal ultrasound showing measurement of tumor/anteroposterior uterine diameter ratio ...
+   Token usage: {'input_tokens': 421, 'output_tokens': 46, 'total_tokens': 467, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Right portable chest radiograph showing a large, rounded opacity in the left lower hemithorax, likel...
+   Token usage: {'input_tokens': 371, 'output_tokens': 58, 'total_tokens': 429, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:49:48] Amostra 260/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Final panoramic radiograph....
+   Token usage: {'input_tokens': 327, 'output_tokens': 6, 'total_tokens': 333, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Panoramic radiograph showing the correct inclination of 3.7 before miniscrew removal....
+   Token usage: {'input_tokens': 367, 'output_tokens': 18, 'total_tokens': 385, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: High frequency ultrasound using 12 to 3 MHz broadband linear array transducer revealed a wel...
+   Token usage: {'input_tokens': 438, 'output_tokens': 36, 'total_tokens': 474, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT neck showing a small, well-defined, hypodense lesion in the left thyroid lobe, possibly represent...
+   Token usage: {'input_tokens': 398, 'output_tokens': 56, 'total_tokens': 454, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: A thickened bladder wall (arrowhead) with stranding of the mesenteric fat, status post-JJ stents. De...
+   Token usage: {'input_tokens': 406, 'output_tokens': 35, 'total_tokens': 441, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Coronal CT scan of the abdomen and pelvis showing a large, heterogeneous mass in the right lower qua...
+   Token usage: {'input_tokens': 392, 'output_tokens': 58, 'total_tokens': 450, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Apical 4-chamber view showing a mass in the pericardial space near the right auriculo-ventricular ju...
+   Token usage: {'input_tokens': 410, 'output_tokens': 26, 'total_tokens': 436, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Transthoracic echocardiography parasternal long-axis view showing a mobile thrombus in the r...
+   Token usage: {'input_tokens': 386, 'output_tokens': 33, 'total_tokens': 419, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: AP erect chest X-ray showing a nasogastric tube. There is a small left pleural effusion. The lungs a...
+   Token usage: {'input_tokens': 418, 'output_tokens': 54, 'total_tokens': 472, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left shoulder X-ray showing a possible fracture of the humerus. The humeral head is displaced anteri...
+   Token usage: {'input_tokens': 431, 'output_tokens': 512, 'total_tokens': 943, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:50:41] Amostra 270/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Bilateral diffuse ground glass opacities, suggestive of pulmonary edema or interstitial lung disease...
+   Token usage: {'input_tokens': 356, 'output_tokens': 19, 'total_tokens': 375, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Echocardiography of Case 3 showing a fixed and immobile pulmonary valve.
+
+The image shows a ...
+   Token usage: {'input_tokens': 358, 'output_tokens': 512, 'total_tokens': 870, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI horizontal section T1 + Gadolinium. Arrows show areas with enhancement in left pars petrosa....
+   Token usage: {'input_tokens': 388, 'output_tokens': 21, 'total_tokens': 409, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal T2 restore magnetic resonance image demonstrating a posterior hyperintense lesion (...
+   Token usage: {'input_tokens': 447, 'output_tokens': 43, 'total_tokens': 490, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Post-transcatheter aortic valve replacement (TAVR) coronary angiogram showing adequate flow in the l...
+   Token usage: {'input_tokens': 406, 'output_tokens': 512, 'total_tokens': 918, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Chest X-ray showing a left-sided chest tube in place, with some residual opacity in the left lower l...
+   Token usage: {'input_tokens': 364, 'output_tokens': 26, 'total_tokens': 390, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Left foot postoperative x-ray showing the negative pressure wound therapy application over the surgi...
+   Token usage: {'input_tokens': 375, 'output_tokens': 44, 'total_tokens': 419, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the sacroiliac joints showing ankylosis in the previously treated areas (indicated by arrows)...
+   Token usage: {'input_tokens': 437, 'output_tokens': 35, 'total_tokens': 472, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT thorax with intravenous contrast in a 50-year-old male patient with Castleman disease. A 5 cm wel...
+   Token usage: {'input_tokens': 394, 'output_tokens': 58, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT abdomen showing a large, well-defined, hypodense mass in the right hepatic lobe, consistent with ...
+   Token usage: {'input_tokens': 388, 'output_tokens': 39, 'total_tokens': 427, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:52:00] Amostra 280/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Case 4: MRI of the brain showing a large cystic lesion with a cutaneous sinus tract extending from t...
+   Token usage: {'input_tokens': 452, 'output_tokens': 512, 'total_tokens': 964, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Ultrasound of the neck. The thyroid cartilage is visualized. The trachea is seen. The voca...
+   Token usage: {'input_tokens': 411, 'output_tokens': 41, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound of the abdomen in a 77-year-old female demonstrating an ovoid mass (curved arrow)...
+   Token usage: {'input_tokens': 412, 'output_tokens': 45, 'total_tokens': 457, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI T2 of the thoracic spine showing multilevel spondylosis and moderate cord impingement at T10-T11...
+   Token usage: {'input_tokens': 445, 'output_tokens': 27, 'total_tokens': 472, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Brain CT scan showing a hypodense area in the right internal capsule....
+   Token usage: {'input_tokens': 364, 'output_tokens': 16, 'total_tokens': 380, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Sagittal T2 restore magnetic resonance image demonstrating a posterior hyperintense lesion (...
+   Token usage: {'input_tokens': 419, 'output_tokens': 43, 'total_tokens': 462, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Abdominal plain film showing a radiopaque tubular structure around the ileocecal junction in the rig...
+   Token usage: {'input_tokens': 365, 'output_tokens': 23, 'total_tokens': 388, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial brain MRI showing bilateral, symmetric, confluent T2/FLAIR hyperintensities involving ...
+   Token usage: {'input_tokens': 422, 'output_tokens': 53, 'total_tokens': 475, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Axial CT head showing a ventricular shunt catheter (yellow arrow) and worsening ventriculome...
+   Token usage: {'input_tokens': 438, 'output_tokens': 27, 'total_tokens': 465, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: CT scan of the chest showing a suspicious lymph node in the left axilla, indicated by the white arro...
+   Token usage: {'input_tokens': 368, 'output_tokens': 32, 'total_tokens': 400, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:52:52] Amostra 290/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: Right chest CT showing bilateral, patchy alveolar opacities, with a "white lung" appearance and wide...
+   Token usage: {'input_tokens': 388, 'output_tokens': 36, 'total_tokens': 424, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the head showing a metallic foreign body in the right temporal lobe....
+   Token usage: {'input_tokens': 393, 'output_tokens': 16, 'total_tokens': 409, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Abdominal MRI showing a large left-sided hydronephrosis with a dilated renal pelvis and caly...
+   Token usage: {'input_tokens': 398, 'output_tokens': 40, 'total_tokens': 438, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Echocardiogram showing a large left atrium....
+   Token usage: {'input_tokens': 343, 'output_tokens': 11, 'total_tokens': 354, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Transesophageal echocardiogram, mid-esophageal short-axis view. Bicuspid aortic valve with...
+   Token usage: {'input_tokens': 464, 'output_tokens': 60, 'total_tokens': 524, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: MRI of the abdomen showing the kidneys. The right kidney is visible on the right side of the image, ...
+   Token usage: {'input_tokens': 396, 'output_tokens': 56, 'total_tokens': 452, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: The CT scan shows a large, spiculated nodule in the right lung, which is concerning for malignancy. ...
+   Token usage: {'input_tokens': 427, 'output_tokens': 108, 'total_tokens': 535, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Based on the provided image, here is a possible clinical caption:
+
+**Liver Ultrasound:** The image s...
+   Token usage: {'input_tokens': 500, 'output_tokens': 121, 'total_tokens': 621, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: Case 4: Ultrasound image showing a large lymph node with a central area of increased echogenicity, s...
+   Token usage: {'input_tokens': 368, 'output_tokens': 44, 'total_tokens': 412, 'cost_usd': 0.0}
+   Cost: $0.0000
+   Found 3 similar images for RAG
+   Generated caption: FINDINGS: Chest CT scan showing extensive diffuse irregular nodular and airspace opacities mainly af...
+   Token usage: {'input_tokens': 388, 'output_tokens': 47, 'total_tokens': 435, 'cost_usd': 0.0}
+   Cost: $0.0000
+[19:53:28] Amostra 300/300 em processamento...
+   Found 3 similar images for RAG
+   Generated caption: MRI of the brain showing no evidence of intracranial bleed. The periventricular white matter and the...
+   Token usage: {'input_tokens': 409, 'output_tokens': 58, 'total_tokens': 467, 'cost_usd': 0.0}
+   Cost: $0.0000
+
+============================================================
+CAPTION GENERATION COMPLETE
+============================================================
+Total samples processed: 300
+Successful generations: 300
+Failed generations: 0
+Total cost: $0.0000
+Average cost per sample: $0.0000
+Results saved to: /home/CIN/agsl/experimento-medgemma/Test-cluster/responses/responses_rag_hf_2026-08-23_19-25.jsonl
+============================================================
+RUNNING EVALUATION ANALYSIS
+============================================================
+Caption Metrics:
+  BLEU Mean: 0.0269
+  ROUGE-1 Mean: 0.1721
+  ROUGE-2 Mean: 0.0446
+  ROUGE-L Mean: 0.1401
+Caption visualizations saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/caption_metrics.png
+Prediction examples saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/prediction_examples.png
+Evaluation report saved to evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples/evaluation_report_2026-08-23_19-53.md
+Evaluation analysis complete! Check evaluation_results/google/medgemma-1.5-4b-it_rag_3_examples for results.
+Saving pipeline state to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state...
+Vector database saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb
+  - Index: /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb/image_index.faiss
+  - Metadata: /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state/vectordb/metadata.json
+Pipeline state saved to /home/CIN/agsl/experimento-medgemma/Test-cluster/pipeline_state
+
+PIPELINE EXECUTION COMPLETE
+==========================================
+ [SUCESSO] Pipeline finalizado com êxito em Sun Aug 23 07:53:38 PM -03 2026!
+==========================================

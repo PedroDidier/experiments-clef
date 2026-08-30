@@ -1,16 +1,6 @@
 import json
 import os
 import random
-import os
-import threading
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
-# Ensure non-interactive matplotlib backend BEFORE importing any module
-# that may pull a GUI backend (tkinter/ImageTk/Matplotlib interactive backends).
-# This prevents "RuntimeError: main thread is not in main loop" raised from
-# tkinter Variable.__del__ at interpreter shutdown when running headless.
-os.environ.setdefault("MPLBACKEND", "Agg")
-
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any
@@ -19,30 +9,28 @@ from dotenv import load_dotenv
 
 # Import configuration first to set up environment
 from .config import get_config, update_config, Config
+import torch
+from transformers import AutoProcessor, AutoModelForImageTextToText, BitsAndBytesConfig
 
-from .data.dataset import UnifiedDataHandler
+from .data.dataset import ROCOv2DataHandler
 from .vectordb.image_vectordb import ImageVectorDB
-from .llm.llm_utils import MedicalImageCaptioner
+from .llm.llm_utils import MedicalImageCaptioner as CaptionerEngine
 from .analysis.cost_analysis import CostAnalyzer
 from .analysis.evaluation_visualizer import EvaluationVisualizer
 
 load_dotenv()
 
 
-class MedicalImageCaptioningPipeline:
+class MedicalImageCaptioner:
     """Main pipeline for medical image captioning with RAG."""
     
     def __init__(
-        self, 
-        model_name: str = None,
-        num_validation_samples: int = None,
-        num_rag_examples: int = None,
-        random_seed: int = None,
-        run_cost_analysis: bool = None,
-        run_evaluation: bool = None,
-        config_file: str = None,
-        num_threads: int = None
-    ):
+        self,
+        provider: str,
+        model_name: str,
+        max_tokens: int = 512,
+        use_4bit: bool = True
+        ): 
         """
         Initialize the medical image captioning pipeline.
         
@@ -54,48 +42,26 @@ class MedicalImageCaptioningPipeline:
             run_cost_analysis (bool): Whether to run cost analysis after generation (overrides config)
             run_evaluation (bool): Whether to run evaluation analysis after generation (overrides config)
             config_file (str): Path to configuration file
-            num_threads (int): Number of threads to use for parallel processing (overrides config)
         """
         # Load configuration
-        self.config = get_config()
-        if config_file:
-            self.config = Config(config_file=config_file)
-        
-        # Get configuration values with overrides
-        model_config = self.config.get_model_config()
-        dataset_config = self.config.get_dataset_config()
-        rag_config = self.config.get_rag_config()
-        analysis_config = self.config.get_analysis_config()
-        prompt_config = self.config.get_prompt_config()
-        
-        self.model_name = model_name or model_config.get('name', 'gpt-4o')
-        self.num_validation_samples = num_validation_samples or dataset_config.get('validation_samples', 300)
-        self.previous_num_validation_samples = dataset_config.get('previous_validation_samples', 0)
-        self.num_rag_examples = num_rag_examples or rag_config.get('num_examples', 3)
-        self.rag_model_name = rag_config.get('model_name', 'openai/openai/clip-vit-base-patch32')
-        self.random_seed = random_seed or dataset_config.get('random_seed', 42)
-        self.run_cost_analysis = run_cost_analysis if run_cost_analysis is not None else analysis_config.get('enable_cost_analysis', False)
-        self.run_evaluation = run_evaluation if run_evaluation is not None else analysis_config.get('enable_evaluation', False)
-        self.prompt_prefix = prompt_config.get('prefix', 'base')
-        provider = model_config.get('provider', 'openai')
-        max_tokens = model_config.get('max_tokens', 1000)
-        self.num_threads = num_threads or 4  # Default to 4 threads
+        self.provider = provider
+        self.model_name = model_name
+        self.max_tokens = max_tokens
 
+        self.num_validation_samples = 300
+        self.num_rag_examples = 3
+        self.random_seed=42
 
-        # Set random seed
-        random.seed(random_seed)
+        self.run_evaluation = True 
+        self.run_cost_analysis= False 
         
-        # Initialize components
-        self.dataset_type = dataset_config.get('type', 'rocov2')
-        self.data_handler = UnifiedDataHandler.get_handler(self.dataset_type)
-        self.vectordb = ImageVectorDB(model_name=self.rag_model_name)
-        self.captioner = MedicalImageCaptioner(provider=provider, 
-                                               model_name=self.model_name, 
-                                               max_tokens=max_tokens,
-                                               prompt_prefix=self.prompt_prefix)
-        
-        # Results storage
-        self.results = []
+        self.captioner = CaptionerEngine(
+            provider=self.provider,
+            model_name=self.model_name,
+            max_tokens=self.max_tokens
+        )
+
+        print(f"Carregando modelo local {self.model_name}")
         
     def setup_pipeline(self) -> None:
         """Setup the pipeline by loading dataset and building vector database."""
@@ -103,103 +69,95 @@ class MedicalImageCaptioningPipeline:
         print("SETTING UP MEDICAL IMAGE CAPTIONING PIPELINE")
         print("=" * 60)
         
-        # Load dataset based on type
-        if self.dataset_type == "rocov2":
-            print("1. Loading ROCOv2 dataset from HuggingFace...")
-        elif self.dataset_type in ["imageclef_natural", "imageclef_synth"]:
-            print(f"1. Loading ImageCLEF dataset ({self.dataset_type}) from local files...")
-        else:
-            print(f"1. Loading dataset: {self.dataset_type}...")
-        
+        # Load dataset
+        print("1. Loading ROCOv2 dataset from HuggingFace...")
+        self.config = get_config()
+        self.data_handler = ROCOv2DataHandler()
         self.data_handler.load_dataset()
         
         # Get dataset info
         info = self.data_handler.get_dataset_info()
         print(f"   Dataset info: {info}")
-
-        db_path = f"{self.dataset_type}_{self.rag_model_name}"
         
         # Check if vector database already exists
-        vectordb_path = self.config.get_vectordb_path(db_path)
+        vectordb_path = self.config.get_vectordb_path()
         
         if vectordb_path.exists() and (vectordb_path / "image_index.faiss").exists() and (vectordb_path / "metadata.json").exists():
             print("2. Loading existing vector database...")
             print(f"   Found existing vector database at: {vectordb_path}")
+            self.vectordb = ImageVectorDB()
             self.vectordb.load(str(vectordb_path))
             print("   Vector database loaded successfully!")
         else:
             print("2. Building vector database from training data...")
             print("   Using memory-efficient streaming to prevent RAM explosion...")
             train_dataset = self.data_handler.get_train_samples_for_vectordb()
-
+            
             # Use a reasonable limit for initial testing to prevent memory issues
             # You can increase this or set to None for full dataset
-            max_samples = len(train_dataset) # Start with all samples, adjust as needed
-
+            max_samples = 10000  # Start with 10k samples, adjust as needed
             print(f"   Processing up to {max_samples} training samples for vector database")
             
-            # Use appropriate build method based on dataset type
-            if self.dataset_type == "rocov2":
-                self.vectordb.build_from_huggingface_dataset(
-                    train_dataset, 
-                    batch_size=16,  # Smaller batch size for memory efficiency
-                    max_samples=max_samples
-                )
-            elif self.dataset_type in ["imageclef_natural", "imageclef_synth"]:
-                self.vectordb.build_from_imageclef_dataset(
-                    train_dataset, 
-                    batch_size=16,  # Smaller batch size for memory efficiency
-                    max_samples=max_samples
-                )
-            else:
-                raise ValueError(f"Unknown dataset type: {self.dataset_type}")
-
-            # Save vector database for future use
-            print(f"   Saving vector database to: {vectordb_path}")
+            self.vectordb = ImageVectorDB()
+            self.vectordb.build_from_huggingface_dataset(
+                train_dataset, 
+                batch_size=8,  # Smaller batch size for memory efficiency
+                max_samples=max_samples
+            )
+            
+            # Save the vector database for future use
+            print("3. Saving vector database for future use...")
             self.vectordb.save(str(vectordb_path))
-        
+            print(f"   Vector database saved to: {vectordb_path}")
         
         print("Pipeline setup complete!")
         print("=" * 60)
     
-    def _process_samples_chunk(self, samples_chunk: List[Dict[str, Any]], thread_id: int, jsonl_path: str, save_results: bool, file_lock: threading.Lock) -> tuple[List[Dict[str, Any]], float]:
+    def generate_captions(self, save_results: bool = True) -> List[Dict[str, Any]]:
         """
-        Process a chunk of validation samples in a separate thread.
+        Generate captions for validation samples using RAG.
         
         Args:
-            samples_chunk: List of samples to process
-            thread_id: ID of the thread for logging
-            jsonl_path: Path to save results
-            save_results: Whether to save results
-            file_lock: Lock for thread-safe file writing
+            save_results (bool): Whether to save results to JSONL file
             
         Returns:
-            Tuple of (results_list, total_cost)
+            List[Dict[str, Any]]: List of generated captions with metadata
         """
+        print("=" * 60)
+        print("GENERATING CAPTIONS WITH RAG")
+        print("=" * 60)
+        
+        # Get validation samples
+        print(f"1. Sampling {self.num_validation_samples} validation images...")
+        validation_samples = self.data_handler.get_validation_samples(
+            num_samples=self.num_validation_samples,
+            random_seed=self.random_seed
+        )
+        
+        print(f"   Processing {len(validation_samples)} validation samples")
+            
+        # Generate timestamp for output file
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
+        jsonl_path = self.config.get_responses_path(timestamp)
+        
+        # Process each validation sample
         results = []
         total_cost = 0.0
-        
-        for i, sample in enumerate(samples_chunk):
-            global_sample_idx = (thread_id * len(samples_chunk)) + i + 1
-            print(f"\n[Thread {thread_id}] Processing sample {global_sample_idx}")
-            print(f"   Image ID: {sample['image_id']}")
-
-            if sample['image_id'] not in missing_ids:
-                print(f"   Skipping sample {sample['image_id']} as it is not in the missing IDs list")
-                continue
-
+        total_samples = len(validation_samples)
+        for i, sample in enumerate(validation_samples):
+            if (i + 1) % 10 == 0 or (i + 1) == 1 or (i + 1) == total_samples:
+                print(f"[{datetime.now().strftime('%H:%M:%S')}] Amostra {i + 1}/{total_samples} em processamento...", flush=True)
+            
             try:
                 if self.num_rag_examples > 0:
                     # Find similar images for RAG
-                    begin_time = datetime.now()
                     similar_images = self.vectordb.search_similar_images(
                         sample['image'], 
                         k=self.num_rag_examples
                     )
-
+                
                     print(f"   Found {len(similar_images)} similar images for RAG")
-                    print(f"   Time taken for sample: {(datetime.now() - begin_time).total_seconds():.2f} seconds")
-
+                
                     # Generate caption with RAG
                     caption_data, token_usage, examples_used = self.captioner.generate_caption_with_rag(
                         sample['image'], 
@@ -227,20 +185,16 @@ class MedicalImageCaptioningPipeline:
                         }
                         for ex in examples_used
                     ],
-                    "timestamp": datetime.now().isoformat(),
-                    "model_name": self.model_name,
-                    "num_rag_examples": self.num_rag_examples,
-                    "prompt_prefix": self.prompt_prefix
+                    "timestamp": datetime.now().isoformat()
                 }
                 
                 results.append(result)
                 total_cost += token_usage.get('cost_usd', 0.0)
                 
-                # Save to JSONL file (thread-safe)
+                # Save to JSONL file
                 if save_results:
-                    with file_lock:
-                        with open(jsonl_path, "a", encoding="utf-8") as f:
-                            f.write(json.dumps(result, ensure_ascii=False) + "\n")
+                    with open(jsonl_path, "a", encoding="utf-8") as f:
+                        f.write(json.dumps(result, ensure_ascii=False) + "\n")
                 
                 print(f"   Generated caption: {caption_data.get('caption', '')[:100]}...")
                 print(f"   Token usage: {token_usage}")
@@ -263,79 +217,9 @@ class MedicalImageCaptioningPipeline:
                 results.append(error_result)
                 
                 if save_results:
-                    with file_lock:
-                        with open(jsonl_path, "a", encoding="utf-8") as f:
-                            f.write(json.dumps(error_result, ensure_ascii=False) + "\n")
+                    with open(jsonl_path, "a", encoding="utf-8") as f:
+                        f.write(json.dumps(error_result, ensure_ascii=False) + "\n")
         
-        return results, total_cost
-    
-    def generate_captions(self, save_results: bool = True) -> List[Dict[str, Any]]:
-        """
-        Generate captions for validation samples using RAG.
-        
-        Args:
-            save_results (bool): Whether to save results to JSONL file
-            
-        Returns:
-            List[Dict[str, Any]]: List of generated captions with metadata
-        """
-        print("=" * 60)
-        print("GENERATING CAPTIONS WITH RAG")
-        print("=" * 60)
-        
-        # Get validation samples
-        validation_samples = self.data_handler.get_test_samples()
-        print(f"1. Processing {len(validation_samples)} validation samples")
-            
-        # Generate timestamp for output file
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-        jsonl_path = self.config.get_responses_path(timestamp)
-
-        # Process validation samples using multiple threads
-        results = []
-        total_cost = 0.0
-        
-        # Create file lock for thread-safe writing
-        file_lock = threading.Lock()
-        
-        # Divide samples into chunks for each thread
-        chunk_size = len(validation_samples) // self.num_threads
-        remainder = len(validation_samples) % self.num_threads
-        
-        sample_chunks = []
-        start_idx = 0
-        
-        for thread_id in range(self.num_threads):
-            # Distribute remainder samples to first few threads
-            current_chunk_size = chunk_size + (1 if thread_id < remainder else 0)
-            end_idx = start_idx + current_chunk_size
-            chunk = validation_samples[start_idx:end_idx]
-            sample_chunks.append((chunk, thread_id))
-            start_idx = end_idx
-        
-        print(f"2. Divided {len(validation_samples)} samples into {self.num_threads} chunks:")
-        for i, (chunk, thread_id) in enumerate(sample_chunks):
-            print(f"   Thread {thread_id}: {len(chunk)} samples")
-        
-        # Process chunks in parallel using ThreadPoolExecutor
-        with ThreadPoolExecutor(max_workers=self.num_threads) as executor:
-            # Submit all tasks
-            future_to_thread = {
-                executor.submit(self._process_samples_chunk, chunk, thread_id, jsonl_path, save_results, file_lock): thread_id 
-                for chunk, thread_id in sample_chunks
-            }
-            
-            # Collect results as they complete
-            for future in as_completed(future_to_thread):
-                thread_id = future_to_thread[future]
-                try:
-                    chunk_results, chunk_cost = future.result()
-                    results.extend(chunk_results)
-                    total_cost += chunk_cost
-                    print(f"[Thread {thread_id}] Completed processing {len(chunk_results)} samples")
-                except Exception as e:
-                    print(f"[Thread {thread_id}] Error in thread: {e}")
-            
         # Print summary
         print("\n" + "=" * 60)
         print("CAPTION GENERATION COMPLETE")
@@ -453,7 +337,7 @@ class MedicalImageCaptioningPipeline:
         print("RUNNING EVALUATION ANALYSIS")
         print("=" * 60)
         
-        experiment_name = f"/{self.model_name}_rag_{self.num_rag_examples}_examples_{self.prompt_prefix}_prompt"
+        experiment_name = f"/{self.model_name}_rag_{self.num_rag_examples}_examples"
         output_dir += experiment_name
         visualizer = EvaluationVisualizer()
         
@@ -518,78 +402,54 @@ class MedicalImageCaptioningPipeline:
 
 def main(config: Config):
     """Main function to run the medical image captioning pipeline."""
-    # Check for API key
-    provider = config.get_model_config().get('provider')
-
-    if not os.getenv("OPENAI_API_KEY") and provider == "openai":
+    provider = config.get_model_config().get('provider', '').lower()
+    
+    # Valida chaves apenas se for usar APIs pagas
+    if provider == "openai" and not os.getenv("OPENAI_API_KEY"):
         print("Error: Please set OPENAI_API_KEY in your .env file")
         return
-    
-    if not os.getenv("DEEPINFRA_API_TOKEN") and provider == "deepinfra":
-        print("Error: Please set DEEPINFRA_API_TOKEN in your .env file")
-        return
-
-    if not os.getenv("GOOGLE_API_KEY") and provider == "google":
+    if provider == "google" and not os.getenv("GOOGLE_API_KEY"):
         print("Error: Please set GOOGLE_API_KEY in your .env file")
         return
+    if provider == "huggingface" and not (os.getenv("HF_TOKEN") or os.getenv("HUGGING_FACE_HUB_TOKEN")):
+        print("Warning: HF_TOKEN not found. Ensure you are authenticated via 'huggingface-cli login'.")
 
-    # Initialize pipeline
-    pipeline = MedicalImageCaptioningPipeline(num_threads=8)
+    # Instancia o pipeline passando a config ativa
+    pipeline = MedicalImageCaptioner(
+        provider=getattr(config, 'provider', 'huggingface'),
+        model_name=getattr(config, 'model_name', 'google/medgemma-1.5-4b-it')
+    )
     
     try:
-        # Setup pipeline
         pipeline.setup_pipeline()
-        
-        # Generate captions
         results = pipeline.generate_captions(save_results=True)
         
-        # Run analysis if enabled
         if pipeline.run_cost_analysis:
             pipeline.run_cost_analysis(results)
         
         if pipeline.run_evaluation:
             pipeline.run_evaluation_analysis(results)
         
-        # Save pipeline state
         pipeline.save_pipeline_state()
-        
-        print("\n" + "=" * 60)
-        print("PIPELINE EXECUTION COMPLETE")
-        print("=" * 60)
-        print("Check the 'responses' directory for the generated captions JSONL file.")
-        print("Check the 'pipeline_state' directory for the saved vector database.")
-        if pipeline.run_cost_analysis:
-            print("Check the 'cost_analysis' directory for cost analysis results.")
-        if pipeline.run_evaluation:
-            print("Check the 'evaluation_results' directory for evaluation results.")
+        print("\nPIPELINE EXECUTION COMPLETE")
         
     except Exception as e:
         print(f"Error running pipeline: {e}")
         raise
 
-def experiment_loop():
-    dataset_types = ['imageclef_natural']
-    for dataset_type in dataset_types:
-        config = get_config()
-        config.update_dataset_config({"type": dataset_type})
-        main(config)
-
-missing_ids = []
-
-def remaining_samples_loop():
-    global missing_ids
-    with open('error_image_ids.txt', 'r') as file:
-        for line in file:
-            missing_ids.append(line.strip())
-    config = get_config()
-    config.update_dataset_config({"type": "imageclef_natural"})
-    main(config)
-
-def run_setup():
-    config = get_config()
-    config.update_dataset_config({"type": "imageclef_synth"})
-    pipeline = MedicalImageCaptioningPipeline()
-    pipeline.setup_pipeline()
-
 if __name__ == "__main__":
-    remaining_samples_loop()
+    # Modelos e números de exemplos RAG a testar
+    model_names = ["google/medgemma-1.5-4b-it"]
+    rag_examples = [0, 3]
+
+    for model_name in model_names:
+        for num_rag_examples in rag_examples:
+            print(f"\n---> Running pipeline: {model_name} | RAG k={num_rag_examples} <---")
+            config = get_config()
+            config.update_model_config({
+                'name': model_name,
+                'provider': 'huggingface'
+            })
+            config.update_rag_config({'num_examples': num_rag_examples})
+            
+            main(config)

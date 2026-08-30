@@ -12,7 +12,6 @@ model:
 
 # Dataset Configuration
 dataset:
-  type: "rocov2"  # Options: rocov2, imageclef_natural, imageclef_synth
   name: "eltorio/ROCOv2-radiology"
   max_train_samples: 10000  # Limit training samples for vector DB (None for all)
   validation_samples: 300   # Number of validation samples to process

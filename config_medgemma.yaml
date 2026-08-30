@@ -1,0 +1,29 @@
+model:
+  name: "google/medgemma-27b-it"
+  provider: "huggingface"
+  max_tokens: 1024
+  load_in_4bit: true
+  temperature: 0.2
+
+
+dataset:
+  name: "roco-v2"
+  validation_samples: 300
+  random_seed: 42
+
+rag:
+  num_examples: 3
+  similarity_threshold: 0.5
+
+analysis:
+  enable_cost_analysis: true
+  enable_evaluation: true
+  cost_analysis_format: "markdown"  # Options: markdown, json, csv
+  evaluation_metrics: ["bleu", "rouge"]  # Evaluation metrics to compute
+
+
+paths:
+  vectordb: "pipeline_state/vectordb"
+  responses: "responses/medgemma"
+  evaluation_results: "evaluation_results/medgemma"
+  cost_analysis: "cost_analysis/medgemma"  

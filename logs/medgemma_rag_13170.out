@@ -1,0 +1,9 @@
+==========================================
+Iniciando Job 13170 em Sun Aug 23 12:05:45 AM -03 2026
+Nó de execução: cluster-node5
+==========================================
+Configured caching to use C: drive: C:/huggingface_cache
+==========================================
+ [ERRO] O pipeline falhou com código 1 em Sun Aug 23 12:09:42 AM -03 2026!
+Consulte o arquivo logs/medgemma_rag_13170.err para mais detalhes.
+==========================================

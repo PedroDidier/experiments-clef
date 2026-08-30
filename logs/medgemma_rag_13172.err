@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/CIN/agsl/miniconda3/envs/medgemma_env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/main.py", line 11, in <module>
+    from .config import get_config, update_config, Config
+  File "/home/CIN/agsl/experimento-medgemma/Test-cluster/src/config.py", line 1
+    =import os
+    ^
+SyntaxError: invalid syntax
