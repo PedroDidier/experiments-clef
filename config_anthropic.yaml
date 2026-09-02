@@ -3,15 +3,15 @@
 
 # Model Configuration
 model:
-  provider: "google"  # Options: openai, google, deepinfra, anthropic, huggingface
+  provider: "anthropic"  # Options: openai, google, deepinfra, anthropic, huggingface
   # OpenAI:     gpt-4o, gpt-4-turbo, gpt-4o-mini, gpt-5-mini
   # Google:     gemini-2.5-pro, gemini-2.5-flash, gemini-1.5-pro, gemma-3-27b-it
   # DeepInfra:  meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8,
   #             meta-llama/Llama-4-Scout-17B-16E-Instruct
   # Anthropic:  claude-sonnet-4-5-20250929
-  name: "gemma-3-27b-it"
+  name: "claude-sonnet-4-5-20250929"
   temperature: 0.1
-  max_tokens: 100000
+  max_tokens: 1000
 
 # Prompt Configuration
 prompt:
@@ -19,11 +19,10 @@ prompt:
 
 # Dataset Configuration
 dataset:
-  type: "imageclef_natural"  # Options: rocov2, imageclef_natural, imageclef_synth
+  type: "rocov2"  # Options: rocov2, imageclef_natural, imageclef_synth
   name: "eltorio/ROCOv2-radiology"
   max_train_samples: 10000  # Limit training samples for vector DB (None for all)
-  validation_samples: 700  # Number of validation samples to proces
-  previous_validation_samples: 300  # Number of previous validation samples to exclude
+  validation_samples: 300   # Number of validation samples to process
   random_seed: 42
 
 # RAG Configuration
@@ -40,7 +39,7 @@ memory:
 
 # Cache Configuration
 cache:
-  drive: "C"  # Drive letter for caching
+  drive: "D"  # Drive letter for caching
   custom_dir: null  # Custom cache directory (null to use default)
   enable_symlinks: false  # Enable symlinks for HuggingFace cache
 
@@ -51,13 +50,13 @@ output:
   responses_dir: "responses"
   vectordb_dir: "vectordb"
   cost_analysis_dir: "cost_analysis"
-  evaluation_dir: "evaluation_results_700"
+  evaluation_dir: "evaluation_results"
   pipeline_state_dir: "pipeline_state"
 
 # Analysis Configuration
 analysis:
   enable_cost_analysis: false  # Enable cost analysis
-  enable_evaluation: true  # Enable evaluation metrics
+  enable_evaluation: false  # Enable evaluation metrics
   cost_analysis_format: "markdown"  # Options: markdown, json, csv
   evaluation_metrics: ["bleu", "rouge"]  # Evaluation metrics to compute
 

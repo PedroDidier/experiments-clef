@@ -3,16 +3,19 @@
 
 # Model Configuration
 model:
-  provider: "deepinfra"  # Options: openai, google, deepinfra
-  # OpenAI model name options: gpt-4o, gpt-4-turbo, gpt-4, gpt-4o-mini, gpt-5-mini, gpt-3.5-turbo
-  # Google model name options: gemini-1.5-flash, gemini-1.5-pro, gemini-2.5-flash, gemini-2.5-pro
+  provider: "deepinfra"  # Options: openai, google, deepinfra, anthropic, huggingface
+  # OpenAI:     gpt-4o, gpt-4-turbo, gpt-4o-mini, gpt-5-mini
+  # Google:     gemini-2.5-pro, gemini-2.5-flash, gemini-1.5-pro, gemma-3-27b-it
+  # DeepInfra:  meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8,
+  #             meta-llama/Llama-4-Scout-17B-16E-Instruct
+  # Anthropic:  claude-sonnet-4-5-20250929
   name: "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
   temperature: 0.1
   max_tokens: 100000
 
 # Prompt Configuration
 prompt:
-  prefix: "specific"
+  prefix: "specific"  # Loads prompts/<prefix>_prompt.txt: base, simple or specific
 
 # Dataset Configuration
 dataset:

@@ -41,7 +41,8 @@ class MedicalImageCaptioningPipeline:
         run_cost_analysis: bool = None,
         run_evaluation: bool = None,
         config_file: str = None,
-        num_threads: int = None
+        num_threads: int = None,
+        retry_ids_file: str = None
     ):
         """
         Initialize the medical image captioning pipeline.
@@ -55,6 +56,9 @@ class MedicalImageCaptioningPipeline:
             run_evaluation (bool): Whether to run evaluation analysis after generation (overrides config)
             config_file (str): Path to configuration file
             num_threads (int): Number of threads to use for parallel processing (overrides config)
+            retry_ids_file (str): Path to a text file of image IDs (one per line). When
+                given, only those samples are processed - used to retry samples that
+                failed on a previous run due to API errors or rate limiting.
         """
         # Load configuration
         self.config = get_config()
@@ -69,12 +73,26 @@ class MedicalImageCaptioningPipeline:
         prompt_config = self.config.get_prompt_config()
         
         self.model_name = model_name or model_config.get('name', 'gpt-4o')
-        self.num_validation_samples = num_validation_samples or dataset_config.get('validation_samples', 300)
+        self.num_validation_samples = (
+            num_validation_samples if num_validation_samples is not None
+            else dataset_config.get('validation_samples', 300)
+        )
         self.previous_num_validation_samples = dataset_config.get('previous_validation_samples', 0)
-        self.num_rag_examples = num_rag_examples or rag_config.get('num_examples', 3)
-        self.rag_model_name = rag_config.get('model_name', 'openai/openai/clip-vit-base-patch32')
-        self.random_seed = random_seed or dataset_config.get('random_seed', 42)
-        self.run_cost_analysis = run_cost_analysis if run_cost_analysis is not None else analysis_config.get('enable_cost_analysis', False)
+        # `or` would treat an explicit 0 as unset, making `--rag-examples 0`
+        # silently fall back to the config value instead of disabling RAG.
+        self.num_rag_examples = (
+            num_rag_examples if num_rag_examples is not None
+            else rag_config.get('num_examples', 3)
+        )
+        self.rag_model_name = rag_config.get('model_name', 'openai/clip-vit-base-patch32')
+        self.random_seed = (
+            random_seed if random_seed is not None
+            else dataset_config.get('random_seed', 42)
+        )
+        # NB: named `do_cost_analysis`, not `run_cost_analysis` - the latter would
+        # shadow the method of the same name and make `self.run_cost_analysis(...)`
+        # raise "'bool' object is not callable".
+        self.do_cost_analysis = run_cost_analysis if run_cost_analysis is not None else analysis_config.get('enable_cost_analysis', False)
         self.run_evaluation = run_evaluation if run_evaluation is not None else analysis_config.get('enable_evaluation', False)
         self.prompt_prefix = prompt_config.get('prefix', 'base')
         provider = model_config.get('provider', 'openai')
@@ -82,8 +100,12 @@ class MedicalImageCaptioningPipeline:
         self.num_threads = num_threads or 4  # Default to 4 threads
 
 
-        # Set random seed
-        random.seed(random_seed)
+        # Retry list: None means "process everything".
+        self.retry_ids = self._load_retry_ids(retry_ids_file)
+
+        # Set random seed. Use the resolved value, not the raw argument, which is
+        # None whenever the seed comes from the config file.
+        random.seed(self.random_seed)
         
         # Initialize components
         self.dataset_type = dataset_config.get('type', 'rocov2')
@@ -97,6 +119,20 @@ class MedicalImageCaptioningPipeline:
         # Results storage
         self.results = []
         
+    @staticmethod
+    def _load_retry_ids(retry_ids_file: str = None):
+        """Load image IDs to retry from a text file, one ID per line."""
+        if not retry_ids_file:
+            return None
+
+        path = Path(retry_ids_file)
+        if not path.exists():
+            raise FileNotFoundError(f"Retry ID file not found: {retry_ids_file}")
+
+        ids = {line.strip() for line in path.read_text().splitlines() if line.strip()}
+        print(f"Retry mode: restricting run to {len(ids)} image IDs from {retry_ids_file}")
+        return ids
+
     def setup_pipeline(self) -> None:
         """Setup the pipeline by loading dataset and building vector database."""
         print("=" * 60)
@@ -117,8 +153,14 @@ class MedicalImageCaptioningPipeline:
         info = self.data_handler.get_dataset_info()
         print(f"   Dataset info: {info}")
 
-        db_path = f"{self.dataset_type}_{self.rag_model_name}"
-        
+        # Encoder names contain "/", which would nest directories; and the
+        # retrieval-pool size must be part of the key, otherwise a 10k index
+        # would be silently reused for a full-dataset run.
+        max_train_samples = self.config.get_dataset_config().get('max_train_samples')
+        encoder_slug = self.rag_model_name.replace("/", "_")
+        pool_slug = f"{max_train_samples}" if max_train_samples else "full"
+        db_path = f"{self.dataset_type}_{encoder_slug}_{pool_slug}"
+
         # Check if vector database already exists
         vectordb_path = self.config.get_vectordb_path(db_path)
         
@@ -132,9 +174,9 @@ class MedicalImageCaptioningPipeline:
             print("   Using memory-efficient streaming to prevent RAM explosion...")
             train_dataset = self.data_handler.get_train_samples_for_vectordb()
 
-            # Use a reasonable limit for initial testing to prevent memory issues
-            # You can increase this or set to None for full dataset
-            max_samples = len(train_dataset) # Start with all samples, adjust as needed
+            # Cap the retrieval pool at `dataset.max_train_samples` when set.
+            # ImageCLEF Run 1 used a 10k subset; Runs 2 and 3 used the full set.
+            max_samples = min(max_train_samples, len(train_dataset)) if max_train_samples else len(train_dataset)
 
             print(f"   Processing up to {max_samples} training samples for vector database")
             
@@ -184,8 +226,7 @@ class MedicalImageCaptioningPipeline:
             print(f"\n[Thread {thread_id}] Processing sample {global_sample_idx}")
             print(f"   Image ID: {sample['image_id']}")
 
-            if sample['image_id'] not in missing_ids:
-                print(f"   Skipping sample {sample['image_id']} as it is not in the missing IDs list")
+            if self.retry_ids is not None and sample['image_id'] not in self.retry_ids:
                 continue
 
             try:
@@ -490,7 +531,7 @@ class MedicalImageCaptioningPipeline:
             results = self.generate_captions(save_results=True)
             
             # Run analysis if enabled
-            if self.run_cost_analysis:
+            if self.do_cost_analysis:
                 self.run_cost_analysis(results)
             
             if self.run_evaluation:
@@ -504,7 +545,7 @@ class MedicalImageCaptioningPipeline:
             print("=" * 60)
             print("Check the 'responses' directory for the generated captions JSONL file.")
             print("Check the 'pipeline_state' directory for the saved vector database.")
-            if self.run_cost_analysis:
+            if self.do_cost_analysis:
                 print("Check the 'cost_analysis' directory for cost analysis results.")
             if self.run_evaluation:
                 print("Check the 'evaluation_results' directory for evaluation results.")
@@ -533,6 +574,10 @@ def main(config: Config):
         print("Error: Please set GOOGLE_API_KEY in your .env file")
         return
 
+    if not os.getenv("ANTHROPIC_API_KEY") and provider == "anthropic":
+        print("Error: Please set ANTHROPIC_API_KEY in your .env file")
+        return
+
     # Initialize pipeline
     pipeline = MedicalImageCaptioningPipeline(num_threads=8)
     
@@ -544,7 +589,7 @@ def main(config: Config):
         results = pipeline.generate_captions(save_results=True)
         
         # Run analysis if enabled
-        if pipeline.run_cost_analysis:
+        if pipeline.do_cost_analysis:
             pipeline.run_cost_analysis(results)
         
         if pipeline.run_evaluation:
@@ -558,7 +603,7 @@ def main(config: Config):
         print("=" * 60)
         print("Check the 'responses' directory for the generated captions JSONL file.")
         print("Check the 'pipeline_state' directory for the saved vector database.")
-        if pipeline.run_cost_analysis:
+        if pipeline.do_cost_analysis:
             print("Check the 'cost_analysis' directory for cost analysis results.")
         if pipeline.run_evaluation:
             print("Check the 'evaluation_results' directory for evaluation results.")
@@ -567,29 +612,17 @@ def main(config: Config):
         print(f"Error running pipeline: {e}")
         raise
 
-def experiment_loop():
-    dataset_types = ['imageclef_natural']
-    for dataset_type in dataset_types:
-        config = get_config()
+def run_setup(dataset_type: str = None):
+    """Build (and cache) the vector database without generating any captions."""
+    config = get_config()
+    if dataset_type:
         config.update_dataset_config({"type": dataset_type})
-        main(config)
-
-missing_ids = []
-
-def remaining_samples_loop():
-    global missing_ids
-    with open('error_image_ids.txt', 'r') as file:
-        for line in file:
-            missing_ids.append(line.strip())
-    config = get_config()
-    config.update_dataset_config({"type": "imageclef_natural"})
-    main(config)
-
-def run_setup():
-    config = get_config()
-    config.update_dataset_config({"type": "imageclef_synth"})
     pipeline = MedicalImageCaptioningPipeline()
     pipeline.setup_pipeline()
 
+
 if __name__ == "__main__":
-    remaining_samples_loop()
+    # Prefer `python run_pipeline.py --config <file>`, which exposes the same
+    # pipeline with command-line overrides. This entry point runs whatever the
+    # active config file specifies.
+    main(get_config())

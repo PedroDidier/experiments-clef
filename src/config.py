@@ -22,8 +22,9 @@ class Config:
             config_file (str): Path to YAML configuration file
         """
         self.project_root = Path(project_root) if project_root else Path(__file__).parent.parent
-        
+
         # Load configuration from file if provided
+        self.config_file = config_file
         self.config_data = self._load_config_file(config_file)
         
         # Set up cache configuration
@@ -31,9 +32,16 @@ class Config:
         custom_cache = self.config_data.get('cache', {}).get('custom_dir') or custom_cache_dir
         
         if custom_cache:
-            self.cache_dir = Path(custom_cache)
-        else:
+            self.cache_dir = Path(custom_cache).expanduser()
+        elif os.name == "nt":
+            # Windows: honour the configured drive letter.
             self.cache_dir = Path(f"{self.cache_drive}:/huggingface_cache")
+        else:
+            # POSIX has no drive letters; a "D:/..." path would create a
+            # literal "D:" directory inside the working tree.
+            self.cache_dir = Path(
+                os.getenv("HF_HOME") or Path.home() / ".cache" / "huggingface"
+            )
         
         # Create cache directory
         self.cache_dir.mkdir(parents=True, exist_ok=True)
@@ -92,7 +100,7 @@ class Config:
         os.environ["TRANSFORMERS_CACHE"] = str(self.cache_dir)
         os.environ["HF_HUB_CACHE"] = str(self.cache_dir)
         
-        print(f"Configured caching to use {self.cache_drive}: drive: {self.cache_dir}")
+        print(f"Configured HuggingFace cache directory: {self.cache_dir}")
     
     def get_vectordb_path(self, name: str = "image_vectordb") -> Path:
         """Get the path for vector database storage."""
@@ -207,14 +215,30 @@ def get_config() -> Config:
     """Get the global configuration instance."""
     return config
 
+def set_config(config_file: str) -> Config:
+    """Replace the global configuration with one loaded from ``config_file``.
+
+    Call this before building the pipeline: ``dataset`` and ``vectordb`` read
+    the global via ``get_config()`` at call time, so reassigning it here is
+    picked up by every component.
+    """
+    global config
+    config = Config(config_file=config_file)
+    return config
+
+
 # Function to update configuration
-def update_config(cache_drive: str = None, 
-                 project_root: str = None, 
-                 custom_cache_dir: str = None):
-    """Update the global configuration."""
+def update_config(cache_drive: str = None,
+                 project_root: str = None,
+                 custom_cache_dir: str = None,
+                 config_file: str = None):
+    """Update the global configuration, preserving the loaded YAML file."""
     global config
     config = Config(
         cache_drive=cache_drive or config.cache_drive,
         project_root=project_root or str(config.project_root),
-        custom_cache_dir=custom_cache_dir or str(config.cache_dir)
+        custom_cache_dir=custom_cache_dir,
+        # Without this the YAML would be silently discarded and every
+        # setting would fall back to its built-in default.
+        config_file=config_file or config.config_file,
     )
