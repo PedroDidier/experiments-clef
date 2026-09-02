@@ -7,7 +7,7 @@ database, injects their captions into the prompt as few-shot examples, and asks 
 vision-language model for a caption.
 
 This is the codebase behind the UFPE–Essex–UNED submission to **ImageCLEFmedical
-Caption 2026**, where it placed **2nd of 54 runs** in Caption Prediction and **4th** in
+Caption 2026**, where it placed **2nd** in Caption Prediction and **4th** in
 Caption Prediction Synthetic, and behind our SPIE benchmark study of generative AI on
 ROCOv2.
 
