@@ -9,6 +9,33 @@ import seaborn as sns
 import numpy as np
 from rouge_score import rouge_scorer
 from sacrebleu import BLEU, sentence_bleu
+
+# Optional metric backends. Each is guarded so that a missing package degrades
+# that one metric to "not reported" instead of breaking the whole evaluation.
+try:
+    import nltk
+    from nltk.translate.bleu_score import sentence_bleu as nltk_sentence_bleu, SmoothingFunction
+    from nltk.translate.meteor_score import meteor_score
+    for _res in ("punkt", "punkt_tab", "wordnet", "omw-1.4"):
+        try:
+            nltk.data.find(f"tokenizers/{_res}" if "punkt" in _res else f"corpora/{_res}")
+        except LookupError:
+            nltk.download(_res, quiet=True)
+    HAS_NLTK = True
+except ImportError:
+    HAS_NLTK = False
+
+try:
+    from bert_score import score as bert_score
+    HAS_BERTSCORE = True
+except ImportError:
+    HAS_BERTSCORE = False
+
+try:
+    from pycocoevalcap.cider.cider import Cider
+    HAS_CIDER = True
+except ImportError:
+    HAS_CIDER = False
 from sklearn.metrics import classification_report, f1_score, hamming_loss, jaccard_score, precision_score, recall_score
 from sklearn.preprocessing import MultiLabelBinarizer
 
@@ -51,6 +78,78 @@ class EvaluationVisualizer:
         print(f"Loaded {len(results)} evaluation results")
         return results
     
+    @staticmethod
+    def _tokenize(text: str) -> List[str]:
+        """Lowercase word tokenization, falling back to whitespace split."""
+        if HAS_NLTK:
+            from nltk.tokenize import word_tokenize
+            try:
+                return word_tokenize(text.lower())
+            except Exception:
+                pass
+        return text.lower().split()
+
+    def _bleu_ngrams(self, reference: str, candidate: str) -> Dict[str, float]:
+        """BLEU-1 through BLEU-4 with smoothing, matching the reported protocol."""
+        if not HAS_NLTK:
+            return {f"bleu{n}": 0.0 for n in range(1, 5)}
+
+        ref, cand = self._tokenize(reference), self._tokenize(candidate)
+        smoothing = SmoothingFunction().method1
+        weights = {
+            "bleu1": (1, 0, 0, 0),
+            "bleu2": (0.5, 0.5, 0, 0),
+            "bleu3": (1 / 3, 1 / 3, 1 / 3, 0),
+            "bleu4": (0.25, 0.25, 0.25, 0.25),
+        }
+        try:
+            return {
+                name: nltk_sentence_bleu([ref], cand, weights=w, smoothing_function=smoothing)
+                for name, w in weights.items()
+            }
+        except Exception:
+            return {f"bleu{n}": 0.0 for n in range(1, 5)}
+
+    def _meteor(self, reference: str, candidate: str) -> float:
+        """METEOR score for a single caption pair."""
+        if not HAS_NLTK:
+            return 0.0
+        try:
+            return meteor_score([self._tokenize(reference)], self._tokenize(candidate))
+        except Exception:
+            return 0.0
+
+    @staticmethod
+    def _cider(references: List[str], candidates: List[str]) -> float:
+        """Corpus-level CIDEr. Returns 0.0 when pycocoevalcap is unavailable."""
+        if not HAS_CIDER or not references:
+            return 0.0
+        try:
+            gts = {str(i): [r] for i, r in enumerate(references)}
+            res = {str(i): [c] for i, c in enumerate(candidates)}
+            score, _ = Cider().compute_score(gts, res)
+            return float(score)
+        except Exception as e:
+            print(f"Warning: CIDEr calculation failed: {e}")
+            return 0.0
+
+    @staticmethod
+    def _bertscore(references: List[str], candidates: List[str]) -> Dict[str, float]:
+        """Corpus-level BERTScore precision/recall/F1."""
+        if not HAS_BERTSCORE or not references:
+            return {"precision": 0.0, "recall": 0.0, "f1": 0.0}
+        try:
+            print(f"Computing BERTScore over {len(references)} captions (first run downloads a model)...")
+            P, R, F1 = bert_score(candidates, references, lang="en", verbose=False)
+            return {
+                "precision": P.mean().item(),
+                "recall": R.mean().item(),
+                "f1": F1.mean().item(),
+            }
+        except Exception as e:
+            print(f"Warning: BERTScore calculation failed: {e}")
+            return {"precision": 0.0, "recall": 0.0, "f1": 0.0}
+
     def calculate_caption_metrics(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
         Calculate caption evaluation metrics.
@@ -62,9 +161,12 @@ class EvaluationVisualizer:
             Dict[str, Any]: Caption metrics
         """
         bleu_scores = []
+        ngram_bleu = {f"bleu{n}": [] for n in range(1, 5)}
+        meteor_scores = []
         rouge_scores = {"rouge1": [], "rouge2": [], "rougeL": []}
         detailed_results = []
-        
+        corpus_refs, corpus_cands = [], []
+
         for result in results:
             if "error" in result:
                 continue
@@ -83,18 +185,31 @@ class EvaluationVisualizer:
                 bleu_score = 0.0
             
             bleu_scores.append(bleu_score)
-            
+
+            # BLEU-1..4 and METEOR
+            ngrams = self._bleu_ngrams(ground_truth, generated)
+            for name, value in ngrams.items():
+                ngram_bleu[name].append(value)
+
+            meteor = self._meteor(ground_truth, generated)
+            meteor_scores.append(meteor)
+
             # ROUGE Scores
             rouge_result = self.rouge_scorer.score(ground_truth, generated)
             for metric in ["rouge1", "rouge2", "rougeL"]:
                 rouge_scores[metric].append(rouge_result[metric].fmeasure)
-            
+
+            corpus_refs.append(ground_truth)
+            corpus_cands.append(generated)
+
             # Store detailed results
             detailed_results.append({
                 "image_id": result.get("image_id", "unknown"),
                 "ground_truth": ground_truth,
                 "generated": generated,
                 "bleu_score": bleu_score,
+                "meteor": meteor,
+                **{f"{k}_f": v for k, v in ngrams.items()},
                 "rouge1_f": rouge_result["rouge1"].fmeasure,
                 "rouge2_f": rouge_result["rouge2"].fmeasure,
                 "rougeL_f": rouge_result["rougeL"].fmeasure,
@@ -114,7 +229,31 @@ class EvaluationVisualizer:
             scores = rouge_scores[metric]
             metrics[f"{metric}_mean"] = np.mean(scores) if scores else 0
             metrics[f"{metric}_std"] = np.std(scores) if scores else 0
-        
+
+        # Add BLEU-1..4 and METEOR
+        for name, scores in ngram_bleu.items():
+            metrics[f"{name}_mean"] = np.mean(scores) if scores else 0
+            metrics[f"{name}_std"] = np.std(scores) if scores else 0
+
+        metrics["meteor_mean"] = np.mean(meteor_scores) if meteor_scores else 0
+        metrics["meteor_std"] = np.std(meteor_scores) if meteor_scores else 0
+
+        # Corpus-level metrics
+        metrics["cider"] = self._cider(corpus_refs, corpus_cands)
+        bert = self._bertscore(corpus_refs, corpus_cands)
+        metrics["bertscore_precision"] = bert["precision"]
+        metrics["bertscore_recall"] = bert["recall"]
+        metrics["bertscore_f1"] = bert["f1"]
+
+        # Record which optional backends were actually available, so a report
+        # never presents a skipped metric as a genuine score of 0.
+        metrics["available_metrics"] = {
+            "bleu_ngrams": HAS_NLTK,
+            "meteor": HAS_NLTK,
+            "cider": HAS_CIDER,
+            "bertscore": HAS_BERTSCORE,
+        }
+
         return metrics
     
     def create_caption_visualizations(self, caption_metrics: Dict[str, Any], output_dir: str) -> None:
@@ -300,17 +439,48 @@ Generated:
             f.write(f"**Evaluation Date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
             f.write(f"**Number of Samples:** {caption_metrics['num_samples']}\n\n")
             
+            available = caption_metrics.get("available_metrics", {})
+            na = "n/a"
+
+            def fmt(key, enabled=True):
+                """Render a score, or 'n/a' when its backend was unavailable."""
+                if not enabled:
+                    return na
+                return f"{caption_metrics.get(key, 0):.4f}"
+
             f.write("## Caption Evaluation Results\n\n")
-            f.write(f"### BLEU Score\n")
-            f.write(f"- **Mean:** {caption_metrics['bleu_mean']:.4f}\n")
-            f.write(f"- **Standard Deviation:** {caption_metrics['bleu_std']:.4f}\n\n")
-            
+            f.write("### BLEU\n\n")
+            f.write("| Metric | Score |\n")
+            f.write("|--------|-------|\n")
+            f.write(f"| BLEU (sacreBLEU, corpus-style) | {caption_metrics['bleu_mean']:.4f} |\n")
+            for n in range(1, 5):
+                f.write(f"| BLEU-{n} | {fmt(f'bleu{n}_mean', available.get('bleu_ngrams', True))} |\n")
+            f.write(f"\nStandard deviation (sacreBLEU): {caption_metrics['bleu_std']:.4f}\n\n")
+
             f.write("### ROUGE Scores\n\n")
             f.write("| Metric | F-measure |\n")
             f.write("|--------|----------|\n")
             f.write(f"| ROUGE-1 | {caption_metrics['rouge1_mean']:.4f} |\n")
             f.write(f"| ROUGE-2 | {caption_metrics['rouge2_mean']:.4f} |\n")
             f.write(f"| ROUGE-L | {caption_metrics['rougeL_mean']:.4f} |\n\n")
+
+            f.write("### METEOR, CIDEr and BERTScore\n\n")
+            f.write("| Metric | Score |\n")
+            f.write("|--------|-------|\n")
+            f.write(f"| METEOR | {fmt('meteor_mean', available.get('meteor', True))} |\n")
+            f.write(f"| CIDEr | {fmt('cider', available.get('cider', True))} |\n")
+            f.write(f"| BERTScore Precision | {fmt('bertscore_precision', available.get('bertscore', True))} |\n")
+            f.write(f"| BERTScore Recall | {fmt('bertscore_recall', available.get('bertscore', True))} |\n")
+            f.write(f"| BERTScore F1 | {fmt('bertscore_f1', available.get('bertscore', True))} |\n\n")
+
+            missing = [name for name, ok in available.items() if not ok]
+            if missing:
+                f.write(
+                    f"> Metrics reported as `{na}` were skipped because an optional "
+                    f"dependency is not installed ({', '.join(missing)}). "
+                    "See the optional requirements in `requirements.txt`.\n\n"
+                )
+
             
             f.write("## Performance Analysis\n\n")
             

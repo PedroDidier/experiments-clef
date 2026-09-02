@@ -106,7 +106,7 @@ class ROCOv2DataHandler:
 
         # Extract samples
         samples = []
-        for idx in sampled_indices[:10]:
+        for idx in sampled_indices:
             sample = self.validation_data[idx]
             
             # Extract only the required fields: image, caption, image_id

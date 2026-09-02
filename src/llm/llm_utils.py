@@ -5,14 +5,12 @@ from typing import List, Dict, Any, Tuple, Optional
 from pathlib import Path
 
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_community.chat_models import ChatDeepInfra
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import JsonOutputParser
-import torch
-from langchain_huggingface import HuggingFacePipeline
-from transformers import pipeline
+
+# Provider SDKs are imported lazily inside _model_factory so that a missing
+# package only affects the provider that needs it. Importing them all here
+# would make an absent SDK break every run, including runs on other providers.
 
 load_dotenv()
 
@@ -38,9 +36,11 @@ class MedicalImageCaptioner:
         self.max_tokens = max_tokens
         self.prompt_prefix = prompt_prefix
 
-        # Check if model supports vision
+        # Check if model supports vision. The list below is OpenAI-specific, so
+        # only warn for that provider - Gemini, Claude and Llama 4 are all
+        # multimodal and would otherwise trigger a spurious warning every run.
         vision_models = ["gpt-4o", "gpt-4-turbo", "gpt-4-vision-preview"]
-        if model_name not in vision_models:
+        if provider == "openai" and model_name not in vision_models:
             print(f"Warning: {model_name} may not support vision. Consider using gpt-4o or gpt-4-turbo for image processing.")
         
         # Initialize the LLM
@@ -137,6 +137,27 @@ class MedicalImageCaptioner:
         else:
             raise ValueError(f"Unsupported image input type: {type(image_input)}")
     
+    def _extract_token_usage(self, response) -> Dict[str, Any]:
+        """Extract token usage from a response, accounting for provider differences."""
+        if self.provider == "anthropic":
+            # Anthropic reports usage under a different key with different names.
+            usage = response.response_metadata.get("usage", {})
+            input_tokens = usage.get("input_tokens", 0)
+            output_tokens = usage.get("output_tokens", 0)
+            total_tokens = input_tokens + output_tokens
+        else:
+            usage = response.response_metadata.get("token_usage", {})
+            input_tokens = usage.get("prompt_tokens", 0)
+            output_tokens = usage.get("completion_tokens", 0)
+            total_tokens = usage.get("total_tokens", input_tokens + output_tokens)
+
+        return {
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": total_tokens,
+            "cost_usd": self._calculate_cost(input_tokens, output_tokens),
+        }
+
     def _calculate_cost(self, input_tokens: int, output_tokens: int) -> float:
         """
         Calculate the cost for a request given token usage.
@@ -148,19 +169,35 @@ class MedicalImageCaptioner:
         Returns:
             float: Cost in USD
         """
-        # Pricing (OpenAI – Updated December 2024)
+        # USD per 1M tokens, as (input, output). Rates are list prices at the
+        # time the benchmark was run and drift over time - treat reported costs
+        # as estimates, not invoices.
         model_pricing = {
+            # OpenAI
             "gpt-4o": (2.50, 10.00),
             "gpt-4o-mini": (0.15, 0.60),
-            "gpt-5-mini": (0.25, 2.00),  # New GPT-5-mini pricing
+            "gpt-5-mini": (0.25, 2.00),
             "gpt-4-turbo": (10.00, 30.00),
             "gpt-4": (30.00, 60.00),
             "gpt-3.5-turbo": (0.50, 1.50),
-            "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8": (0.15, 0.6)
+            # DeepInfra (open-weight)
+            "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8": (0.15, 0.60),
+            "meta-llama/Llama-4-Scout-17B-16E-Instruct": (0.18, 0.59),
+            # Anthropic
+            "claude-sonnet-4-5-20250929": (3.00, 15.00),
+            # Google
+            "gemini-2.5-pro": (1.25, 10.00),
+            "gemini-2.5-flash": (0.30, 2.50),
+            "gemini-1.5-pro": (1.25, 5.00),
+            "gemini-1.5-flash": (0.075, 0.30),
         }
-        
-        # Get pricing for the model
-        input_rate, output_rate = model_pricing.get(self.model_name, (2.50, 10.00))
+
+        # Get pricing for the model. Unknown models report zero rather than
+        # silently billing at gpt-4o rates, which would quietly corrupt the
+        # cost report for every non-OpenAI provider.
+        if self.model_name not in model_pricing:
+            return 0.0
+        input_rate, output_rate = model_pricing[self.model_name]
         
         # Calculate cost (convert from per 1M tokens to per token)
         input_cost = (input_tokens / 1_000_000) * input_rate
@@ -168,38 +205,74 @@ class MedicalImageCaptioner:
         
         return input_cost + output_cost
     
+    # Package to install for each provider, used to give a useful error message.
+    PROVIDER_PACKAGES = {
+        "openai": "langchain-openai",
+        "anthropic": "langchain-anthropic",
+        "google": "langchain-google-genai",
+        "deepinfra": "langchain-community",
+        "huggingface": "langchain-huggingface transformers torch",
+    }
+
     def _model_factory(self, provider: str, model_name: str, temperature: float, max_tokens: int):
-        """Factory method to create LLM instances based on provider."""
-        if provider == "openai":
-            return ChatOpenAI(
-                model=model_name,
-                temperature=temperature,
-                api_key=os.getenv("OPENAI_API_KEY")
+        """Create an LLM instance for the given provider.
+
+        Provider SDKs are imported here rather than at module level, so that
+        running one provider does not require the packages of the others.
+        """
+        if provider not in self.PROVIDER_PACKAGES:
+            raise ValueError(
+                f"Unsupported provider: {provider}. "
+                f"Expected one of {', '.join(sorted(self.PROVIDER_PACKAGES))}"
             )
-        elif provider == "google":
-            return ChatGoogleGenerativeAI(
-                model=model_name,
-                temperature=temperature,
-                max_output_tokens=max_tokens,
-                thinking_budget=128
-            )
-        elif provider == "huggingface":
-            model_kwargs = dict(
-                torch_dtype=torch.bfloat16,
-                device_map="auto",
-            )
-            pipe = pipeline(model=model_name, model_kwargs=model_kwargs)
-            pipe.model.generation_config.do_sample = False
-            return HuggingFacePipeline(pipeline=pipe)
-        elif provider =="deepinfra":
-            return ChatDeepInfra(
-                model=model_name,
-                temperature=temperature,
-                max_tokens=1000000
-            )
- 
-        else:
-            raise ValueError(f"Unsupported provider: {provider}")
+
+        try:
+            if provider == "openai":
+                from langchain_openai import ChatOpenAI
+                return ChatOpenAI(
+                    model=model_name,
+                    temperature=temperature,
+                    api_key=os.getenv("OPENAI_API_KEY")
+                )
+            elif provider == "anthropic":
+                from langchain_anthropic import ChatAnthropic
+                return ChatAnthropic(
+                    model=model_name,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    api_key=os.getenv("ANTHROPIC_API_KEY")
+                )
+            elif provider == "google":
+                from langchain_google_genai import ChatGoogleGenerativeAI
+                return ChatGoogleGenerativeAI(
+                    model=model_name,
+                    temperature=temperature,
+                    max_output_tokens=max_tokens,
+                    thinking_budget=128
+                )
+            elif provider == "deepinfra":
+                from langchain_community.chat_models import ChatDeepInfra
+                return ChatDeepInfra(
+                    model=model_name,
+                    temperature=temperature,
+                    max_tokens=1000000
+                )
+            elif provider == "huggingface":
+                import torch
+                from transformers import pipeline
+                from langchain_huggingface import HuggingFacePipeline
+                model_kwargs = dict(
+                    torch_dtype=torch.bfloat16,
+                    device_map="auto",
+                )
+                pipe = pipeline(model=model_name, model_kwargs=model_kwargs)
+                pipe.model.generation_config.do_sample = False
+                return HuggingFacePipeline(pipeline=pipe)
+        except ImportError as e:
+            raise ImportError(
+                f"Provider '{provider}' requires a package that is not installed: {e}. "
+                f"Install it with: pip install {self.PROVIDER_PACKAGES[provider]}"
+            ) from e
         
     def generate_caption(self, image_path: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         """
@@ -225,7 +298,6 @@ class MedicalImageCaptioner:
             
             # Generate response
             response = self.llm.invoke([message])
-            print(response)
 
             # Parse the JSON response
             try:
@@ -235,18 +307,7 @@ class MedicalImageCaptioner:
                 caption_data = {"caption": response.content}
 
             # Calculate token usage and cost
-            token_usage = {
-                "input_tokens": response.response_metadata.get("token_usage", {}).get("prompt_tokens", 0),
-                "output_tokens": response.response_metadata.get("token_usage", {}).get("completion_tokens", 0),
-                "total_tokens": response.response_metadata.get("token_usage", {}).get("total_tokens", 0),
-                "cost_usd": 0.0  # Will be calculated below
-            }
-            
-            # Calculate cost
-            token_usage["cost_usd"] = self._calculate_cost(
-                token_usage["input_tokens"], 
-                token_usage["output_tokens"]
-            )
+            token_usage = self._extract_token_usage(response)
             
             return caption_data, token_usage
             
@@ -310,8 +371,6 @@ class MedicalImageCaptioner:
             # Generate response
             response = self.llm.invoke([message])
 
-            print("HEREEEEEE", response, type(response))
-
             # Parse the JSON response
             try:
                 caption_data = self._parse_json_response(response.content)
@@ -320,18 +379,7 @@ class MedicalImageCaptioner:
                 caption_data = {"caption": response.content}
             
             # Calculate token usage and cost
-            token_usage = {
-                "input_tokens": response.response_metadata.get("token_usage", {}).get("prompt_tokens", 0),
-                "output_tokens": response.response_metadata.get("token_usage", {}).get("completion_tokens", 0),
-                "total_tokens": response.response_metadata.get("token_usage", {}).get("total_tokens", 0),
-                "cost_usd": 0.0  # Will be calculated below
-            }
-            
-            # Calculate cost
-            token_usage["cost_usd"] = self._calculate_cost(
-                token_usage["input_tokens"], 
-                token_usage["output_tokens"]
-            )
+            token_usage = self._extract_token_usage(response)
             
             return caption_data, token_usage, similar_examples
             

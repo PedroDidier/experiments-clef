@@ -17,20 +17,20 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Run with default settings (300 validation samples, GPT-5-mini)
-  python run_pipeline.py
-  
-  # Run with cost analysis and evaluation
-  python run_pipeline.py --cost-analysis --evaluation
-  
-  # Run with custom settings
-  python run_pipeline.py --samples 100 --rag-examples 5 --model gpt-4o-mini --cost-analysis --evaluation
-  
-  # Use different cache drive
-  python run_pipeline.py --cache-drive D --model gpt-5-mini
-  
-  # Run only cost analysis on existing results
-  python run_pipeline.py --cost-analysis-only responses/responses_rag_hf_2024-01-15_10-30.jsonl
+  # Run using a provider config file
+  python run_pipeline.py --config config_deepinfra.yaml
+  python run_pipeline.py --config config_openai.yaml --evaluation
+
+  # Override the model from the config file
+  python run_pipeline.py --config config_google.yaml --model gemini-2.5-pro
+
+  # Retry only the samples that failed on a previous run
+  python process_submission.py collect-errors responses/responses_rag_hf_*.jsonl -o error_image_ids.txt
+  python run_pipeline.py --config config_deepinfra.yaml --retry-ids error_image_ids.txt
+
+  # Re-run analysis on existing results, without calling any API
+  python run_pipeline.py --evaluation-only responses/responses_rag_hf_2026-05-04_16-50.jsonl
+  python run_pipeline.py --cost-analysis-only
         """
     )
     
@@ -39,52 +39,75 @@ Examples:
     
     # Main pipeline arguments
     parser.add_argument(
-        "--samples", 
-        type=int, 
-        default=300,
-        help="Number of validation samples to process (default: 300)"
+        "--samples",
+        type=int,
+        default=None,
+        help="Number of samples to process (default: from config file)"
     )
-    
+
     parser.add_argument(
-        "--model", 
-        type=str, 
-        default="gpt-4o",
-        choices=["gpt-4o", "gpt-4-turbo", "gpt-4", "gpt-4o-mini", "gpt-5-mini", "gpt-3.5-turbo"],
-        help="OpenAI model to use (default: gpt-4o). Note: Only gpt-4o, gpt-4-turbo, and gpt-4 support vision."
+        "--model",
+        type=str,
+        default=None,
+        help="Model name, passed through to the provider (default: from config file). "
+             "Must be a vision-capable model, e.g. gpt-4o, gemini-2.5-pro, "
+             "claude-sonnet-4-5-20250929, meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8"
     )
-    
+
     parser.add_argument(
-        "--rag-examples", 
-        type=int, 
-        default=3,
-        help="Number of RAG examples to use (default: 3)"
+        "--rag-examples",
+        type=int,
+        default=None,
+        help="Number of RAG examples to retrieve; 0 disables retrieval (default: from config file)"
     )
-    
+
     parser.add_argument(
-        "--random-seed", 
-        type=int, 
-        default=42,
-        help="Random seed for reproducibility (default: 42)"
+        "--random-seed",
+        type=int,
+        default=None,
+        help="Random seed for reproducibility (default: from config file)"
+    )
+
+    parser.add_argument(
+        "--threads",
+        type=int,
+        default=None,
+        help="Number of worker threads for parallel API calls (default: 4)"
+    )
+
+    parser.add_argument(
+        "--retry-ids",
+        type=str,
+        default=None,
+        metavar="TXT_FILE",
+        help="Process only the image IDs listed in this file (one per line). "
+             "Used to retry samples that failed on a previous run."
     )
     
     # Analysis options
     parser.add_argument(
-        "--cost-analysis", 
+        "--cost-analysis",
         action="store_true",
-        help="Run cost analysis after processing"
+        default=None,
+        help="Run cost analysis after processing (overrides config)"
     )
-    
+
     parser.add_argument(
-        "--evaluation", 
+        "--evaluation",
         action="store_true",
-        help="Run evaluation analysis after processing"
+        default=None,
+        help="Run evaluation analysis after processing (overrides config)"
     )
     
     # Analysis-only modes
     parser.add_argument(
-        "--cost-analysis-only", 
-        action="store_true",
-        help="Run only cost analysis on existing results"
+        "--cost-analysis-only",
+        nargs="?",
+        const=True,
+        default=False,
+        metavar="JSONL_FILE",
+        help="Run only cost analysis. Optionally takes a JSONL file; "
+             "defaults to the most recent file in responses/"
     )
     
     parser.add_argument(
@@ -99,7 +122,8 @@ Examples:
         "--config", 
         type=str, 
         default=None,
-        help="Path to YAML configuration file (default: config.yaml or config_local.yaml)"
+        help="Path to YAML configuration file, e.g. config_openai.yaml, "
+             "config_google.yaml, config_deepinfra.yaml"
     )
     
     parser.add_argument(
@@ -132,46 +156,61 @@ Examples:
     )
     
     args = parser.parse_args()
-    
-    # Set up configuration
-    from src.config import update_config
+
+    # Apply the chosen config file globally BEFORE building the pipeline: the
+    # dataset and vector-database modules read it through get_config().
+    from src.config import get_config, set_config, update_config
+    if args.config:
+        set_config(args.config)
     if args.cache_drive or args.custom_cache_dir:
         update_config(
             cache_drive=args.cache_drive,
             custom_cache_dir=args.custom_cache_dir
         )
-    
-    # Check for API key
-    if not os.getenv("OPENAI_API_KEY"):
-        print("Error: Please set OPENAI_API_KEY in your .env file")
+
+    config = get_config()
+    provider = config.get_model_config().get('provider', 'openai')
+
+    # Check for the API key that this provider actually needs.
+    required_keys = {
+        "openai": "OPENAI_API_KEY",
+        "google": "GOOGLE_API_KEY",
+        "deepinfra": "DEEPINFRA_API_TOKEN",
+        "anthropic": "ANTHROPIC_API_KEY",
+    }
+    analysis_only = bool(args.cost_analysis_only or args.evaluation_only)
+    required_key = required_keys.get(provider)
+    if not analysis_only and required_key and not os.getenv(required_key):
+        print(f"Error: provider '{provider}' requires {required_key} in your .env file")
         return 1
-    
+
     # Handle analysis-only modes
     if args.cost_analysis_only:
         print("Running cost analysis only...")
         from src.analysis.cost_analysis import CostAnalyzer
-        
-        # Find the most recent responses file if not specified
-        responses_dir = Path("responses")
-        if responses_dir.exists():
-            jsonl_files = list(responses_dir.glob("responses_rag_hf_*.jsonl"))
-            if jsonl_files:
-                latest_file = max(jsonl_files, key=lambda x: x.stat().st_mtime)
-                print(f"Analyzing: {latest_file}")
-                
-                analyzer = CostAnalyzer()
-                analyzer.analyze_from_jsonl(str(latest_file))
-                analyzer.save_report(args.cost_output_dir)
-                print("Cost analysis completed!")
-            else:
-                print("No responses files found in responses/ directory")
+
+        if isinstance(args.cost_analysis_only, str):
+            target = Path(args.cost_analysis_only)
+            if not target.exists():
+                print(f"Error: File {target} not found")
                 return 1
         else:
-            print("Responses directory not found")
-            return 1
-        
+            # Fall back to the most recent responses file.
+            responses_dir = Path("responses")
+            jsonl_files = list(responses_dir.glob("responses_rag_hf_*.jsonl")) if responses_dir.exists() else []
+            if not jsonl_files:
+                print("No responses files found in responses/ directory")
+                return 1
+            target = max(jsonl_files, key=lambda x: x.stat().st_mtime)
+
+        print(f"Analyzing: {target}")
+        analyzer = CostAnalyzer()
+        analyzer.load_from_jsonl(str(target))
+        analyzer.create_cost_visualizations(args.cost_output_dir)
+        analyzer.save_cost_report(args.cost_output_dir)
+        print("Cost analysis completed!")
         return 0
-    
+
     if args.evaluation_only:
         print(f"Running evaluation analysis on: {args.evaluation_only}")
         from src.analysis.evaluation_visualizer import EvaluationVisualizer
@@ -187,18 +226,21 @@ Examples:
         return 0
     
     # Run main pipeline
+    model_config = config.get_model_config()
+    dataset_config = config.get_dataset_config()
     print("=" * 60)
     print("MEDICAL IMAGE CAPTIONING PIPELINE")
     print("=" * 60)
-    print(f"Model: {args.model}")
-    print(f"Validation samples: {args.samples}")
-    print(f"RAG examples: {args.rag_examples}")
-    print(f"Random seed: {args.random_seed}")
-    print(f"Cache drive: {args.cache_drive}")
-    if args.custom_cache_dir:
-        print(f"Custom cache dir: {args.custom_cache_dir}")
+    print(f"Config file:  {args.config or config.config_file or '<defaults>'}")
+    print(f"Provider:     {provider}")
+    print(f"Model:        {args.model or model_config.get('name')}")
+    print(f"Dataset:      {dataset_config.get('type', 'rocov2')}")
+    print(f"RAG examples: {args.rag_examples if args.rag_examples is not None else config.get_rag_config().get('num_examples', 3)}")
+    print(f"Cache dir:    {config.cache_dir}")
+    if args.retry_ids:
+        print(f"Retry IDs:    {args.retry_ids}")
     print("=" * 60)
-    
+
     try:
         # Initialize pipeline
         pipeline = MedicalImageCaptioningPipeline(
@@ -208,9 +250,11 @@ Examples:
             random_seed=args.random_seed,
             run_cost_analysis=args.cost_analysis,
             run_evaluation=args.evaluation,
-            config_file=args.config
+            config_file=args.config,
+            num_threads=args.threads,
+            retry_ids_file=args.retry_ids
         )
-        
+
         # Run pipeline
         results = pipeline.run()
         
@@ -219,17 +263,17 @@ Examples:
         print("=" * 60)
         print(f"Processed {len(results)} samples")
         
-        if args.cost_analysis:
+        if pipeline.do_cost_analysis:
             print("✓ Cost analysis completed")
-        
-        if args.evaluation:
+
+        if pipeline.run_evaluation:
             print("✓ Evaluation analysis completed")
-        
+
         print("\nOutput files:")
         print(f"- Responses: responses/responses_rag_hf_*.jsonl")
-        if args.cost_analysis:
+        if pipeline.do_cost_analysis:
             print(f"- Cost analysis: {args.cost_output_dir}/")
-        if args.evaluation:
+        if pipeline.run_evaluation:
             print(f"- Evaluation results: {args.evaluation_output_dir}/")
         
         return 0
